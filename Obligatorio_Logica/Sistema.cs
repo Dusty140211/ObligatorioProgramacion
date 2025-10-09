@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static Obligatorio.Logica.Pago;
 
-namespace Obligatorio.Logica
+namespace Obligatorio_Logica
 {
     public class Sistema
     {
@@ -21,20 +20,20 @@ namespace Obligatorio.Logica
 
         //Listar usuarios- LISTO (por ahora)
 
-        public int contadorListaUsuarios() 
+        public int contadorListaUsuarios()
         {
-            int contador = 0; 
-            if (_usuarios.Count > 0) 
+            int contador = 0;
+            if (_usuarios.Count > 0)
             {
                 contador++;
-                
+
             }
             return contador;
         }
 
-        public List<Usuario> listarUsuarios() 
+        public List<Usuario> listarUsuarios()
         {
-            return _usuarios; 
+            return _usuarios;
         }
 
         public void AgregarUsuario(string nombre, string apellido, string contrasenia, Equipo e, DateTime fecha)
@@ -58,9 +57,9 @@ namespace Obligatorio.Logica
             }
         }
 
-        public void AgregarEquipo(string nombre) 
-        { 
-        
+        public void AgregarEquipo(string nombre)
+        {
+
             if (Equipo.validarNombre(nombre))
             {
                 _equipo.Add(new Equipo(nombre));
@@ -68,17 +67,17 @@ namespace Obligatorio.Logica
 
         }
 
-        public bool verificarMail(string email) 
+        public bool verificarMail(string email)
         {
-            foreach(Usuario u in _usuarios) 
+            foreach (Usuario u in _usuarios)
             {
                 if (u.Email == email)
                 {
-                    return false; 
+                    return false;
                 }
-                
+
             }
-            return true; 
+            return true;
         }
     }
 }
