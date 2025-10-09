@@ -30,10 +30,14 @@ namespace Obligatorio_Logica
             this.id = contador;
             this.nombre = nombre;
         }
-        public static bool validarNombre(string nombre)
+
+        public void validar() 
         {
-            if (string.IsNullOrWhiteSpace(nombre)) return false;
-            return true;
+            validarNombre(); 
+        }
+        public void validarNombre()
+        {
+            if (string.IsNullOrWhiteSpace(nombre)) throw new Exception("el nombre no puede estar vacio"); 
         }
     }
 }

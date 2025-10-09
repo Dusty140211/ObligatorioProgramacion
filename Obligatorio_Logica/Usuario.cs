@@ -76,13 +76,13 @@ namespace Obligatorio_Logica
 
         public void validarApellido()
         {
-            if (string.IsNullOrWhiteSpace(_apellido)) throw new Exception("El apellido no puede estar vacio"); 
+            if (string.IsNullOrEmpty(_apellido)) throw new Exception("El apellido no puede estar vacio"); 
         }
 
 
         public void validarContrasenia()
         {
-            if (string.IsNullOrWhiteSpace(_contrasenia)) throw new Exception("La contraseña no puede estar vacia");
+            if (string.IsNullOrEmpty(_contrasenia)) throw new Exception("La contraseña no puede estar vacia");
             if (_contrasenia.Length < 8) throw new Exception("La contraseña no puede tener menos de 8 caracteres"); 
 
             

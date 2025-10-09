@@ -39,15 +39,13 @@ namespace Obligatorio_Logica
             _usuarios.Add(u); 
             
         }
-        public void AgregarEquipo(string nombre)
+        public void AgregarEquipo(Equipo e)
         {
 
-            if (Equipo.validarNombre(nombre))
-            {
-                _equipo.Add(new Equipo(nombre));
-            }
+            e.validar(); 
 
         }
+
 
         public bool verificarMail(string email)
         {

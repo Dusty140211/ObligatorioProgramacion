@@ -10,30 +10,30 @@ namespace Obligatorio_Logica
     {
         public enum metodo_pago { CREDITO = 1, DEBITO = 2, EFECTIVO = 3 }
 
-        private int id;
-        private double monto;
-        private string descripcion;
-        private Tipo_gasto tipo;
-        private Usuario usuario;
+        private int _id;
+        private double _monto;
+        private string _descripcion;
+        private Tipo_gasto _tipo;
+        private Usuario _usuario;
 
         public metodo_pago Metodo { get; set; }
 
         public static int contador = 0;
         public int Id
         {
-            get { return id; }
+            get { return _id; }
         }
 
         public double Monto
         {
-            get { return monto; }
-            set { monto = value; }
+            get { return _monto; }
+            set { _monto = value; }
         }
 
         public string Descripcion
         {
-            get { return descripcion; }
-            set { descripcion = value; }
+            get { return _descripcion; }
+            set { _descripcion = value; }
         }
 
         public metodo_pago metodo
@@ -44,13 +44,13 @@ namespace Obligatorio_Logica
 
         public Tipo_gasto Tipo
         {
-            get { return tipo; }
-            set { tipo = value; }
+            get { return _tipo; }
+            set { _tipo = value; }
         }
         public Usuario Usuario
         {
-            get { return usuario; }
-            set { usuario = value; }
+            get { return _usuario; }
+            set { _usuario = value; }
         }
 
 
@@ -58,13 +58,27 @@ namespace Obligatorio_Logica
         public Pago(double monto, string descripcion, List<Tipo_gasto> tipo, Usuario usuario)
         {
             contador++;
-            this.id = contador;
-            this.monto = monto;
-            this.descripcion = descripcion;
-            this.usuario = usuario;
+            this._id = contador;
+            this._monto = monto;
+            this._descripcion = descripcion;
+            this._usuario = usuario;
         }
 
-        
+        public void validaciones() 
+        {
+            validarMonto();
+            validarDescripcion(); 
+        }
+
+        public void validarMonto() 
+        {
+            if (_monto > 0) throw new Exception("El monto debe ser mayor a 0"); 
+        }
+
+        public void validarDescripcion() 
+        {
+            if (string.IsNullOrEmpty(_descripcion)) throw new Exception("La descripcion no puede estar vacia"); 
+        }
 
 
     }
