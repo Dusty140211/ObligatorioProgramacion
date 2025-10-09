@@ -47,17 +47,42 @@ namespace Obligatorio_Logica
         }
 
 
-        public bool verificarMail(string email)
+        public string verificarMail(string nombre, string apellido)
         {
-            foreach (Usuario u in _usuarios)
+            int cont = 0;
+
+            string email = "";
+            if (nombre.Length <= 3)
             {
-                if (u.Email == email)
-                {
-                    return false;
-                }
+                email += nombre;
 
             }
-            return true;
+            else
+            {
+                email += nombre.Substring(0, 3);
+            }
+
+
+            if (apellido.Length < 3)
+            {
+                email += apellido;
+            }
+            else 
+            {
+                email += apellido.Substring(0, 3);
+            }
+
+
+            foreach (Usuario u in _usuarios)
+            {
+               if (u.Email.Contains(email))
+                  {
+                     cont++; 
+                  }
+            }
+
+            email += cont + "@Empresa.com";
+            return email; 
         }
     }
 }
