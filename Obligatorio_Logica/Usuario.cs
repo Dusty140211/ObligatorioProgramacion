@@ -8,85 +8,84 @@ namespace Obligatorio_Logica
 {
     public class Usuario
     {
-        private string nombre;
-        private string apellido;
-        private string contrasenia;
-        private string email;
-        private Equipo equipo; // El usuario tiene un equipo asociado
-        private DateTime fecha_Inicio;
+        private string _nombre;
+        private string _apellido;
+        private string _contrasenia;
+        private string _email;
+        private Equipo _equipo; // El usuario tiene un equipo asociado
+        private DateTime _fecha_Inicio;
 
         public string Nombre
         {
-            get { return nombre; }
-            set { nombre = value; }
+            get { return _nombre; }
+            set { _nombre = value; }
         }
 
         public string Apellido
         {
-            get { return apellido; }
-            set { apellido = value; }
+            get { return _apellido; }
+            set { _apellido = value; }
         }
 
         public string Contrasenia
         {
-            get { return contrasenia; }
-            set { contrasenia = value; }
+            get { return _contrasenia; }
+            set { _contrasenia = value; }
         }
 
         public string Email
         {
-            get { return email; }
-            set { email = value; }
+            get { return _email; }
+            set { _email = value; }
         }
 
         public Equipo Equipo
         {
-            get { return equipo; }
-            set { equipo = value; }
+            get { return _equipo; }
+            set { _equipo = value; }
         }
 
         public DateTime Fecha_Inicio
         {
-            get { return fecha_Inicio; }
-            set { fecha_Inicio = value; }
+            get { return _fecha_Inicio; }
+            set { _fecha_Inicio = value; }
         }
 
         public Usuario(string nombre, string apellido, string contrasenia, string email, Equipo equipo, DateTime fecha_Inicio)
         {
-            this.nombre = nombre;
-            this.apellido = apellido;
-            this.contrasenia = contrasenia;
-            this.email = email;
-            this.equipo = equipo;
-            this.fecha_Inicio = fecha_Inicio;
+            this._nombre = nombre;
+            this._apellido = apellido;
+            this._contrasenia = contrasenia;
+            this._email = email;
+            this._equipo = equipo;
+            this._fecha_Inicio = fecha_Inicio;
         }
 
-        public static bool validarNombre(string nombre)
+        public void validar() 
         {
-            if (string.IsNullOrWhiteSpace(nombre)) return false;
-            return true;
+            validarNombre();
+            validarApellido();
+            validarContrasenia(); 
         }
 
-        public static bool validarApellido(string apellido)
+        public void validarNombre()
         {
-            if (string.IsNullOrWhiteSpace(apellido)) return false;
-            return true;
+            if (string.IsNullOrEmpty(_nombre)) throw new Exception("El nombre no puede estar vacio") ;
+
+        }
+
+        public void validarApellido()
+        {
+            if (string.IsNullOrWhiteSpace(_apellido)) throw new Exception("El apellido no puede estar vacio"); 
         }
 
 
-        public static bool validarContrasenia(string contrasenia)
+        public void validarContrasenia()
         {
-            if (string.IsNullOrWhiteSpace(contrasenia))
-            {
-                return false;
-            }
+            if (string.IsNullOrWhiteSpace(_contrasenia)) throw new Exception("La contraseña no puede estar vacia");
+            if (_contrasenia.Length < 8) throw new Exception("La contraseña no puede tener menos de 8 caracteres"); 
 
-            if (contrasenia.Length < 8)
-            {
-                return false;
-            }
-
-            return true;
+            
         }
     }
 }

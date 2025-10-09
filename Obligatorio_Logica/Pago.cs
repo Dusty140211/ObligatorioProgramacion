@@ -64,15 +64,7 @@ namespace Obligatorio_Logica
             this.usuario = usuario;
         }
 
-        public void metodoPago(string texto)
-        {
-            texto = texto.Trim().ToUpper();
-
-            if (texto == "CREDITO") Metodo = metodo_pago.CREDITO;
-            else if (texto == "DEBITO") Metodo = metodo_pago.DEBITO;
-            else if (texto == "EFECTIVO") Metodo = metodo_pago.EFECTIVO;
-        }
-
+        
 
 
     }
