@@ -87,5 +87,13 @@ namespace Obligatorio_Logica
 
             
         }
+
+        public override string ToString()
+        {
+            return $"Nombre: {Nombre} {Apellido}, " +
+                   $"Email: {Email}, " +
+                   $"Equipo: {Equipo.Nombre}, " +
+                   $"Fecha de inicio: {Fecha_Inicio}";
+        }
     }
 }
