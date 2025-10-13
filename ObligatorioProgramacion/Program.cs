@@ -98,6 +98,10 @@ namespace ObligatorioProgramacion
 
         // b . dado un correo, listar los pagos realizados por ese usuario (monto, descripción, tipo de gasto, método de pago) y si es recurrente mostrar cuants pagos quedan pendientes
 
+        static void ListarPagosPorUsuario(Sistema s)
+        {
+            
+        }
 
 
 

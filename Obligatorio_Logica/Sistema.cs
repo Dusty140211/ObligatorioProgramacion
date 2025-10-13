@@ -13,7 +13,7 @@ namespace Obligatorio_Logica
         private List<Pago> _pago = new List<Pago>();
 
         // a . listado de usuarios (nombre, mail, grupo) - 
-        // b . dado un correo, listar los pagos realizados por ese usuario (monto, descripción, tipo de gasto, método de pago) y si es recurrente mostrar cuants pagos quedan pendientes 
+        // b . Dado un correo de usuario listar todos los pagos que realizó ese usuario (monto, descripción, tipo de gasto, método de pago) y si es recurrente mostrar cuants pagos quedan pendientes 
         // c . alta de usuario (nombre, apellido, contraseña, equipo) - 
         // d . dado un nombre de equipo, listar los usuarios que lo integran (nombre, mail) 
 
@@ -26,53 +26,136 @@ namespace Obligatorio_Logica
             return _usuarios;
         }
 
-        // precarga de equipos y usuarios
+        // precarga de datos
+        /*
+           para poder precargarlo con github copilot le dije " precargame datos de usuarios y equipos" le tuve que decir varias veces que primero los instancie en una variable y
+           despues los agregue a la lista sino me los agregaba directamente 
+        */
+
+        public void precargaPagos()
+        {
+            if (_usuarios.Count < 4)
+                precargaUsuarios();
+
+            // Precarga de tipos de gasto
+            Tipo_gasto tg1 = new Tipo_gasto("Comida", "Gastos de alimentación");
+            Tipo_gasto tg2 = new Tipo_gasto("Transporte", "Gastos de transporte");
+            Tipo_gasto tg3 = new Tipo_gasto("Servicios", "Gastos de servicios");
+            Tipo_gasto tg4 = new Tipo_gasto("Entretenimiento", "Gastos de ocio");
+
+            Usuario u1 = _usuarios[0];
+            Usuario u2 = _usuarios[1];
+            Usuario u3 = _usuarios[2];
+            Usuario u4 = _usuarios[3];
+
+            // Pagos únicos
+            PagoUnico p1 = new PagoUnico(Pago.metodo_pago.CREDITO, new DateTime(2023, 2, 10), 1001, 1500, "Supermercado", new List<Tipo_gasto> { tg1 }, u1);
+            PagoUnico p2 = new PagoUnico(Pago.metodo_pago.DEBITO, new DateTime(2023, 3, 5), 1002, 800, "Taxi", new List<Tipo_gasto> { tg2 }, u2);
+            PagoUnico p3 = new PagoUnico(Pago.metodo_pago.EFECTIVO, new DateTime(2023, 4, 12), 1003, 1200, "Internet", new List<Tipo_gasto> { tg3 }, u3);
+
+            // Pagos recurrentes
+            PagoRecurrente pr1 = new PagoRecurrente(500, "Netflix", new List<Tipo_gasto> { tg4 }, u1, new DateTime(2023, 1, 1), new DateTime(2023, 12, 1));
+            PagoRecurrente pr2 = new PagoRecurrente(300, "Gimnasio", new List<Tipo_gasto> { tg4 }, u4, new DateTime(2023, 2, 15), new DateTime(2023, 7, 15));
+
+            // Agregar todos los pagos a la lista _pago
+            altaPago(p1);
+            altaPago(p2);
+            altaPago(p3);
+            altaPago(pr1);
+            altaPago(pr2);
+        }
         public void precargaEquipo() 
         { 
             Equipo e1 = new Equipo("Los Pica Teclas");
             Equipo e2 = new Equipo("404 Not Found"); 
             Equipo e3 = new Equipo("Los Debuggers");
             Equipo e4 = new Equipo("Los Exception");
-            Equipo e5 = new Equipo("Los Improvisados");
 
             AltaEquipo(e1);
             AltaEquipo(e2);
             AltaEquipo(e3);
             AltaEquipo(e4);
-            AltaEquipo(e5);
         }
         public void precargaUsuarios()
         {
-            // Asegúrate de que los equipos ya estén precargados
-            if (_equipo.Count == 0)
+            if (_equipo.Count < 4)
                 precargaEquipo();
 
-            // Acceso directo por índice
-            Equipo equipo1 = _equipo[0]; 
+            Equipo equipo1 = _equipo[0];
             Equipo equipo2 = _equipo[1];
-            Equipo equipo3 = _equipo[2]; 
+            Equipo equipo3 = _equipo[2];
+            Equipo equipo4 = _equipo[3];
 
-            // precarga de datos de los usuarios
-            Usuario u1 = new Usuario(
-                "Ana", "García", "pass123", crearMail("Ana", "García"), equipo1, new DateTime(2023, 1, 15));
-            Usuario u2 = new Usuario(
-                "Luis", "Pérez", "pass456", crearMail("Luis", "Pérez"), equipo2, new DateTime(2022, 6, 10));
-            Usuario u3 = new Usuario(
-                "María", "López", "pass789", crearMail("María", "López"), equipo1, new DateTime(2023, 3, 5));
-            Usuario u4 = new Usuario(
-                "Carlos", "Fernández", "pass321", crearMail("Carlos", "Fernández"), equipo3, new DateTime(2021, 11, 20));
-            Usuario u5 = new Usuario(
-                "Sofía", "Martínez", "pass654", crearMail("Sofía", "Martínez"), equipo2, new DateTime(2022, 9, 30));
+            Usuario u1 = new Usuario("Ana", "García", "pass123", crearMail("Ana", "García"), equipo1, new DateTime(2023, 1, 15));
+            Usuario u2 = new Usuario("Luis", "Pérez", "pass456", crearMail("Luis", "Pérez"), equipo2, new DateTime(2022, 6, 10));
+            Usuario u3 = new Usuario("María", "López", "pass789", crearMail("María", "López"), equipo1, new DateTime(2023, 3, 5));
+            Usuario u4 = new Usuario("Carlos", "Fernández", "pass321", crearMail("Carlos", "Fernández"), equipo3, new DateTime(2021, 11, 20));
+            Usuario u5 = new Usuario("Sofía", "Martínez", "pass654", crearMail("Sofía", "Martínez"), equipo2, new DateTime(2022, 9, 30));
+            Usuario u6 = new Usuario("Pedro", "Suárez", "pass111", crearMail("Pedro", "Suárez"), equipo4, new DateTime(2022, 2, 14));
+            Usuario u7 = new Usuario("Lucía", "Alonso", "pass222", crearMail("Lucía", "Alonso"), equipo1, new DateTime(2021, 7, 19));
+            Usuario u8 = new Usuario("Javier", "Méndez", "pass333", crearMail("Javier", "Méndez"), equipo2, new DateTime(2023, 4, 2));
+            Usuario u9 = new Usuario("Valentina", "Silva", "pass444", crearMail("Valentina", "Silva"), equipo3, new DateTime(2022, 8, 8));
+            Usuario u10 = new Usuario("Martín", "Ramos", "pass555", crearMail("Martín", "Ramos"), equipo4, new DateTime(2021, 12, 25));
+            Usuario u11 = new Usuario("Camila", "Torres", "pass666", crearMail("Camila", "Torres"), equipo1, new DateTime(2022, 5, 17));
+            Usuario u12 = new Usuario("Diego", "Sosa", "pass777", crearMail("Diego", "Sosa"), equipo2, new DateTime(2023, 2, 11));
+            Usuario u13 = new Usuario("Florencia", "Vega", "pass888", crearMail("Florencia", "Vega"), equipo3, new DateTime(2022, 10, 3));
+            Usuario u14 = new Usuario("Matías", "Cabrera", "pass999", crearMail("Matías", "Cabrera"), equipo4, new DateTime(2021, 9, 27));
+            Usuario u15 = new Usuario("Paula", "Ruiz", "pass000", crearMail("Paula", "Ruiz"), equipo1, new DateTime(2022, 3, 21));
+            Usuario u16 = new Usuario("Federico", "Gómez", "passabc", crearMail("Federico", "Gómez"), equipo2, new DateTime(2023, 6, 6));
+            Usuario u17 = new Usuario("Agustina", "Díaz", "passdef", crearMail("Agustina", "Díaz"), equipo3, new DateTime(2022, 1, 13));
+            Usuario u18 = new Usuario("Nicolás", "Pintos", "passghi", crearMail("Nicolás", "Pintos"), equipo4, new DateTime(2021, 8, 5));
+            Usuario u19 = new Usuario("Micaela", "Sánchez", "passjkl", crearMail("Micaela", "Sánchez"), equipo1, new DateTime(2022, 11, 29));
+            Usuario u20 = new Usuario("Rodrigo", "Castro", "passmno", crearMail("Rodrigo", "Castro"), equipo2, new DateTime(2023, 5, 18));
+            Usuario u21 = new Usuario("Julieta", "Morales", "passpqr", crearMail("Julieta", "Morales"), equipo3, new DateTime(2022, 7, 23));
+            Usuario u22 = new Usuario("Emiliano", "Bermúdez", "passstu", crearMail("Emiliano", "Bermúdez"), equipo4, new DateTime(2021, 10, 12));
 
             altaUsuario(u1);
             altaUsuario(u2);
             altaUsuario(u3);
             altaUsuario(u4);
             altaUsuario(u5);
+            altaUsuario(u6);
+            altaUsuario(u7);
+            altaUsuario(u8);
+            altaUsuario(u9);
+            altaUsuario(u10);
+            altaUsuario(u11);
+            altaUsuario(u12);
+            altaUsuario(u13);
+            altaUsuario(u14);
+            altaUsuario(u15);
+            altaUsuario(u16);
+            altaUsuario(u17);
+            altaUsuario(u18);
+            altaUsuario(u19);
+            altaUsuario(u20);
+            altaUsuario(u21);
+            altaUsuario(u22);
+        }
+
+        // b . Dado un correo de usuario listar todos los pagos que realizó ese usuario (monto, descripción, tipo de gasto, método de pago) y si es recurrente mostrar cuants pagos quedan pendientes
+
+        /*
+            para poder hacer esto primero tuve que crear un metodo que de el alta de los pagos
+         */
+
+        public void altaPago(Pago p) 
+        {
+            p.validaciones();
+            if (_pago.Contains(p)) 
+            {
+                throw new Exception("El pago ya fue ingresado previamente"); 
+            }
+            _pago.Add(p);
         }
 
 
+
+
         // c . alta de usuario (nombre, apellido, contraseña, equipo) - 
+        /*
+            para poder hacer el altaUsuario ademas tuve que agregar un metodo llamado " crearMail " que crea el Mail automaticamente
+         */
         public void altaUsuario(Usuario u)
         {
             u.validar();
@@ -84,14 +167,6 @@ namespace Obligatorio_Logica
             _usuarios.Add(u); 
             
         }
-        public void AltaEquipo(Equipo e)
-        {
-
-            e.validar(); 
-
-        }
-
-
         public string crearMail(string nombre, string apellido)
         {
             int cont = 0;
@@ -132,6 +207,25 @@ namespace Obligatorio_Logica
             return email; 
         }
 
+        /*
+            tambien ademas del altaEquipo tuve que crear el metodo exiteEquipo para que cuando se registrara el usuario se fije si el equipo existe
+         */
+
+        public void AltaEquipo(Equipo e)
+        {
+
+            e.validar();
+            if (_equipo.Contains(e)) 
+            {
+                throw new Exception("El equipo ya existe");
+            }
+            else 
+            { 
+                _equipo.Add(e);
+            }
+
+        }
+
         public bool existeEquipo(string nombre) 
         {
             bool existe = false;
@@ -145,5 +239,7 @@ namespace Obligatorio_Logica
             }
             return existe;
         }
+
+
     }
 }

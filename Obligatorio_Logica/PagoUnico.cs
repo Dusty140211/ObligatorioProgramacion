@@ -8,20 +8,20 @@ namespace Obligatorio_Logica
 {
     public class PagoUnico : Pago
     {
-        private DateTime fecha;
-        private decimal nroRecibo;
+        private DateTime _fecha;
+        private decimal _nroRecibo;
         public metodo_pago Metodo { get; set; }
 
         public DateTime Fecha
         {
-            get { return fecha; }
-            set { fecha = value; }
+            get { return _fecha; }
+            set { _fecha = value; }
         }
 
         public decimal NroRecibo
         {
-            get { return nroRecibo; }
-            set { nroRecibo = value; }
+            get { return _nroRecibo; }
+            set { _nroRecibo = value; }
         }
 
 
@@ -29,22 +29,8 @@ namespace Obligatorio_Logica
             base(monto, descripcion, tipo, usuario)
         {
             this.Metodo = metodo;
-            this.fecha = fecha;
-            this.nroRecibo = nroRecibo;
-        }
-
-        public int calcularDescuento(int monto)
-        {
-            int resultado;
-            if (Metodo == metodo_pago.EFECTIVO)
-            {
-                resultado = monto - (int)(monto * 0.2);
-            }
-            else
-            {
-                resultado = monto - (int)(monto * 0.1);
-            }
-            return resultado;
+            this._fecha = fecha;
+            this._nroRecibo = nroRecibo;
         }
     }
 }
