@@ -10,6 +10,8 @@ namespace Obligatorio_Logica
     {
         private DateTime fechaInicio;
         private DateTime fechaFin;
+        private int pagosPendientes;
+        private int cuotas;
 
         public DateTime FechaInicio
         {
@@ -23,11 +25,25 @@ namespace Obligatorio_Logica
             set { fechaFin = value; }
         }
 
-        public PagoRecurrente(double monto, string descripcion, List<Tipo_gasto> tipo, Usuario usuario, DateTime fechaInicio, DateTime fechaFin)
+        public int PagosPendientes
+        {
+            get { return pagosPendientes; }
+            set { pagosPendientes = value; }
+        }
+
+        public int Cuotas
+        {
+            get { return cuotas; }
+            set { cuotas = value; }
+        }
+
+        public PagoRecurrente(double monto, string descripcion, List<Tipo_gasto> tipo, Usuario usuario, DateTime fechaInicio, DateTime fechaFin, int pagosPendientes, int cuotas)
             : base(monto, descripcion, tipo, usuario)
         {
             this.fechaInicio = fechaInicio;
             this.fechaFin = fechaFin;
+            this.pagosPendientes = pagosPendientes;
+            this.cuotas = cuotas;
         }
 
 

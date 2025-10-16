@@ -49,20 +49,48 @@ namespace Obligatorio_Logica
             Usuario u4 = _usuarios[3];
 
             // Pagos únicos
-            PagoUnico p1 = new PagoUnico(Pago.metodo_pago.CREDITO, new DateTime(2023, 2, 10), 1001, 1500, "Supermercado", new List<Tipo_gasto> { tg1 }, u1);
-            PagoUnico p2 = new PagoUnico(Pago.metodo_pago.DEBITO, new DateTime(2023, 3, 5), 1002, 800, "Taxi", new List<Tipo_gasto> { tg2 }, u2);
-            PagoUnico p3 = new PagoUnico(Pago.metodo_pago.EFECTIVO, new DateTime(2023, 4, 12), 1003, 1200, "Internet", new List<Tipo_gasto> { tg3 }, u3);
+            altaPago(new PagoUnico(Pago.metodo_pago.CREDITO, new DateTime(2023, 2, 10), 1001, 1500, "Supermercado", new List<Tipo_gasto> { tg1 }, u1));
+            altaPago(new PagoUnico(Pago.metodo_pago.DEBITO, new DateTime(2023, 3, 5), 1002, 800, "Taxi", new List<Tipo_gasto> { tg2 }, u2));
+            altaPago(new PagoUnico(Pago.metodo_pago.EFECTIVO, new DateTime(2023, 4, 12), 1003, 1200, "Internet", new List<Tipo_gasto> { tg3 }, u3));
+            altaPago(new PagoUnico(Pago.metodo_pago.CREDITO, new DateTime(2023, 5, 15), 1004, 2000, "Restaurante", new List<Tipo_gasto> { tg1 }, u4));
+            altaPago(new PagoUnico(Pago.metodo_pago.DEBITO, new DateTime(2023, 6, 18), 1005, 950, "Ómnibus", new List<Tipo_gasto> { tg2 }, u1));
+            altaPago(new PagoUnico(Pago.metodo_pago.EFECTIVO, new DateTime(2023, 7, 20), 1006, 1100, "Luz", new List<Tipo_gasto> { tg3 }, u2));
+            altaPago(new PagoUnico(Pago.metodo_pago.CREDITO, new DateTime(2023, 8, 22), 1007, 1700, "Cine", new List<Tipo_gasto> { tg4 }, u3));
+            altaPago(new PagoUnico(Pago.metodo_pago.DEBITO, new DateTime(2023, 9, 25), 1008, 1300, "Panadería", new List<Tipo_gasto> { tg1 }, u4));
+            altaPago(new PagoUnico(Pago.metodo_pago.EFECTIVO, new DateTime(2023, 10, 28), 1009, 900, "Subte", new List<Tipo_gasto> { tg2 }, u1));
+            altaPago(new PagoUnico(Pago.metodo_pago.CREDITO, new DateTime(2023, 11, 30), 1010, 2100, "Agua", new List<Tipo_gasto> { tg3 }, u2));
+            altaPago(new PagoUnico(Pago.metodo_pago.DEBITO, new DateTime(2023, 12, 2), 1011, 1600, "Teatro", new List<Tipo_gasto> { tg4 }, u3));
+            altaPago(new PagoUnico(Pago.metodo_pago.EFECTIVO, new DateTime(2023, 1, 4), 1012, 1400, "Verdulería", new List<Tipo_gasto> { tg1 }, u4));
+            altaPago(new PagoUnico(Pago.metodo_pago.CREDITO, new DateTime(2023, 2, 6), 1013, 1000, "Taxi", new List<Tipo_gasto> { tg2 }, u1));
+            altaPago(new PagoUnico(Pago.metodo_pago.DEBITO, new DateTime(2023, 3, 8), 1014, 1250, "Gas", new List<Tipo_gasto> { tg3 }, u2));
+            altaPago(new PagoUnico(Pago.metodo_pago.EFECTIVO, new DateTime(2023, 4, 10), 1015, 1800, "Concierto", new List<Tipo_gasto> { tg4 }, u3));
+            altaPago(new PagoUnico(Pago.metodo_pago.CREDITO, new DateTime(2023, 5, 12), 1016, 1550, "Carnicería", new List<Tipo_gasto> { tg1 }, u4));
+            altaPago(new PagoUnico(Pago.metodo_pago.DEBITO, new DateTime(2023, 6, 14), 1017, 1050, "Remise", new List<Tipo_gasto> { tg2 }, u1));
+            altaPago(new PagoUnico(Pago.metodo_pago.EFECTIVO, new DateTime(2023, 7, 16), 1018, 1150, "Internet", new List<Tipo_gasto> { tg3 }, u2));
+            altaPago(new PagoUnico(Pago.metodo_pago.CREDITO, new DateTime(2023, 8, 18), 1019, 1750, "Museo", new List<Tipo_gasto> { tg4 }, u3));
+            altaPago(new PagoUnico(Pago.metodo_pago.DEBITO, new DateTime(2023, 9, 20), 1020, 1350, "Supermercado", new List<Tipo_gasto> { tg1 }, u4));
 
             // Pagos recurrentes
-            PagoRecurrente pr1 = new PagoRecurrente(500, "Netflix", new List<Tipo_gasto> { tg4 }, u1, new DateTime(2023, 1, 1), new DateTime(2023, 12, 1));
-            PagoRecurrente pr2 = new PagoRecurrente(300, "Gimnasio", new List<Tipo_gasto> { tg4 }, u4, new DateTime(2023, 2, 15), new DateTime(2023, 7, 15));
-
-            // Agregar todos los pagos a la lista _pago
-            altaPago(p1);
-            altaPago(p2);
-            altaPago(p3);
-            altaPago(pr1);
-            altaPago(pr2);
+            altaPago(new PagoRecurrente(500, "Netflix", new List<Tipo_gasto> { tg4 }, u1, new DateTime(2023, 1, 1), new DateTime(2023, 12, 1), 12, 12));
+            altaPago(new PagoRecurrente(300, "Gimnasio", new List<Tipo_gasto> { tg4 }, u4, new DateTime(2023, 2, 15), new DateTime(2023, 7, 15), 6, 6));
+            altaPago(new PagoRecurrente(400, "Spotify", new List<Tipo_gasto> { tg4 }, u2, new DateTime(2023, 3, 1), new DateTime(2023, 9, 1), 7, 7));
+            altaPago(new PagoRecurrente(600, "Alquiler", new List<Tipo_gasto> { tg3 }, u3, new DateTime(2023, 4, 1), new DateTime(2023, 10, 1), 7, 7));
+            altaPago(new PagoRecurrente(350, "Revista", new List<Tipo_gasto> { tg4 }, u1, new DateTime(2023, 5, 1), new DateTime(2023, 11, 1), 7, 7));
+            altaPago(new PagoRecurrente(700, "Colegio", new List<Tipo_gasto> { tg3 }, u2, new DateTime(2023, 6, 1), new DateTime(2023, 12, 1), 7, 7));
+            altaPago(new PagoRecurrente(800, "Seguro", new List<Tipo_gasto> { tg3 }, u3, new DateTime(2023, 7, 1), new DateTime(2024, 1, 1), 7, 7));
+            altaPago(new PagoRecurrente(450, "Club", new List<Tipo_gasto> { tg4 }, u4, new DateTime(2023, 8, 1), new DateTime(2024, 2, 1), 7, 7));
+            altaPago(new PagoRecurrente(550, "Netflix", new List<Tipo_gasto> { tg4 }, u1, new DateTime(2023, 9, 1), new DateTime(2024, 3, 1), 7, 7));
+            altaPago(new PagoRecurrente(350, "Gimnasio", new List<Tipo_gasto> { tg4 }, u2, new DateTime(2023, 10, 1), new DateTime(2024, 4, 1), 7, 7));
+            altaPago(new PagoRecurrente(400, "Spotify", new List<Tipo_gasto> { tg4 }, u3, new DateTime(2023, 11, 1), new DateTime(2024, 5, 1), 7, 7));
+            altaPago(new PagoRecurrente(600, "Alquiler", new List<Tipo_gasto> { tg3 }, u4, new DateTime(2023, 12, 1), new DateTime(2024, 6, 1), 7, 7));
+            altaPago(new PagoRecurrente(350, "Revista", new List<Tipo_gasto> { tg4 }, u1, new DateTime(2024, 1, 1), new DateTime(2024, 7, 1), 7, 7));
+            altaPago(new PagoRecurrente(700, "Colegio", new List<Tipo_gasto> { tg3 }, u2, new DateTime(2024, 2, 1), new DateTime(2024, 8, 1), 7, 7));
+            altaPago(new PagoRecurrente(800, "Seguro", new List<Tipo_gasto> { tg3 }, u3, new DateTime(2024, 3, 1), new DateTime(2024, 9, 1), 7, 7));
+            altaPago(new PagoRecurrente(450, "Club", new List<Tipo_gasto> { tg4 }, u4, new DateTime(2024, 4, 1), new DateTime(2024, 10, 1), 7, 7));
+            altaPago(new PagoRecurrente(550, "Netflix", new List<Tipo_gasto> { tg4 }, u1, new DateTime(2024, 5, 1), new DateTime(2024, 11, 1), 7, 7));
+            altaPago(new PagoRecurrente(350, "Gimnasio", new List<Tipo_gasto> { tg4 }, u2, new DateTime(2024, 6, 1), new DateTime(2024, 12, 1), 7, 7));
+            altaPago(new PagoRecurrente(400, "Spotify", new List<Tipo_gasto> { tg4 }, u3, new DateTime(2024, 7, 1), new DateTime(2025, 1, 1), 7, 7));
+            altaPago(new PagoRecurrente(600, "Alquiler", new List<Tipo_gasto> { tg3 }, u4, new DateTime(2024, 8, 1), new DateTime(2025, 2, 1),7, 7));
         }
         public void precargaEquipo() 
         { 
@@ -136,8 +164,8 @@ namespace Obligatorio_Logica
         // b . Dado un correo de usuario listar todos los pagos que realizó ese usuario (monto, descripción, tipo de gasto, método de pago) y si es recurrente mostrar cuants pagos quedan pendientes
 
         /*
-            para poder hacer esto primero tuve que crear un metodo que de el alta de los pagos
-         */
+           para poder hacer esto primero tuve que crear un metodo que de el alta de los pagos
+        */
 
         public void altaPago(Pago p) 
         {
@@ -147,6 +175,29 @@ namespace Obligatorio_Logica
                 throw new Exception("El pago ya fue ingresado previamente"); 
             }
             _pago.Add(p);
+        }
+
+
+        public int listarPagosPorMail(string email) 
+        {
+            int contador = 0; 
+            List<Pago> pagosUsuario = new List<Pago>();
+            foreach (Pago p in _pago) 
+            {
+                if (p is PagoRecurrente) 
+                { 
+                    PagoRecurrente pr  = p as PagoRecurrente;
+
+                    return pr.PagosPendientes; 
+                } 
+               
+            }
+            return 0; 
+        }
+
+        public int realizarPago() 
+        { 
+            
         }
 
 
@@ -185,7 +236,7 @@ namespace Obligatorio_Logica
             }
 
 
-            if (apellidomin.Length < 3)
+            if (apellidomin.Length <= 3)
             {
                 email += apellidomin;
             }
