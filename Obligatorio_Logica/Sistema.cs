@@ -178,28 +178,20 @@ namespace Obligatorio_Logica
         }
 
 
-        public int listarPagosPorMail(string email) 
+        public List<Pago> listarPagosPorMail(string email)
         {
-            int contador = 0; 
             List<Pago> pagosUsuario = new List<Pago>();
-            foreach (Pago p in _pago) 
+            foreach (Pago p in _pago)
             {
-                if (p is PagoRecurrente) 
-                { 
-                    PagoRecurrente pr  = p as PagoRecurrente;
+                if (p.Usuario.Email == email)
+                {
+                   pagosUsuario.Add(p);
+                }
 
-                    return pr.PagosPendientes; 
-                } 
-               
             }
-            return 0; 
+            return pagosUsuario;
         }
-
-        public int realizarPago() 
-        { 
-            
-        }
-
+        
 
 
 

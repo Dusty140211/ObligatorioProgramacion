@@ -6,10 +6,11 @@ namespace ObligatorioProgramacion
 {
     internal class Program
     {
+        static Sistema s = new Sistema();
         static void Main(string[] args)
         {
             // instancia del sistema
-            Sistema s = new Sistema(); 
+             Sistema s = new Sistema(); 
 
             //precarga de datos
             s.precargaEquipo();
@@ -79,7 +80,7 @@ namespace ObligatorioProgramacion
         // a . listado de usuarios (nombre, mail, grupo) 
         static void mostrarUsuarios(Sistema sistema)
         {
-            List<Usuario> usuarios = sistema.listarUsuarios();
+            List<Usuario> usuarios = s.listarUsuarios();
 
             Console.WriteLine("----------LISTADO DE USUARIOS----------");
             if (usuarios.Count == 0)
@@ -100,7 +101,12 @@ namespace ObligatorioProgramacion
 
         static void ListarPagosPorUsuario(Sistema s)
         {
-            
+            Console.WriteLine("Ingrese su email: ");
+            string email = Console.ReadLine();
+            foreach (Pago p in s.listarPagosPorMail(email))
+            {
+                Console.WriteLine(p.ToString());
+            }
         }
 
 
