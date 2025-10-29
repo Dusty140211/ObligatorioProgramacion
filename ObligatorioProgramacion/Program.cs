@@ -9,12 +9,12 @@ namespace ObligatorioProgramacion
         static Sistema s = new Sistema();
         static void Main(string[] args)
         {
-            // instancia del sistema
-             Sistema s = new Sistema(); 
+            
 
             //precarga de datos
-            s.precargaEquipo();
             s.precargaUsuarios();
+            s.precargaEquipo();
+           s.precargaPagos();
 
             // Menu de opciones
             bool flag = true;
@@ -25,20 +25,31 @@ namespace ObligatorioProgramacion
                 switch (opcion)
                 {
                     case 1:
-                        mostrarUsuarios(s);
+                        mostrarUsuarios();
                         Console.WriteLine();
                         Console.Write("Presione una tecla para continuar...");
                         Console.ReadLine();
                         break;
                     case 2:
+                        ListarPagosPorUsuario();
+                        Console.WriteLine();
+                        Console.WriteLine("Presione una tecla para continuar...");
+                        Console.WriteLine();
                         break;
 
                     case 3: 
-                        AltaUsuario(s);
+                        AltaUsuario();
                         Console.WriteLine();
                         Console.Write("Presione una tecla para continuar...");
                         Console.ReadLine();
                         break;
+
+                    case 4:
+                        ListarUsuariosPorEquipos();
+                        Console.WriteLine();
+                        Console.WriteLine("Presione una tecla para continuar...");
+                        Console.WriteLine();
+                        break; 
 
 
                     case 99:
@@ -78,7 +89,7 @@ namespace ObligatorioProgramacion
 
 
         // a . listado de usuarios (nombre, mail, grupo) 
-        static void mostrarUsuarios(Sistema sistema)
+        static void mostrarUsuarios()
         {
             List<Usuario> usuarios = s.listarUsuarios();
 
@@ -91,28 +102,37 @@ namespace ObligatorioProgramacion
             {
                 foreach (Usuario usuario in usuarios)
                 {
-                    Console.WriteLine("Nombre: " + usuario.Nombre + "Email: " + usuario.Email + "Grupo: " + usuario.Equipo.Nombre);
+                    Console.WriteLine("Nombre: " + usuario.Nombre + "Email: " + usuario.Email +  " " + "Grupo: " + usuario.Equipo.Nombre);
                 }
             }
-            Console.WriteLine("----------LISTADO DE USUARIOS----------");
+            
         }
 
         // b . dado un correo, listar los pagos realizados por ese usuario (monto, descripción, tipo de gasto, método de pago) y si es recurrente mostrar cuants pagos quedan pendientes
 
-        static void ListarPagosPorUsuario(Sistema s)
+        static void ListarPagosPorUsuario()
         {
+
             Console.WriteLine("Ingrese su email: ");
             string email = Console.ReadLine();
-            foreach (Pago p in s.listarPagosPorMail(email))
+            List<Pago> pagos = s.listarPagosPorMail(email);
+            if (pagos.Count == 0)
             {
-                Console.WriteLine(p.ToString());
+                Console.WriteLine("No se encontraron pagos para el email proporcionado.");
+            }
+            else
+            {
+                foreach (Pago p in pagos)
+                {
+                    Console.WriteLine("usuario: " + p.Usuario.Nombre + "Descripcion: " +" " + p.Descripcion + "Tipo: " +" " +  p.Tipo + "Metodo: " +" " + p._metodo);
+                }
             }
         }
 
 
 
         // c . alta de usuario (nombre, apellido, contraseña, equipo) -
-        static void AltaUsuario(Sistema s)
+        static void AltaUsuario()
         {
             Console.WriteLine("Ingrese los datos solicitados:");
             Console.WriteLine("Nombre: ");
@@ -139,6 +159,19 @@ namespace ObligatorioProgramacion
             catch (Exception ex)
             {
                 Console.WriteLine("Error al agregar usuario: " + ex.Message);
+            }
+
+        }
+
+        // d . dado un nombre de equipo, listar los usuarios que lo integran (nombre)  
+
+        static void ListarUsuariosPorEquipos()
+        {
+            Console.WriteLine("Ingrese un nombre de equipo");
+            string nombre = Console.ReadLine();
+            foreach (Usuario u in s.listarUsuariosPorEquipo(nombre))
+            {
+                Console.WriteLine(u.ToString());
             }
 
         }

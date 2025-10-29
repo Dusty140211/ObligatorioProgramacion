@@ -16,7 +16,7 @@ namespace Obligatorio_Logica
         private Tipo_gasto _tipo;
         private Usuario _usuario;
 
-        public metodo_pago Metodo { get; set; }
+        public metodo_pago _metodo { get; set; }
 
         public static int contador = 0;
         public int Id
@@ -36,10 +36,10 @@ namespace Obligatorio_Logica
             set { _descripcion = value; }
         }
 
-        public metodo_pago metodo
+        public metodo_pago Metodo
         {
-            get { return metodo; }
-            set { metodo = value; }
+            get { return _metodo; }
+            set { _metodo = value; }
         }
 
         public Tipo_gasto Tipo
@@ -72,7 +72,7 @@ namespace Obligatorio_Logica
 
         public void validarMonto() 
         {
-            if (_monto > 0) throw new Exception("El monto debe ser mayor a 0"); 
+            if (_monto < 0) throw new Exception("El monto debe ser mayor a 0"); 
         }
 
         public void validarDescripcion() 
@@ -80,6 +80,7 @@ namespace Obligatorio_Logica
             if (string.IsNullOrEmpty(_descripcion)) throw new Exception("La descripcion no puede estar vacia"); 
         }
 
+        
 
     }
 }

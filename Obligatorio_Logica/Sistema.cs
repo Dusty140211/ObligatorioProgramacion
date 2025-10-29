@@ -15,7 +15,7 @@ namespace Obligatorio_Logica
         // a . listado de usuarios (nombre, mail, grupo) - 
         // b . Dado un correo de usuario listar todos los pagos que realizó ese usuario (monto, descripción, tipo de gasto, método de pago) y si es recurrente mostrar cuants pagos quedan pendientes 
         // c . alta de usuario (nombre, apellido, contraseña, equipo) - 
-        // d . dado un nombre de equipo, listar los usuarios que lo integran (nombre, mail) 
+        // d . dado un nombre de equipo, listar los usuarios que lo integran (nombre) 
 
 
         //Listar usuarios- LISTO (por ahora)
@@ -114,28 +114,28 @@ namespace Obligatorio_Logica
             Equipo equipo3 = _equipo[2];
             Equipo equipo4 = _equipo[3];
 
-            Usuario u1 = new Usuario("Ana", "García", "pass123", crearMail("Ana", "García"), equipo1, new DateTime(2023, 1, 15));
-            Usuario u2 = new Usuario("Luis", "Pérez", "pass456", crearMail("Luis", "Pérez"), equipo2, new DateTime(2022, 6, 10));
-            Usuario u3 = new Usuario("María", "López", "pass789", crearMail("María", "López"), equipo1, new DateTime(2023, 3, 5));
-            Usuario u4 = new Usuario("Carlos", "Fernández", "pass321", crearMail("Carlos", "Fernández"), equipo3, new DateTime(2021, 11, 20));
-            Usuario u5 = new Usuario("Sofía", "Martínez", "pass654", crearMail("Sofía", "Martínez"), equipo2, new DateTime(2022, 9, 30));
-            Usuario u6 = new Usuario("Pedro", "Suárez", "pass111", crearMail("Pedro", "Suárez"), equipo4, new DateTime(2022, 2, 14));
-            Usuario u7 = new Usuario("Lucía", "Alonso", "pass222", crearMail("Lucía", "Alonso"), equipo1, new DateTime(2021, 7, 19));
-            Usuario u8 = new Usuario("Javier", "Méndez", "pass333", crearMail("Javier", "Méndez"), equipo2, new DateTime(2023, 4, 2));
-            Usuario u9 = new Usuario("Valentina", "Silva", "pass444", crearMail("Valentina", "Silva"), equipo3, new DateTime(2022, 8, 8));
-            Usuario u10 = new Usuario("Martín", "Ramos", "pass555", crearMail("Martín", "Ramos"), equipo4, new DateTime(2021, 12, 25));
-            Usuario u11 = new Usuario("Camila", "Torres", "pass666", crearMail("Camila", "Torres"), equipo1, new DateTime(2022, 5, 17));
-            Usuario u12 = new Usuario("Diego", "Sosa", "pass777", crearMail("Diego", "Sosa"), equipo2, new DateTime(2023, 2, 11));
-            Usuario u13 = new Usuario("Florencia", "Vega", "pass888", crearMail("Florencia", "Vega"), equipo3, new DateTime(2022, 10, 3));
-            Usuario u14 = new Usuario("Matías", "Cabrera", "pass999", crearMail("Matías", "Cabrera"), equipo4, new DateTime(2021, 9, 27));
-            Usuario u15 = new Usuario("Paula", "Ruiz", "pass000", crearMail("Paula", "Ruiz"), equipo1, new DateTime(2022, 3, 21));
-            Usuario u16 = new Usuario("Federico", "Gómez", "passabc", crearMail("Federico", "Gómez"), equipo2, new DateTime(2023, 6, 6));
-            Usuario u17 = new Usuario("Agustina", "Díaz", "passdef", crearMail("Agustina", "Díaz"), equipo3, new DateTime(2022, 1, 13));
-            Usuario u18 = new Usuario("Nicolás", "Pintos", "passghi", crearMail("Nicolás", "Pintos"), equipo4, new DateTime(2021, 8, 5));
-            Usuario u19 = new Usuario("Micaela", "Sánchez", "passjkl", crearMail("Micaela", "Sánchez"), equipo1, new DateTime(2022, 11, 29));
-            Usuario u20 = new Usuario("Rodrigo", "Castro", "passmno", crearMail("Rodrigo", "Castro"), equipo2, new DateTime(2023, 5, 18));
-            Usuario u21 = new Usuario("Julieta", "Morales", "passpqr", crearMail("Julieta", "Morales"), equipo3, new DateTime(2022, 7, 23));
-            Usuario u22 = new Usuario("Emiliano", "Bermúdez", "passstu", crearMail("Emiliano", "Bermúdez"), equipo4, new DateTime(2021, 10, 12));
+            Usuario u1 = new Usuario("Ana", "García", "pass1223", crearMail("Ana", "García"), equipo1, new DateTime(2023, 1, 15));
+            Usuario u2 = new Usuario("Luis", "Pérez", "pass4562", crearMail("Luis", "Pérez"), equipo2, new DateTime(2022, 6, 10));
+            Usuario u3 = new Usuario("María", "López", "pass7892", crearMail("María", "López"), equipo1, new DateTime(2023, 3, 5));
+            Usuario u4 = new Usuario("Carlos", "Fernández", "pass3212", crearMail("Carlos", "Fernández"), equipo3, new DateTime(2021, 11, 20));
+            Usuario u5 = new Usuario("Sofía", "Martínez", "pass6542", crearMail("Sofía", "Martínez"), equipo2, new DateTime(2022, 9, 30));
+            Usuario u6 = new Usuario("Pedro", "Suárez", "pass1121", crearMail("Pedro", "Suárez"), equipo4, new DateTime(2022, 2, 14));
+            Usuario u7 = new Usuario("Lucía", "Alonso", "pass2222", crearMail("Lucía", "Alonso"), equipo1, new DateTime(2021, 7, 19));
+            Usuario u8 = new Usuario("Javier", "Méndez", "pass3332", crearMail("Javier", "Méndez"), equipo2, new DateTime(2023, 4, 2));
+            Usuario u9 = new Usuario("Valentina", "Silva", "pass4442", crearMail("Valentina", "Silva"), equipo3, new DateTime(2022, 8, 8));
+            Usuario u10 = new Usuario("Martín", "Ramos", "pass5552", crearMail("Martín", "Ramos"), equipo4, new DateTime(2021, 12, 25));
+            Usuario u11 = new Usuario("Camila", "Torres", "pass6626", crearMail("Camila", "Torres"), equipo1, new DateTime(2022, 5, 17));
+            Usuario u12 = new Usuario("Diego", "Sosa", "pass7727", crearMail("Diego", "Sosa"), equipo2, new DateTime(2023, 2, 11));
+            Usuario u13 = new Usuario("Florencia", "Vega", "pass8288", crearMail("Florencia", "Vega"), equipo3, new DateTime(2022, 10, 3));
+            Usuario u14 = new Usuario("Matías", "Cabrera", "pass9299", crearMail("Matías", "Cabrera"), equipo4, new DateTime(2021, 9, 27));
+            Usuario u15 = new Usuario("Paula", "Ruiz", "pass0020", crearMail("Paula", "Ruiz"), equipo1, new DateTime(2022, 3, 21));
+            Usuario u16 = new Usuario("Federico", "Gómez", "passabc2", crearMail("Federico", "Gómez"), equipo2, new DateTime(2023, 6, 6));
+            Usuario u17 = new Usuario("Agustina", "Díaz", "passdef2", crearMail("Agustina", "Díaz"), equipo3, new DateTime(2022, 1, 13));
+            Usuario u18 = new Usuario("Nicolás", "Pintos", "passghi2", crearMail("Nicolás", "Pintos"), equipo4, new DateTime(2021, 8, 5));
+            Usuario u19 = new Usuario("Micaela", "Sánchez", "passjkl2", crearMail("Micaela", "Sánchez"), equipo1, new DateTime(2022, 11, 29));
+            Usuario u20 = new Usuario("Rodrigo", "Castro", "passmno2", crearMail("Rodrigo", "Castro"), equipo2, new DateTime(2023, 5, 18));
+            Usuario u21 = new Usuario("Julieta", "Morales", "passpqr2", crearMail("Julieta", "Morales"), equipo3, new DateTime(2022, 7, 23));
+            Usuario u22 = new Usuario("Emiliano", "Bermúdez", "passstu2", crearMail("Emiliano", "Bermúdez"), equipo4, new DateTime(2021, 10, 12));
 
             altaUsuario(u1);
             altaUsuario(u2);
@@ -181,9 +181,10 @@ namespace Obligatorio_Logica
         public List<Pago> listarPagosPorMail(string email)
         {
             List<Pago> pagosUsuario = new List<Pago>();
+            string emailBuscado = email.Trim().ToLower();
             foreach (Pago p in _pago)
             {
-                if (p.Usuario.Email == email)
+                if (p.Usuario != null && p.Usuario.Email.Trim().ToLower( ) == emailBuscado)
                 {
                    pagosUsuario.Add(p);
                 }
@@ -283,6 +284,23 @@ namespace Obligatorio_Logica
             return existe;
         }
 
+        public List<Usuario> listarUsuariosPorEquipo(string nombre)
+        {
+            List<Usuario> Usuarios = new List<Usuario>();
+            if (existeEquipo(nombre))
+            {
+                foreach (Usuario u in _usuarios)
+                {
+                    if (u.Equipo != null && u.Equipo.Nombre == nombre)
+                    {
+                        Usuarios.Add(u);
+                    }
+                }
+            }
+
+
+            return Usuarios; 
+        }
 
     }
 }

@@ -32,5 +32,11 @@ namespace Obligatorio_Logica
             this._fecha = fecha;
             this._nroRecibo = nroRecibo;
         }
+
+        public override string ToString()
+        {
+            return $"Pago Único - {base.ToString()}, Fecha: {Fecha:dd/MM/yyyy}, Nro. Recibo: {NroRecibo}";
+        }
+
     }
 }
