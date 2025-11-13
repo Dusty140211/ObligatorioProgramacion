@@ -11,11 +11,35 @@ namespace Obligatorio_Logica
         private List<Usuario> _usuarios = new List<Usuario>();
         private List<Equipo> _equipo = new List<Equipo>();
         private List<Pago> _pago = new List<Pago>();
+        public static Sistema s_instancia; 
 
         // a . listado de usuarios (nombre, mail, grupo) - 
         // b . Dado un correo de usuario listar todos los pagos que realizó ese usuario (monto, descripción, tipo de gasto, método de pago) y si es recurrente mostrar cuants pagos quedan pendientes 
         // c . alta de usuario (nombre, apellido, contraseña, equipo) - 
         // d . dado un nombre de equipo, listar los usuarios que lo integran (nombre) 
+
+        // instanciamos sistema para poder acceder desde los controllers
+        public static Sistema Instancia
+        {
+            get
+            {
+                if (s_instancia == null)
+                {
+                    s_instancia = new Sistema();
+                }
+                return s_instancia;
+            }
+        }
+
+        public Sistema()
+        {
+            _usuarios = new List<Usuario>();
+            _equipo = new List<Equipo>();
+            _pago = new List<Pago>();
+            precargaEquipo();
+            precargaPagos();
+            precargaUsuarios(); 
+        }
 
 
         //Listar usuarios- LISTO (por ahora)
@@ -184,7 +208,7 @@ namespace Obligatorio_Logica
             string emailBuscado = email.Trim().ToLower();
             foreach (Pago p in _pago)
             {
-                if (p.Usuario != null && p.Usuario.Email.Trim().ToLower( ) == emailBuscado)
+                if (p.Usuario.Email.Trim().ToLower( ) == emailBuscado)
                 {
                    pagosUsuario.Add(p);
                 }
@@ -291,7 +315,7 @@ namespace Obligatorio_Logica
             {
                 foreach (Usuario u in _usuarios)
                 {
-                    if (u.Equipo != null && u.Equipo.Nombre == nombre)
+                    if ( u.Equipo.Nombre == nombre)
                     {
                         Usuarios.Add(u);
                     }
@@ -302,5 +326,44 @@ namespace Obligatorio_Logica
             return Usuarios; 
         }
 
+        // Login de la aplicacion
+
+        //para el login necesito un metodo que busque el usuario con el mail
+        public Usuario BuscarporMail(string email) 
+        {
+            List<Usuario> Usuarios = new List<Usuario>(); 
+            string emailBuscado = email.Trim().ToLower();
+            foreach (Usuario p in Usuarios)
+            {
+                if (p.Email.Trim().ToLower() == email) 
+                {
+                    return p; 
+                }
+            }
+            return null; 
+        }
+
+
+        public Usuario Login(string email, string password) 
+        {
+            Usuario u = BuscarporMail(email);
+            if (u != null)
+            {
+                if (u.Contrasenia.Equals(password))
+                {
+                    return u;
+                }
+                else
+                {
+                    throw new Exception("El email o la contraseña son incorrectos");
+                }
+            }
+            else 
+            { 
+                throw new Exception("El email o la contraseña son incorrectos")
+            }
+        }
+
+        // 
     }
 }

@@ -9,7 +9,7 @@ namespace Obligatorio_Logica
     public class Usuario
     {
         private string _nombre;
-        private string _apellido;
+        private string _apellido; 
         private string _contrasenia;
         private string _email;
         private Equipo _equipo; // El usuario tiene un equipo asociado
