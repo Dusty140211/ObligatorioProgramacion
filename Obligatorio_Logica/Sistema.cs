@@ -334,13 +334,16 @@ namespace Obligatorio_Logica
         //para el login necesito un metodo que busque el usuario con el mail
         public Usuario BuscarporMail(string email) 
         {
-            List<Usuario> Usuarios = new List<Usuario>(); 
+            if (string.IsNullOrWhiteSpace(email))
+                return null;
+
             string emailBuscado = email.Trim().ToLower();
-            foreach (Usuario p in Usuarios)
+
+            foreach (Usuario u in _usuarios) 
             {
-                if (p.Email.Trim().ToLower() == email) 
+                if (u.Email.Trim().ToLower() == email) 
                 {
-                    return p; 
+                    return u; 
                 }
             }
             return null; 
