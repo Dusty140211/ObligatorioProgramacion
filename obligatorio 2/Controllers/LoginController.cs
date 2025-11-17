@@ -27,7 +27,7 @@ namespace obligatorio_2.Controllers
                 {
                     HttpContext.Session.SetString("Cargo", "Gerente");
                 }
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Empleado");
             }
             catch(Exception ex)
             {
