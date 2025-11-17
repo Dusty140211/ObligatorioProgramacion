@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿                    using Microsoft.AspNetCore.Mvc;
 using Obligatorio_Logica;
 
 namespace obligatorio_2.Controllers
@@ -10,15 +10,32 @@ namespace obligatorio_2.Controllers
         {
             return View();
         }
+
+
         [HttpPost]
-        public IActionResult Index(string email, string contraseña) 
+        public IActionResult Index(string email, string pass) 
         {
             try
             {
-                Usuario u = s.Login(email, contraseña);
-                if(u.cargo)
+                Usuario u = s.Login(email, pass);
+
+                if (u.Rol == Usuario.Cargo.Empleado)
+                {
+                    HttpContext.Session.SetString("Cargo", "Empleado");
+                }
+                else
+                {
+                    HttpContext.Session.SetString("Cargo", "Gerente");
+                }
+                return RedirectToAction("Index", "Home");
+            }
+            catch(Exception ex)
+            {
+                ViewBag.msg = ex.Message; 
+                return View();
             }
         }
+
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();

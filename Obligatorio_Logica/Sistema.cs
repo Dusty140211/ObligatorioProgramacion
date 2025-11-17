@@ -161,6 +161,9 @@ namespace Obligatorio_Logica
             Usuario u21 = new Usuario("Julieta", "Morales", "passpqr2", crearMail("Julieta", "Morales"), equipo3, new DateTime(2022, 7, 23));
             Usuario u22 = new Usuario("Emiliano", "Bermúdez", "passstu2", crearMail("Emiliano", "Bermúdez"), equipo4, new DateTime(2021, 10, 12));
 
+            // Cambiamos a el usuario 1 a gerente
+            u1.cambiarRol(Usuario.Cargo.Gerente);
+
             altaUsuario(u1);
             altaUsuario(u2);
             altaUsuario(u3);
@@ -344,12 +347,12 @@ namespace Obligatorio_Logica
         }
 
 
-        public Usuario Login(string email, string password) 
+        public Usuario Login(string email, string pass) 
         {
             Usuario u = BuscarporMail(email);
             if (u != null)
             {
-                if (u.Contrasenia.Equals(password))
+                if (u.Contrasenia.Equals(pass))
                 {
                     return u;
                 }
@@ -359,8 +362,8 @@ namespace Obligatorio_Logica
                 }
             }
             else 
-            { 
-                throw new Exception("El email o la contraseña son incorrectos")
+            {
+                throw new Exception("El email o la contraseña son incorrectos");
             }
         }
 

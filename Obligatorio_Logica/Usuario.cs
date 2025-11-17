@@ -8,13 +8,25 @@ namespace Obligatorio_Logica
 {
     public class Usuario
     {
+
+        public enum Cargo 
+        { 
+            Empleado, 
+            Gerente
+        }
         private string _nombre;
         private string _apellido; 
         private string _contrasenia;
         private string _email;
-        private Equipo _equipo; // El usuario tiene un equipo asociado
+        public Cargo _rol; 
+        private Equipo _equipo; 
         private DateTime _fecha_Inicio;
 
+        public Cargo Rol 
+        {
+            get { return _rol; }
+            set { _rol = value; }
+        }
         public string Nombre
         {
             get { return _nombre; }
@@ -39,6 +51,8 @@ namespace Obligatorio_Logica
             set { _email = value; }
         }
 
+    
+
         public Equipo Equipo
         {
             get { return _equipo; }
@@ -59,6 +73,7 @@ namespace Obligatorio_Logica
             this._email = email;
             this._equipo = equipo;
             this._fecha_Inicio = fecha_Inicio;
+            this.Rol = Cargo.Empleado;
         }
 
         public void validar() 
@@ -94,6 +109,11 @@ namespace Obligatorio_Logica
                    $"Email: {Email}, " +
                    $"Equipo: {Equipo.Nombre}, " +
                    $"Fecha de inicio: {Fecha_Inicio}";
+        }
+
+        public void cambiarRol(Cargo _rol) 
+        {
+            Rol = _rol; 
         }
     }
 }
