@@ -1,0 +1,19 @@
+﻿@using Obligatorio_Logica
+@model Usuario
+
+<h1>Perfil</h1>
+<label>Nombre: </label>
+<p>@Model.Nombre</p>
+<label>Apellido: </label>
+<p>@Model.Apellido</p>
+<label>Email: </label>
+<p>@Model.Email</p>
+<label>Cargo: </label>
+<p>@Model.Rol</p>
+<label>Fecha de inicio: </label>
+<p>@Model.Fecha_Inicio</p>
+<label>Equipo al que pertenece: </label>
+<p>@Model.Equipo.Nombre</p>
+<label>Gastado: </label>
+<p>@ViewBag.TotalMes</p>
+

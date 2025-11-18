@@ -18,6 +18,7 @@ namespace obligatorio_2.Controllers
             try
             {
                 Usuario u = s.Login(email, pass);
+                HttpContext.Session.SetString("mail", u.Email);
 
                 if (u.Rol == Usuario.Cargo.Empleado)
                 {

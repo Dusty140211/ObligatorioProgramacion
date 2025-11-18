@@ -370,7 +370,43 @@ namespace Obligatorio_Logica
             }
         }
 
-        // 
+        // Metodo para Empleados, monto total de pagos realizados por el usuario logueado
+        public double MontoGastadoEsteMes(string email)
+        {
+            if (string.IsNullOrEmpty(email))
+                return 0; 
+
+            string emailBuscado = email.Trim().ToLower();
+            double total = 0;
+            DateTime ahora = DateTime.Now;
+            int mesActual = ahora.Month;
+            int anioActual = ahora.Year;
+           
+            
+            foreach (Pago p in _pago) 
+            {
+                if (!p.Usuario.Email.Trim().ToLower().Equals(emailBuscado))
+                    continue;
+
+                //Pago unico: tiene solo una fecha
+                if (p is PagoUnico pu)
+                {
+                    if (pu.Fecha.Month == mesActual && pu.Fecha.Year == anioActual)
+                    {
+                        total += pu.Monto;
+                    }
+
+                }
+                else if (p is PagoRecurrente pr) 
+                {
+                    if (pr.FechaInicio.Month == mesActual && pr.FechaInicio.Year == anioActual) 
+                    { 
+                        total += pr.Monto;
+                    }
+                }
+            }
+            return total; 
+        }
     }
 }
 
