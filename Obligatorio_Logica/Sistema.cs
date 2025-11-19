@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -28,6 +30,7 @@ namespace Obligatorio_Logica
             {
                 if (s_instancia == null)
                 {
+                    
                     s_instancia = new Sistema();
                 }
                 return s_instancia;
@@ -72,6 +75,8 @@ namespace Obligatorio_Logica
             Tipo_gasto tg2 = new Tipo_gasto("Transporte", "Gastos de transporte");
             Tipo_gasto tg3 = new Tipo_gasto("Servicios", "Gastos de servicios");
             Tipo_gasto tg4 = new Tipo_gasto("Entretenimiento", "Gastos de ocio");
+
+            
 
             Usuario u1 = _usuarios[0];
             Usuario u2 = _usuarios[1];

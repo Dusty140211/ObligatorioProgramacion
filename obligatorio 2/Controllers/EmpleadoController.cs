@@ -13,7 +13,7 @@ namespace obligatorio_2.Controllers
             {
                 return RedirectToAction("Index", "Login"); 
             }
-            return View(s.listarPagosPorMail("email"));
+            return View(s.listarPagosPorMail(email));
         }
         public IActionResult Perfil()
         {

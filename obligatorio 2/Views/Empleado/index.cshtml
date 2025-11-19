@@ -1,11 +1,9 @@
 ﻿@using Obligatorio_Logica;
 @model List<Pago>
-<p>Pagos guardados</p>
 
 <input type="submit" name="CargarPago" value="Cargar Nuevo Pago">
 
-
-
+<p>Pagos guardados</p>
 
     <table>
         <tr>
@@ -25,19 +23,19 @@
                     <td>@p.Monto</td>
                     <td>@p.Descripcion</td>
                     <td>@if (p.Tipo != null)
-                        {
-                            @p.Tipo.Nombre    
-                        }
+                    {
+                        @p.Tipo.Nombre.ToString()       
+                    }
                     </td>
                     <td>@p.Metodo</td>
                     <td>
-                        @if (p is PagoRecurrente pr)
+                          @if (p is PagoRecurrente pr)
                         {
-                            @pr.FechaInicio
+                            @pr.FechaInicio.ToString("dd/MM/yyyy")
                         }
-                        else if(p is PagoUnico pu)
+                        else if (p is PagoUnico pu)
                         {
-                            @pu.Fecha
+                            @pu.Fecha.ToString("dd/MM/yyyy")
                         }
                     </td>
                     <td>
