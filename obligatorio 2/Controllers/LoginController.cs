@@ -23,11 +23,6 @@ namespace obligatorio_2.Controllers
                 HttpContext.Session.SetString("email", u.Email);
                 HttpContext.Session.SetString("pass", u.Contrasenia);
 
-                // Leer los valores de la sesión para depuración
-                HttpContext.Session.GetString("email");
-                HttpContext.Session.GetString("pass");
-
-
                 if (u.Rol == Usuario.Cargo.Empleado)
                   {
                       HttpContext.Session.SetString("Rol", "Empleado");
@@ -50,7 +45,7 @@ namespace obligatorio_2.Controllers
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();
-            return View("Index");
+            return RedirectToAction("Index", "Login");
         }
     }
 }

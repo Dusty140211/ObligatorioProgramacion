@@ -21,23 +21,22 @@
                     <ul class="navbar-nav flex-grow-1">
                         @if (Context.Session.GetString("email") != null)
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Login" asp-action="Logout">Cerrar Sesion</a>
-                            </li>
-
                             @if (Context.Session.GetString("Rol") == "Empleado")
                             {
                                 <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="Empleado" asp-action="index">Inicio</a>
+                                </li>
+
+                                <li class="nav-item">
                                     <a class="nav-link text-dark" asp-controller="Empleado" asp-action="Perfil">Perfil</a>
                                 </li>
+
                             }
-                        }
-                        else
-                        {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Login" asp-action="Logout"></a>
-                            </li>    
+                                <a class="nav-link text-dark" asp-controller="Login" asp-action="Logout">LogOut</a>
+                            </li>
                         }
+                       
 
                        
 

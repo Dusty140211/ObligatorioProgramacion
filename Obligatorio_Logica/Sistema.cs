@@ -415,69 +415,92 @@ namespace Obligatorio_Logica
 
 // mails de las precargas
 /*
- anagar0@empresa.com
-pass1223
+Ana García  
+mail: angar0@Empresa.com  
+pass: pass1223  
 
-luiper0@empresa.com
-pass4562
+Luis Pérez  
+mail: luipér0@Empresa.com  
+pass: pass4562  
 
-marlop0@empresa.com
-pass7892
+María López  
+mail: marlóp0@Empresa.com  
+pass: pass7892  
 
-carfer0@empresa.com
-pass3212
+Carlos Fernández  
+mail: carfer0@Empresa.com  
+pass: pass3212  
 
-sofmar0@empresa.com
-pass6542
+Sofía Martínez  
+mail: sofmar0@Empresa.com  
+pass: pass6542  
 
-pedsua0@empresa.com
-pass1121
+Pedro Suárez  
+mail: pedsuá0@Empresa.com  
+pass: pass1121  
 
-lucalo0@empresa.com
-pass2222
+Lucía Alonso  
+mail: lucalo0@Empresa.com  
+pass: pass2222  
 
-javmen0@empresa.com
-pass3332
+Javier Méndez  
+mail: javmén0@Empresa.com  
+pass: pass3332  
 
-valsil0@empresa.com
-pass4442
+Valentina Silva  
+mail: valsil0@Empresa.com  
+pass: pass4442  
 
-marram0@empresa.com
-pass5552
+Martín Ramos  
+mail: marram0@Empresa.com  
+pass: pass5552  
 
-camtor0@empresa.com
-pass6626
+Camila Torres  
+mail: camtor0@Empresa.com  
+pass: pass6626  
 
-diesos0@empresa.com
-pass7727
+Diego Sosa  
+mail: diesos0@Empresa.com  
+pass: pass7727  
 
-floveg0@empresa.com
-pass8288
+Florencia Vega  
+mail: flóveg0@Empresa.com  
+pass: pass8288  
 
-matcab0@empresa.com
-pass9299
+Matías Cabrera  
+mail: matcab0@Empresa.com  
+pass: pass9299  
 
-paurui0@empresa.com
-pass0020
+Paula Ruiz  
+mail: paurui0@Empresa.com  
+pass: pass0020  
 
-fedgom0@empresa.com
-passabc2
+Federico Gómez  
+mail: fedgóm0@Empresa.com  
+pass: passabc2  
 
-agudia0@empresa.com
-passdef2
+Agustina Díaz  
+mail: agudía0@Empresa.com  
+pass: passdef2  
 
-nicpin0@empresa.com
-passghi2
+Nicolás Pintos  
+mail: nicpin0@Empresa.com  
+pass: passghi2  
 
-micsan0@empresa.com
-passjkl2
+Micaela Sánchez  
+mail: micsán0@Empresa.com  
+pass: passjkl2  
 
-rodcas0@empresa.com
-passmno2
+Rodrigo Castro  
+mail: rodcas0@Empresa.com  
+pass: passmno2  
 
-julmor0@empresa.com
-passpqr2
+Julieta Morales  
+mail: julmor0@Empresa.com  
+pass: passpqr2  
 
-emiber0@empresa.com
-passstu2
+Emiliano Bermúdez  
+mail: emibér0@Empresa.com  
+pass: passstu2  
+
  */

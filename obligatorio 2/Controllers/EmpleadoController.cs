@@ -5,9 +5,15 @@ namespace obligatorio_2.Controllers
 {
     public class EmpleadoController : Controller
     {
+        private Sistema s = Sistema.Instancia; 
         public IActionResult Index()
         {
-            return View();
+            string? email = HttpContext.Session.GetString("email");
+            if (HttpContext.Session.GetString("email") == null)
+            {
+                return RedirectToAction("Index", "Login"); 
+            }
+            return View(s.listarPagosPorMail("email"));
         }
         public IActionResult Perfil()
         {

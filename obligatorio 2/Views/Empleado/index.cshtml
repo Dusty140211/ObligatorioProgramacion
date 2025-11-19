@@ -1,5 +1,67 @@
-﻿
-@{
-    ViewData["Title"] = "index";
-}
+﻿@using Obligatorio_Logica;
+@model List<Pago>
+<p>Pagos guardados</p>
+
+<input type="submit" name="CargarPago" value="Cargar Nuevo Pago">
+
+
+
+
+    <table>
+        <tr>
+            <th>Monto</th>
+            <th>Descripción</th>
+            <th>Tipo de gasto</th>
+            <th>Método de pago</th>
+            <th>Fecha o Fecha de Inicio</th>
+            <th>Recurrente</th>
+            <th>Pagos pendientes</th>
+        </tr>
+        <tbody>
+
+            @foreach(Pago p in Model)
+            {
+                <tr>
+                    <td>@p.Monto</td>
+                    <td>@p.Descripcion</td>
+                    <td>@if (p.Tipo != null)
+                        {
+                            @p.Tipo.Nombre    
+                        }
+                    </td>
+                    <td>@p.Metodo</td>
+                    <td>
+                        @if (p is PagoRecurrente pr)
+                        {
+                            @pr.FechaInicio
+                        }
+                        else if(p is PagoUnico pu)
+                        {
+                            @pu.Fecha
+                        }
+                    </td>
+                    <td>
+					    @if (p is PagoRecurrente)
+					    {
+						    @("Sí")
+					    }
+					    else if(p is PagoUnico)
+					    {
+						    @("No")
+					    }
+                    </td>
+                    <td>
+					    @if (p is PagoRecurrente prec)
+					    {
+                            @(prec.calcularPagosPendientes())
+                        }
+
+                    <td/>
+				</tr>
+
+            }
+        </tbody>
+        
+    </table>
+
 
