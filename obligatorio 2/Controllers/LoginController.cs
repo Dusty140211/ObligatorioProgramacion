@@ -1,5 +1,6 @@
-﻿                    using Microsoft.AspNetCore.Mvc;
-using Obligatorio_Logica;
+﻿using Obligatorio_Logica;
+using Microsoft.AspNetCore.Mvc;
+
 
 namespace obligatorio_2.Controllers
 {
@@ -11,30 +12,39 @@ namespace obligatorio_2.Controllers
             return View();
         }
 
-
         [HttpPost]
         public IActionResult Index(string email, string pass) 
         {
+            
             try
-            {
+              {
+
                 Usuario u = s.Login(email, pass);
-                HttpContext.Session.SetString("mail", u.Email);
+                HttpContext.Session.SetString("email", u.Email);
+                HttpContext.Session.SetString("pass", u.Contrasenia);
+
+                // Leer los valores de la sesión para depuración
+                HttpContext.Session.GetString("email");
+                HttpContext.Session.GetString("pass");
+
 
                 if (u.Rol == Usuario.Cargo.Empleado)
-                {
-                    HttpContext.Session.SetString("Cargo", "Empleado");
-                }
-                else
-                {
-                    HttpContext.Session.SetString("Cargo", "Gerente");
-                }
-                return RedirectToAction("Index", "Empleado");
-            }
-            catch(Exception ex)
-            {
-                ViewBag.msg = ex.Message; 
-                return View();
-            }
+                  {
+                      HttpContext.Session.SetString("Rol", "Empleado");
+                  }
+                  else if(u.Rol == Usuario.Cargo.Gerente)
+                  {
+                      HttpContext.Session.SetString("Rol", "Gerente");
+                  }
+                  return RedirectToAction("Index", "Empleado");
+              }
+              catch(Exception ex)
+              {
+                  ViewBag.msg = ex.Message; 
+                  return View();
+              }
+            
+
         }
 
         public IActionResult Logout()

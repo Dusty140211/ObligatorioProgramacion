@@ -6,7 +6,7 @@
     <title>@ViewData["Title"] - obligatorio_2</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/obligatorio_2.styles.css" asp-append-version="true" />
+    <!-- <link rel="stylesheet" href="~/obligatorio_2.styles.css" /> -->
 </head>
 <body>
     <header>
@@ -24,14 +24,22 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-controller="Login" asp-action="Logout">Cerrar Sesion</a>
                             </li>
-                        }
 
-                        @if (Context.Session.GetString("cargo") == "Empleado")
+                            @if (Context.Session.GetString("Rol") == "Empleado")
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="Empleado" asp-action="Perfil">Perfil</a>
+                                </li>
+                            }
+                        }
+                        else
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Empleado" asp-action="Perfil">Perfil</a>
-                            </li>
+                                <a class="nav-link text-dark" asp-controller="Login" asp-action="Logout"></a>
+                            </li>    
                         }
+
+                       
 
                     </ul>
                 </div>

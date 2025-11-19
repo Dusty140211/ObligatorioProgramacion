@@ -21,6 +21,7 @@ namespace obligatorio_2.Controllers
             Usuario u = Sistema.Instancia.BuscarporMail(email);
 
             double totalMes = Sistema.Instancia.MontoGastadoEsteMes(email);
+           
             ViewBag.TotalMes = totalMes;
 
             return View(u); 
