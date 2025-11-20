@@ -55,13 +55,16 @@ namespace Obligatorio_Logica
 
 
 
-        public Pago(double monto, string descripcion, List<Tipo_gasto> tipo, Usuario usuario)
+        public Pago(metodo_pago metodo,double monto, string descripcion,Tipo_gasto tipo, Usuario usuario)
         {
             contador++;
             this._id = contador;
+            this._metodo = metodo;
             this._monto = monto;
             this._descripcion = descripcion;
+            Tipo = tipo;
             this._usuario = usuario;
+           
         }
 
         public void validaciones() 

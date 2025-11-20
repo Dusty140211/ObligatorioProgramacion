@@ -8,42 +8,48 @@ namespace Obligatorio_Logica
 {
     public class PagoRecurrente : Pago
     {
-        private DateTime fechaInicio;
-        private DateTime fechaFin;
-        private int cuotasPagas;
-        private int cuotas;
+        private DateTime _fechaInicio;
+        private DateTime _fechaFin;
+        private int _cuotasPagas;
+        private int _cuotas;
+        private int _PagosPendientes; 
 
+        public int PagosPendientes 
+        { 
+            get { return _PagosPendientes; }
+            set { _PagosPendientes = value;  }
+        }
         public DateTime FechaInicio
         {
-            get { return fechaInicio; }
-            set { fechaInicio = value; }
+            get { return _fechaInicio; }
+            set { _fechaInicio = value; }
         }
 
         public DateTime FechaFin
         {
-            get { return fechaFin; }
-            set { fechaFin = value; }
+            get { return _fechaFin; }
+            set { _fechaFin = value; }
         }
 
         public int cuotaspagas
         {
-            get { return cuotasPagas; }
-            set { cuotasPagas = value; }
+            get { return _cuotasPagas; }
+            set { _cuotasPagas = value; }
         }
 
         public int Cuotas
         {
-            get { return cuotas; }
-            set { cuotas = value; }
+            get { return _cuotas; }
+            set { _cuotas = value; }
         }
 
-        public PagoRecurrente(double monto, string descripcion, List<Tipo_gasto> tipo, Usuario usuario, DateTime fechaInicio, DateTime fechaFin, int pagosPagas, int cuotas)
-            : base(monto, descripcion, tipo, usuario)
+        public PagoRecurrente(double monto, metodo_pago metodo, string descripcion, Tipo_gasto tipo, Usuario usuario, DateTime fechaInicio, DateTime fechaFin, int pagosPagas, int cuotas)
+            : base(metodo ,monto, descripcion, tipo, usuario)
         {
-            this.fechaInicio = fechaInicio;
-            this.fechaFin = fechaFin;
-            this.cuotaspagas = cuotaspagas;
-            this.cuotas = cuotas;
+            this._fechaInicio = fechaInicio;
+            this._fechaFin = fechaFin;
+            this._cuotasPagas = cuotaspagas;
+            this._cuotas = cuotas;
         }
 
         public override string ToString()
@@ -51,9 +57,9 @@ namespace Obligatorio_Logica
             return $"PagoRecurrente: FechaInicio={FechaInicio}, FechaFin={FechaFin}, cuotas Pagas = {cuotaspagas}, Cuotas={Cuotas}, Monto={Monto}, Descripción={Descripcion}";
         }
 
-        public int calcularPagosPendientes()
+        public void calcularPagosPendientes()
         {
-            return cuotas - cuotasPagas; 
+            _PagosPendientes = _cuotas - _cuotasPagas;
         }
     }
 }

@@ -22,12 +22,24 @@
                 <tr>
                     <td>@p.Monto</td>
                     <td>@p.Descripcion</td>
-                    <td>@if (p.Tipo != null)
-                    {
-                        @p.Tipo.Nombre.ToString()       
-                    }
+                    <td>@p.Tipo.Nombre
                     </td>
-                    <td>@p.Metodo</td>
+                    <td>
+                        @if (p.Metodo == Pago.metodo_pago.CREDITO)
+                        {
+                            @("Credito")
+                        }
+                        else if (p.Metodo == Pago.metodo_pago.DEBITO)
+                        {
+
+                            @("Debito")
+                        }
+                        else if(p.Metodo == Pago.metodo_pago.EFECTIVO)
+                        {
+
+                            @("Efectivo")
+                        }
+                    </td>
                     <td>
                           @if (p is PagoRecurrente pr)
                         {
@@ -51,8 +63,12 @@
                     <td>
 					    @if (p is PagoRecurrente prec)
 					    {
-                            @(prec.calcularPagosPendientes())
-                        }
+                        @prec.PagosPendientes
+                    }
+                    else
+                    {
+                        @("-")                        
+                    }
 
                     <td/>
 				</tr>

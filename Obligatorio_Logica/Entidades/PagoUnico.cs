@@ -10,7 +10,7 @@ namespace Obligatorio_Logica
     {
         private DateTime _fecha;
         private decimal _nroRecibo;
-        public metodo_pago Metodo { get; set; }
+       
 
         public DateTime Fecha
         {
@@ -25,10 +25,10 @@ namespace Obligatorio_Logica
         }
 
 
-        public PagoUnico(metodo_pago metodo, DateTime fecha, decimal nroRecibo, double monto, string descripcion, List<Tipo_gasto> tipo, Usuario usuario) :
-            base(monto, descripcion, tipo, usuario)
+        public PagoUnico(metodo_pago metodo, DateTime fecha, decimal nroRecibo, double monto, string descripcion, Tipo_gasto tipo, Usuario usuario) :
+            base(metodo, monto, descripcion, tipo, usuario)
         {
-            this.Metodo = metodo;
+           
             this._fecha = fecha;
             this._nroRecibo = nroRecibo;
         }
