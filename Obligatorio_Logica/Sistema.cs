@@ -377,6 +377,8 @@ namespace Obligatorio_Logica
         }
 
         // Metodo para Empleados, monto total de pagos realizados por el usuario logueado
+
+        // Arreglar metodo public LIst<Pago> MontoTotalPagosPorUsuario(int mes, int año, Usuarios u)
         public double MontoGastadoEsteMes(string email)
         {
             if (string.IsNullOrEmpty(email))
@@ -432,7 +434,10 @@ namespace Obligatorio_Logica
                 }
             }
             }
+
+        
     }
+
 }
 
 // mails de las precargas

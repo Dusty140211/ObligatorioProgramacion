@@ -8,7 +8,7 @@ namespace Obligatorio_Logica
 {
     public class Pago
     {
-        public enum metodo_pago { CREDITO = 1, DEBITO = 2, EFECTIVO = 3 }
+        public enum metodo_pago { CREDITO = 1, DEBITO = 2, EFECTIVO = 3 } // arreglar forma de declarar el enum, creas una clasr "public enum nombre" y lo llamas y agregas al constructor 
 
         private int _id;
         private double _monto;

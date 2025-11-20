@@ -37,5 +37,14 @@ namespace obligatorio_2.Controllers
 
             return View(u); 
         }
+
+        public IActionResult CargarPago(DateTime Fecha, decimal nroRecibo) 
+        {
+            try 
+            { 
+                
+            }
+        
+
     }
 }

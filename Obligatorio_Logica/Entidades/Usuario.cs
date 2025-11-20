@@ -22,7 +22,7 @@ namespace Obligatorio_Logica
         private Equipo _equipo; 
         private DateTime _fecha_Inicio;
 
-        public Cargo Rol 
+        public Cargo Rol // ES ENUM 
         {
             get { return _rol; }
             set { _rol = value; }
