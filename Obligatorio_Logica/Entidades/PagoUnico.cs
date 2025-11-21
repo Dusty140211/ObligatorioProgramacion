@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Obligatorio_Logica.Entidades;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,7 +26,7 @@ namespace Obligatorio_Logica
         }
 
 
-        public PagoUnico(metodo_pago metodo, DateTime fecha, decimal nroRecibo, double monto, string descripcion, Tipo_gasto tipo, Usuario usuario) :
+        public PagoUnico(metodoPago metodo, DateTime fecha, decimal nroRecibo, double monto, string descripcion, Tipo_gasto tipo, Usuario usuario) :
             base(metodo, monto, descripcion, tipo, usuario)
         {
            

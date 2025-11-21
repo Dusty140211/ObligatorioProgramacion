@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Obligatorio_Logica.Entidades;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,6 @@ namespace Obligatorio_Logica
 {
     public class Pago
     {
-        public enum metodo_pago { CREDITO = 1, DEBITO = 2, EFECTIVO = 3 } // arreglar forma de declarar el enum, creas una clasr "public enum nombre" y lo llamas y agregas al constructor 
 
         private int _id;
         private double _monto;
@@ -16,7 +16,7 @@ namespace Obligatorio_Logica
         private Tipo_gasto _tipo;
         private Usuario _usuario;
 
-        public metodo_pago _metodo { get; set; }
+        public metodoPago _metodo;
 
         public static int contador = 0;
         public int Id
@@ -36,7 +36,7 @@ namespace Obligatorio_Logica
             set { _descripcion = value; }
         }
 
-        public metodo_pago Metodo
+        public metodoPago Metodo
         {
             get { return _metodo; }
             set { _metodo = value; }
@@ -55,7 +55,7 @@ namespace Obligatorio_Logica
 
 
 
-        public Pago(metodo_pago metodo,double monto, string descripcion,Tipo_gasto tipo, Usuario usuario)
+        public Pago(metodoPago metodo,double monto, string descripcion,Tipo_gasto tipo, Usuario usuario)
         {
             contador++;
             this._id = contador;

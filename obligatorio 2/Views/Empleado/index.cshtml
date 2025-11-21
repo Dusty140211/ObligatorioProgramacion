@@ -1,4 +1,5 @@
 ﻿@using Obligatorio_Logica;
+@using Obligatorio_Logica.Entidades
 @model List<Pago>
 
 <a href="/Empleado/"></a>
@@ -25,16 +26,16 @@
                     <td>@p.Tipo.Nombre
                     </td>
                     <td>
-                        @if (p.Metodo == Pago.metodo_pago.CREDITO)
+                        @if (p.Metodo == metodoPago.CREDITO)
                         {
                             @("Credito")
                         }
-                        else if (p.Metodo == Pago.metodo_pago.DEBITO)
+                        else if (p.Metodo == metodoPago.DEBITO)
                         {
 
                             @("Debito")
                         }
-                        else if(p.Metodo == Pago.metodo_pago.EFECTIVO)
+                        else if(p.Metodo == metodoPago.EFECTIVO)
                         {
 
                             @("Efectivo")

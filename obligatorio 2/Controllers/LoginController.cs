@@ -1,5 +1,6 @@
 ﻿using Obligatorio_Logica;
 using Microsoft.AspNetCore.Mvc;
+using Obligatorio_Logica.Entidades;
 
 
 namespace obligatorio_2.Controllers
@@ -23,11 +24,11 @@ namespace obligatorio_2.Controllers
                 HttpContext.Session.SetString("email", u.Email);
                 HttpContext.Session.SetString("pass", u.Contrasenia);
 
-                if (u.Rol == Usuario.Cargo.Empleado)
+                if (u.Rol == Cargo.EMPLEADO)
                   {
                       HttpContext.Session.SetString("Rol", "Empleado");
                   }
-                  else if(u.Rol == Usuario.Cargo.Gerente)
+                  else if(u.Rol == Cargo.GERENTE)
                   {
                       HttpContext.Session.SetString("Rol", "Gerente");
                   }

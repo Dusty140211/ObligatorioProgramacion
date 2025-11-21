@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Obligatorio_Logica.Entidades;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,17 +9,11 @@ namespace Obligatorio_Logica
 {
     public class Usuario
     {
-
-        public enum Cargo 
-        { 
-            Empleado, 
-            Gerente
-        }
         private string _nombre;
         private string _apellido; 
         private string _contrasenia;
         private string _email;
-        public Cargo _rol; 
+        public Cargo _rol;  
         private Equipo _equipo; 
         private DateTime _fecha_Inicio;
 
@@ -65,7 +60,7 @@ namespace Obligatorio_Logica
             set { _fecha_Inicio = value; }
         }
 
-        public Usuario(string nombre, string apellido, string contrasenia, string email, Equipo equipo, DateTime fecha_Inicio)
+        public Usuario(string nombre, string apellido, string contrasenia, string email, Equipo equipo, DateTime fecha_Inicio, Cargo rol)
         {
             this._nombre = nombre;
             this._apellido = apellido;
@@ -73,7 +68,7 @@ namespace Obligatorio_Logica
             this._email = email;
             this._equipo = equipo;
             this._fecha_Inicio = fecha_Inicio;
-            this.Rol = Cargo.Empleado;
+            this._rol = rol;
         }
 
         public void validar() 

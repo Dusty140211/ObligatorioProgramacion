@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Obligatorio_Logica.Entidades;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -43,7 +44,7 @@ namespace Obligatorio_Logica
             set { _cuotas = value; }
         }
 
-        public PagoRecurrente(double monto, metodo_pago metodo, string descripcion, Tipo_gasto tipo, Usuario usuario, DateTime fechaInicio, DateTime fechaFin, int pagosPagas, int cuotas)
+        public PagoRecurrente(double monto, metodoPago metodo, string descripcion, Tipo_gasto tipo, Usuario usuario, DateTime fechaInicio, DateTime fechaFin, int pagosPagas, int cuotas)
             : base(metodo ,monto, descripcion, tipo, usuario)
         {
             this._fechaInicio = fechaInicio;
