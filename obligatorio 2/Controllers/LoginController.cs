@@ -25,14 +25,19 @@ namespace obligatorio_2.Controllers
                 HttpContext.Session.SetString("pass", u.Contrasenia);
 
                 if (u.Rol == Cargo.EMPLEADO)
-                  {
-                      HttpContext.Session.SetString("Rol", "Empleado");
-                  }
-                  else if(u.Rol == Cargo.GERENTE)
-                  {
-                      HttpContext.Session.SetString("Rol", "Gerente");
-                  }
-                  return RedirectToAction("Index", "Empleado");
+                {
+                    HttpContext.Session.SetString("Rol", "Empleado");
+                    return RedirectToAction("Index", "Empleado");
+                }
+                else if (u.Rol == Cargo.GERENTE)
+                {
+                    HttpContext.Session.SetString("Rol", "Gerente");
+                    return RedirectToAction("Index", "Gerente");
+                }
+                else 
+                {
+                    return RedirectToAction("index", "Home");
+                }
               }
               catch(Exception ex)
               {

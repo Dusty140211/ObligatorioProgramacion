@@ -26,8 +26,8 @@ namespace Obligatorio_Logica
         }
 
 
-        public PagoUnico(metodoPago metodo, DateTime fecha, decimal nroRecibo, double monto, string descripcion, Tipo_gasto tipo, Usuario usuario) :
-            base(metodo, monto, descripcion, tipo, usuario)
+        public PagoUnico(metodoPago metodo, DateTime fecha, decimal nroRecibo, double monto, string descripcion,Tipo_gasto tipo, Usuario usuario)
+        : base(metodo, monto, descripcion, tipo, usuario)
         {
            
             this._fecha = fecha;
@@ -39,5 +39,12 @@ namespace Obligatorio_Logica
             return $"Pago Único - {base.ToString()}, Fecha: {Fecha:dd/MM/yyyy}, Nro. Recibo: {NroRecibo}";
         }
 
+        public override double CalcularMontoConBeneficioORecargo()
+        {
+            if (Metodo == metodoPago.EFECTIVO)
+                return Monto * 0.8;
+            else
+                return Monto * 0.9;
+        }
     }
 }

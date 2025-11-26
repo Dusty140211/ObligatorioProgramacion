@@ -80,10 +80,15 @@ namespace Obligatorio_Logica
 
         public void validarDescripcion() 
         {
+
             if (string.IsNullOrEmpty(_descripcion)) throw new Exception("La descripcion no puede estar vacia"); 
         }
 
-        
+        public virtual double CalcularMontoConBeneficioORecargo()
+        {
+            return _monto;
+        }
+
 
     }
 }

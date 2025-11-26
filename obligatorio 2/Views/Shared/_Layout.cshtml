@@ -31,6 +31,17 @@
                                     <a class="nav-link text-dark" asp-controller="Empleado" asp-action="Perfil">Perfil</a>
                                 </li>
 
+                                 <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="Empleado" asp-action="CargarPagos">Cargar Pagos</a>
+                                </li>
+
+                            }
+                            if (Context.Session.GetString("Rol") == "Gerente")
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="Gerente" asp-action="Perfil">Perfil</a>
+                                </li>
+                                
                             }
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-controller="Login" asp-action="Logout">LogOut</a>

@@ -44,7 +44,7 @@ namespace Obligatorio_Logica
             set { _cuotas = value; }
         }
 
-        public PagoRecurrente(double monto, metodoPago metodo, string descripcion, Tipo_gasto tipo, Usuario usuario, DateTime fechaInicio, DateTime fechaFin, int pagosPagas, int cuotas)
+        public PagoRecurrente(metodoPago metodo, DateTime fechaInicio, DateTime fechaFin, string descripcion, int cuotaspagas, int cuotas, double monto, Tipo_gasto tipo, Usuario usuario)
             : base(metodo ,monto, descripcion, tipo, usuario)
         {
             this._fechaInicio = fechaInicio;
@@ -61,6 +61,30 @@ namespace Obligatorio_Logica
         public void calcularPagosPendientes()
         {
             _PagosPendientes = _cuotas - _cuotasPagas;
+        }
+
+        public override double CalcularMontoConBeneficioORecargo()
+        {
+            double montoFinal = Monto;
+
+            if (_cuotas == 0) 
+            {
+                montoFinal *= 1.03; 
+            }
+            else if (_cuotas > 10)
+            {
+                montoFinal *= 1.10; 
+            }
+            else if (_cuotas >= 6 && _cuotas <= 9)
+            {
+                montoFinal *= 1.05; 
+            }
+            else if (_cuotas <= 5)
+            {
+                montoFinal *= 1.03; 
+            }
+
+            return montoFinal;
         }
     }
 }

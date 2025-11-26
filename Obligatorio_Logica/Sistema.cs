@@ -14,11 +14,15 @@ namespace Obligatorio_Logica
         private List<Usuario> _usuarios = new List<Usuario>();
         private List<Equipo> _equipo = new List<Equipo>();
         private List<Pago> _pago = new List<Pago>();
-        public static Sistema s_instancia; 
+        public static Sistema s_instancia;
+        private List<Tipo_gasto> _tiposGasto = new List<Tipo_gasto>();
+        
 
-        public List<Usuario> Usuarios { get { return new List<Usuario>(_usuarios);  } }
-        public List<Equipo> Equipos { get { return new List<Equipo>(_equipo);  } }
+        public List<Usuario> Usuarios { get { return new List<Usuario>(_usuarios); } }
+        public List<Equipo> Equipos { get { return new List<Equipo>(_equipo); } }
         public List<Pago> Pagos { get { return new List<Pago>(_pago); } }
+
+        public List<Tipo_gasto> tipo_Gastos { get { return new List<Tipo_gasto>(_tiposGasto);  } }
         // a . listado de usuarios (nombre, mail, grupo) - 
         // b . Dado un correo de usuario listar todos los pagos que realizó ese usuario (monto, descripción, tipo de gasto, método de pago) y si es recurrente mostrar cuants pagos quedan pendientes 
         // c . alta de usuario (nombre, apellido, contraseña, equipo) - 
@@ -31,7 +35,7 @@ namespace Obligatorio_Logica
             {
                 if (s_instancia == null)
                 {
-                    
+
                     s_instancia = new Sistema();
                 }
                 return s_instancia;
@@ -46,8 +50,10 @@ namespace Obligatorio_Logica
             precargaEquipo();
             precargaUsuarios();
             precargaPagos();
-
             
+            
+
+
 
         }
 
@@ -58,6 +64,11 @@ namespace Obligatorio_Logica
         public List<Usuario> listarUsuarios()
         {
             return _usuarios;
+        }
+
+        public void AltaTipoGasto(Tipo_gasto tg)
+        {
+            _tiposGasto.Add(tg);
         }
 
         // precarga de datos
@@ -72,62 +83,87 @@ namespace Obligatorio_Logica
                 precargaUsuarios();
 
             // Precarga de tipos de gasto
-            Tipo_gasto tg1 = new Tipo_gasto("Comida", "Gastos de alimentación");
-            Tipo_gasto tg2 = new Tipo_gasto("Transporte", "Gastos de transporte");
-            Tipo_gasto tg3 = new Tipo_gasto("Servicios", "Gastos de servicios");
-            Tipo_gasto tg4 = new Tipo_gasto("Entretenimiento", "Gastos de ocio");
+            if (tipo_Gastos.Count == 0)
+            {
+                _tiposGasto.Add(new Tipo_gasto("Comida", "Gastos de alimentación"));
+                _tiposGasto.Add(new Tipo_gasto("Transporte", "Gastos de transporte"));
+                _tiposGasto.Add(new Tipo_gasto("Servicios", "Gastos de servicios"));
+                _tiposGasto.Add(new Tipo_gasto("Entretenimiento", "Gastos de ocio"));
+            }
+            Tipo_gasto tg1 = tipo_Gastos[0];
+            Tipo_gasto tg2 = tipo_Gastos[1];
+            Tipo_gasto tg3 = tipo_Gastos[2];
+            Tipo_gasto tg4 = tipo_Gastos[3];
 
-            
+
 
             Usuario u1 = _usuarios[0];
             Usuario u2 = _usuarios[1];
             Usuario u3 = _usuarios[2];
             Usuario u4 = _usuarios[3];
+            Usuario u5 = _usuarios[4];
+            Usuario u6 = _usuarios[5];
+            Usuario u7 = _usuarios[6];
+            Usuario u8 = _usuarios[7];
+            Usuario u9 = _usuarios[8];
+            Usuario u10 = _usuarios[9];
+            Usuario u11 = _usuarios[10];
+            Usuario u12 = _usuarios[11];
+            Usuario u13 = _usuarios[12];
+            Usuario u14 = _usuarios[13];
+            Usuario u15 = _usuarios[14];
+            Usuario u16 = _usuarios[15];
+            Usuario u17 = _usuarios[16];
+            Usuario u18 = _usuarios[17];
+            Usuario u19 = _usuarios[18];
+            Usuario u20 = _usuarios[19];
+            Usuario u21 = _usuarios[20];
+            Usuario u22 = _usuarios[21];
+
 
             // Pagos únicos
             altaPago(new PagoUnico(metodoPago.DEBITO, new DateTime(2025, 11, 2), 1102, 950, "Taxi", tg2, u2));
-            altaPago(new PagoUnico(metodoPago.EFECTIVO, new DateTime(2025, 11, 3), 1103, 1300, "Gas", tg3, u3));
-            altaPago(new PagoUnico(metodoPago.CREDITO, new DateTime(2025, 11, 4), 1104, 2100, "Cine", tg4, u4));
-            altaPago(new PagoUnico(metodoPago.DEBITO, new DateTime(2025, 11, 5), 1105, 1200, "Panadería", tg1, u1));
-            altaPago(new PagoUnico(metodoPago.EFECTIVO, new DateTime(2025, 11, 6), 1106, 1000, "Ómnibus", tg2, u2));
-            altaPago(new PagoUnico(metodoPago.CREDITO, new DateTime(2025, 11, 7), 1107, 1600, "Luz", tg3, u3));
-            altaPago(new PagoUnico(metodoPago.DEBITO, new DateTime(2025, 11, 8), 1108, 1900, "Teatro", tg4, u4));
-            altaPago(new PagoUnico(metodoPago.EFECTIVO, new DateTime(2025, 11, 9), 1109, 1400, "Verdulería", tg1, u1));
-            altaPago(new PagoUnico(metodoPago.CREDITO, new DateTime(2025, 11, 10), 1110, 950, "Remise", tg2, u2));
-            altaPago(new PagoUnico(metodoPago.DEBITO, new DateTime(2025, 11, 11), 1111, 1100, "Internet", tg3, u3));
-            altaPago(new PagoUnico(metodoPago.EFECTIVO, new DateTime(2025, 11, 12), 1112, 1700, "Museo", tg4, u4));
-            altaPago(new PagoUnico(metodoPago.CREDITO, new DateTime(2025, 11, 13), 1113, 1350, "Carnicería", tg1, u1));
-            altaPago(new PagoUnico(metodoPago.DEBITO, new DateTime(2025, 11, 14), 1114, 1050, "Subte", tg2, u2));
-            altaPago(new PagoUnico(metodoPago.EFECTIVO, new DateTime(2025, 11, 15), 1115, 1150, "Agua", tg3, u3));
-            altaPago(new PagoUnico(metodoPago.CREDITO, new DateTime(2025, 11, 16), 1116, 1750, "Concierto", tg4, u4));
-            altaPago(new PagoUnico(metodoPago.DEBITO, new DateTime(2025, 11, 17), 1117, 1550, "Supermercado", tg1, u1));
-            altaPago(new PagoUnico(metodoPago.EFECTIVO, new DateTime(2025, 11, 18), 1118, 1000, "Taxi", tg2, u2));
-            altaPago(new PagoUnico(metodoPago.CREDITO, new DateTime(2025, 11, 19), 1119, 1250, "Gas", tg3, u3));
-            altaPago(new PagoUnico(metodoPago.DEBITO, new DateTime(2025, 11, 20), 1120, 1800, "Cine", tg4, u4));
-
+            altaPago(new PagoUnico(metodoPago.EFECTIVO, new DateTime(2025, 11, 3), 1103, 1300, "Gas", tg3, u5));
+            altaPago(new PagoUnico(metodoPago.CREDITO, new DateTime(2025, 11, 4), 1104, 2100, "Cine", tg4, u8));
+            altaPago(new PagoUnico(metodoPago.DEBITO, new DateTime(2025, 11, 5), 1105, 1200, "Panadería", tg1, u11));
+            altaPago(new PagoUnico(metodoPago.EFECTIVO, new DateTime(2025, 11, 6), 1106, 1000, "Ómnibus", tg2, u14));
+            altaPago(new PagoUnico(metodoPago.CREDITO, new DateTime(2025, 11, 7), 1107, 1600, "Luz", tg3, u17));
+            altaPago(new PagoUnico(metodoPago.DEBITO, new DateTime(2025, 11, 8), 1108, 1900, "Teatro", tg4, u20));
+            altaPago(new PagoUnico(metodoPago.EFECTIVO, new DateTime(2025, 11, 9), 1109, 1400, "Verdulería", tg1, u22));
+            altaPago(new PagoUnico(metodoPago.CREDITO, new DateTime(2025, 11, 10), 1110, 950, "Remise", tg2, u3));
+            altaPago(new PagoUnico(metodoPago.DEBITO, new DateTime(2025, 11, 11), 1111, 1100, "Internet", tg3, u6));
+            altaPago(new PagoUnico(metodoPago.EFECTIVO, new DateTime(2025, 11, 12), 1112, 1700, "Museo", tg4, u9));
+            altaPago(new PagoUnico(metodoPago.CREDITO, new DateTime(2025, 11, 13), 1113, 1350, "Carnicería", tg1, u12));
+            altaPago(new PagoUnico(metodoPago.DEBITO, new DateTime(2025, 11, 14), 1114, 1050, "Subte", tg2, u15));
+            altaPago(new PagoUnico(metodoPago.EFECTIVO, new DateTime(2025, 11, 15), 1115, 1150, "Agua", tg3, u18));
+            altaPago(new PagoUnico(metodoPago.CREDITO, new DateTime(2025, 11, 16), 1116, 1750, "Concierto", tg4, u21));
+            altaPago(new PagoUnico(metodoPago.DEBITO, new DateTime(2025, 11, 17), 1117, 1550, "Supermercado", tg1, u4));
+            altaPago(new PagoUnico(metodoPago.EFECTIVO, new DateTime(2025, 11, 18), 1118, 1000, "Taxi", tg2, u7));
+            altaPago(new PagoUnico(metodoPago.CREDITO, new DateTime(2025, 11, 19), 1119, 1250, "Gas", tg3, u10));
+            altaPago(new PagoUnico(metodoPago.DEBITO, new DateTime(2025, 11, 20), 1120, 1800, "Cine", tg4, u13));
 
             // Pagos recurrentes
-            altaPago(new PagoRecurrente(550, metodoPago.CREDITO, "Netflix", tg4, u1, new DateTime(2025, 11, 1), new DateTime(2026, 5, 1), 7, 7));
-            altaPago(new PagoRecurrente(300, metodoPago.DEBITO, "Gimnasio", tg4, u2, new DateTime(2025, 11, 2), new DateTime(2026, 5, 2), 6, 6));
-            altaPago(new PagoRecurrente(400, metodoPago.EFECTIVO, "Spotify", tg4, u3, new DateTime(2025, 11, 3), new DateTime(2026, 5, 3), 5, 5));
-            altaPago(new PagoRecurrente(600, metodoPago.CREDITO, "Alquiler", tg3, u4, new DateTime(2025, 11, 4), new DateTime(2026, 5, 4), 8, 8));
-            altaPago(new PagoRecurrente(350, metodoPago.DEBITO, "Revista", tg4, u1, new DateTime(2025, 11, 5), new DateTime(2026, 5, 5), 4, 4));
-            altaPago(new PagoRecurrente(700, metodoPago.EFECTIVO, "Colegio", tg3, u2, new DateTime(2025, 11, 6), new DateTime(2026, 5, 6), 10, 10));
-            altaPago(new PagoRecurrente(800, metodoPago.CREDITO, "Seguro", tg3, u3, new DateTime(2025, 11, 7), new DateTime(2026, 5, 7), 12, 12));
-            altaPago(new PagoRecurrente(450, metodoPago.DEBITO, "Club", tg4, u4, new DateTime(2025, 11, 8), new DateTime(2026, 5, 8), 9, 9));
-            altaPago(new PagoRecurrente(550, metodoPago.EFECTIVO, "Netflix", tg4, u1, new DateTime(2025, 11, 9), new DateTime(2026, 5, 9), 7, 7));
-            altaPago(new PagoRecurrente(350, metodoPago.CREDITO, "Gimnasio", tg4, u2, new DateTime(2025, 11, 10), new DateTime(2026, 5, 10), 6, 6));
-            altaPago(new PagoRecurrente(400, metodoPago.DEBITO, "Spotify", tg4, u3, new DateTime(2025, 11, 11), new DateTime(2026, 5, 11), 5, 5));
-            altaPago(new PagoRecurrente(600, metodoPago.EFECTIVO, "Alquiler", tg3, u4, new DateTime(2025, 11, 12), new DateTime(2026, 5, 12), 8, 8));
-            altaPago(new PagoRecurrente(350, metodoPago.CREDITO, "Revista", tg4, u1, new DateTime(2025, 11, 13), new DateTime(2026, 5, 13), 4, 4));
-            altaPago(new PagoRecurrente(700, metodoPago.DEBITO, "Colegio", tg3, u2, new DateTime(2025, 11, 14), new DateTime(2026, 5, 14), 10, 10));
+            altaPago(new PagoRecurrente(metodoPago.CREDITO, new DateTime(2025, 11, 1), new DateTime(2026, 5, 1), "Netflix", 7, 7, 550, tg4, u1));
+            altaPago(new PagoRecurrente(metodoPago.DEBITO, new DateTime(2025, 11, 2), new DateTime(2026, 5, 2), "Gimnasio", 6, 6, 300, tg4, u5));
+            altaPago(new PagoRecurrente(metodoPago.EFECTIVO, new DateTime(2025, 11, 3), new DateTime(2026, 5, 3), "Spotify", 5, 5, 400, tg4, u9));
+            altaPago(new PagoRecurrente(metodoPago.CREDITO, new DateTime(2025, 11, 4), new DateTime(2026, 5, 4), "Alquiler", 8, 8, 600, tg3, u13));
+            altaPago(new PagoRecurrente(metodoPago.DEBITO, new DateTime(2025, 11, 5), new DateTime(2026, 5, 5), "Revista", 4, 4, 350, tg4, u17));
+            altaPago(new PagoRecurrente(metodoPago.EFECTIVO, new DateTime(2025, 11, 6), new DateTime(2026, 5, 6), "Colegio", 10, 10, 700, tg3, u21));
+            altaPago(new PagoRecurrente(metodoPago.CREDITO, new DateTime(2025, 11, 7), new DateTime(2026, 5, 7), "Seguro", 12, 12, 800, tg3, u2));
+            altaPago(new PagoRecurrente(metodoPago.DEBITO, new DateTime(2025, 11, 8), new DateTime(2026, 5, 8), "Club", 9, 9, 450, tg4, u6));
+            altaPago(new PagoRecurrente(metodoPago.EFECTIVO, new DateTime(2025, 11, 9), new DateTime(2026, 5, 9), "Netflix", 7, 7, 550, tg4, u10));
+            altaPago(new PagoRecurrente(metodoPago.CREDITO, new DateTime(2025, 11, 10), new DateTime(2026, 5, 10), "Gimnasio", 6, 6, 350, tg4, u14));
+            altaPago(new PagoRecurrente(metodoPago.DEBITO, new DateTime(2025, 11, 11), new DateTime(2026, 5, 11), "Spotify", 5, 5, 400, tg4, u18));
+            altaPago(new PagoRecurrente(metodoPago.EFECTIVO, new DateTime(2025, 11, 12), new DateTime(2026, 5, 12), "Alquiler", 8, 8, 600, tg3, u22));
+            altaPago(new PagoRecurrente(metodoPago.CREDITO, new DateTime(2025, 11, 13), new DateTime(2026, 5, 13), "Revista", 4, 4, 350, tg4, u3));
+            altaPago(new PagoRecurrente(metodoPago.DEBITO, new DateTime(2025, 11, 14), new DateTime(2026, 5, 14), "Colegio", 10, 10, 700, tg3, u7));
 
         }
 
-        public void precargaEquipo() 
-        { 
+        public void precargaEquipo()
+        {
             Equipo e1 = new Equipo("Los Pica Teclas");
-            Equipo e2 = new Equipo("404 Not Found"); 
+            Equipo e2 = new Equipo("404 Not Found");
             Equipo e3 = new Equipo("Los Debuggers");
             Equipo e4 = new Equipo("Los Exception");
 
@@ -158,14 +194,14 @@ namespace Obligatorio_Logica
             Usuario u10 = new Usuario("Martín", "Ramos", "pass5552", crearMail("Martín", "Ramos"), equipo4, new DateTime(2021, 12, 25), Cargo.EMPLEADO);
             Usuario u11 = new Usuario("Camila", "Torres", "pass6626", crearMail("Camila", "Torres"), equipo1, new DateTime(2022, 5, 17), Cargo.EMPLEADO);
             Usuario u12 = new Usuario("Diego", "Sosa", "pass7727", crearMail("Diego", "Sosa"), equipo2, new DateTime(2023, 2, 11), Cargo.EMPLEADO);
-            Usuario u13 = new Usuario("Florencia", "Vega", "pass8288", crearMail("Florencia", "Vega"), equipo3, new DateTime(2022, 10, 3), Cargo.EMPLEADO);
+            Usuario u13 = new Usuario("Florencia", "Vega", "pass8288", crearMail("Florencia", "Vega"), equipo3, new DateTime(2022, 10, 3), Cargo.GERENTE);
             Usuario u14 = new Usuario("Matías", "Cabrera", "pass9299", crearMail("Matías", "Cabrera"), equipo4, new DateTime(2021, 9, 27), Cargo.EMPLEADO);
             Usuario u15 = new Usuario("Paula", "Ruiz", "pass0020", crearMail("Paula", "Ruiz"), equipo1, new DateTime(2022, 3, 21), Cargo.EMPLEADO);
             Usuario u16 = new Usuario("Federico", "Gómez", "passabc2", crearMail("Federico", "Gómez"), equipo2, new DateTime(2023, 6, 6), Cargo.EMPLEADO);
             Usuario u17 = new Usuario("Agustina", "Díaz", "passdef2", crearMail("Agustina", "Díaz"), equipo3, new DateTime(2022, 1, 13), Cargo.EMPLEADO);
             Usuario u18 = new Usuario("Nicolás", "Pintos", "passghi2", crearMail("Nicolás", "Pintos"), equipo4, new DateTime(2021, 8, 5), Cargo.EMPLEADO);
             Usuario u19 = new Usuario("Micaela", "Sánchez", "passjkl2", crearMail("Micaela", "Sánchez"), equipo1, new DateTime(2022, 11, 29), Cargo.EMPLEADO);
-            Usuario u20 = new Usuario("Rodrigo", "Castro", "passmno2", crearMail("Rodrigo", "Castro"), equipo2, new DateTime(2023, 5, 18), Cargo.EMPLEADO);
+            Usuario u20 = new Usuario("Rodrigo", "Castro", "passmno2", crearMail("Rodrigo", "Castro"), equipo2, new DateTime(2023, 5, 18), Cargo.GERENTE);
             Usuario u21 = new Usuario("Julieta", "Morales", "passpqr2", crearMail("Julieta", "Morales"), equipo3, new DateTime(2022, 7, 23), Cargo.EMPLEADO);
             Usuario u22 = new Usuario("Emiliano", "Bermúdez", "passstu2", crearMail("Emiliano", "Bermúdez"), equipo4, new DateTime(2021, 10, 12), Cargo.EMPLEADO);
 
@@ -201,12 +237,12 @@ namespace Obligatorio_Logica
            para poder hacer esto primero tuve que crear un metodo que de el alta de los pagos
         */
 
-        public void altaPago(Pago p) 
+        public void altaPago(Pago p)
         {
             p.validaciones();
-            if (_pago.Contains(p)) 
+            if (_pago.Contains(p))
             {
-                throw new Exception("El pago ya fue ingresado previamente"); 
+                throw new Exception("El pago ya fue ingresado previamente");
             }
             _pago.Add(p);
         }
@@ -218,15 +254,15 @@ namespace Obligatorio_Logica
             string emailBuscado = email.Trim().ToLower();
             foreach (Pago p in _pago)
             {
-                if (p.Usuario.Email.Trim().ToLower( ) == emailBuscado)
+                if (p.Usuario.Email.Trim().ToLower() == emailBuscado)
                 {
-                   pagosUsuario.Add(p);
+                    pagosUsuario.Add(p);
                 }
 
             }
             return pagosUsuario;
         }
-        
+
 
 
 
@@ -241,9 +277,9 @@ namespace Obligatorio_Logica
             {
                 throw new Exception("El usuario ya existe");
             }
-            
-            _usuarios.Add(u); 
-            
+
+            _usuarios.Add(u);
+
         }
         public string crearMail(string nombre, string apellido)
         {
@@ -267,7 +303,7 @@ namespace Obligatorio_Logica
             {
                 email += apellidomin;
             }
-            else 
+            else
             {
                 email += apellidomin.Substring(0, 3);
             }
@@ -275,14 +311,14 @@ namespace Obligatorio_Logica
 
             foreach (Usuario u in _usuarios)
             {
-               if (u.Email.Contains(email))
-                  {
-                     cont++; 
-                  }
+                if (u.Email.Contains(email))
+                {
+                    cont++;
+                }
             }
 
             email += cont + "@Empresa.com";
-            return email; 
+            return email;
         }
 
         /*
@@ -293,49 +329,30 @@ namespace Obligatorio_Logica
         {
 
             e.validar();
-            if (_equipo.Contains(e)) 
+            if (_equipo.Contains(e))
             {
                 throw new Exception("El equipo ya existe");
             }
-            else 
-            { 
+            else
+            {
                 _equipo.Add(e);
             }
 
         }
 
-        public bool existeEquipo(string nombre) 
+        public bool existeEquipo(string nombre)
         {
             bool existe = false;
-            foreach(Equipo e in _equipo) 
+            foreach (Equipo e in _equipo)
             {
                 if (e.Nombre == nombre)
                 {
-                    existe = true;     
+                    existe = true;
                 }
-            
+
             }
             return existe;
         }
-
-        public List<Usuario> listarUsuariosPorEquipo(string nombre)
-        {
-            List<Usuario> Usuarios = new List<Usuario>();
-            if (existeEquipo(nombre))
-            {
-                foreach (Usuario u in _usuarios)
-                {
-                    if ( u.Equipo.Nombre == nombre)
-                    {
-                        Usuarios.Add(u);
-                    }
-                }
-            }
-
-
-            return Usuarios; 
-        }
-
         // Login de la aplicacion
 
         //para el login necesito un metodo que busque el usuario con el mail
@@ -352,6 +369,11 @@ namespace Obligatorio_Logica
             return null;
         }
 
+        public int CompararPorEmail(Usuario a, Usuario b)
+        {
+            return a.Email.CompareTo(b.Email);
+        }
+
 
         public Usuario Login(string email, string pass)
         {
@@ -362,7 +384,7 @@ namespace Obligatorio_Logica
             }
             else
             {
-                // Comparación insensible a mayúsculas/minúsculas y eliminando espacios adicionales
+              
                 if (u.Contrasenia.Trim().Equals(pass.Trim()))
                 {
                     return u;
@@ -371,15 +393,72 @@ namespace Obligatorio_Logica
                 {
                     throw new Exception("la contraseña es incorrectos");
                 }
-               
-               
+
+
             }
-           
+
         }
 
         // Metodo para Empleados, monto total de pagos realizados por el usuario logueado
 
         // Arreglar metodo public LIst<Pago> MontoTotalPagosPorUsuario(int mes, int año, Usuarios u)
+
+
+        public List<Pago> pagosDelMes(DateTime fecha, Usuario u)
+        {
+            List<Pago> ret = new List<Pago>();
+            foreach (Pago p in _pago)
+            {
+                if (p is PagoRecurrente pr)
+                {
+                    if ((pr.FechaInicio.Month == fecha.Month && pr.FechaInicio.Year == fecha.Year) || (pr.FechaFin.Month == fecha.Month && pr.FechaFin.Year == fecha.Year))
+                    {
+                        if (pr.Usuario.Email.Trim().ToLower() == u.Email.Trim().ToLower())
+                        {
+                            ret.Add(p);
+                        }
+                    }
+                }
+                if (p is PagoUnico pu)
+                {
+                    if (pu.Fecha.Month == fecha.Month && pu.Fecha.Year == fecha.Year)
+                    {
+                        if (pu.Usuario.Email.Trim().ToLower() == u.Email.Trim().ToLower())
+                        {
+                            ret.Add(p);
+                        }
+                    }
+                }
+            }
+            ret.Sort(new ComparadorPagosPorMonto());
+
+            return ret;
+        }
+
+        public List<Pago> pagosDeEquipo(DateTime fecha, Usuario u1) 
+        { 
+            List<Pago> ret = new List<Pago>();
+            List<Usuario> usuarios = new List<Usuario>();
+
+            foreach (Usuario u in _usuarios) 
+            {
+                if (u.Equipo == u1.Equipo) 
+                {
+                    usuarios.Add(u);
+                }
+            }
+            foreach (Usuario u in usuarios) 
+            { 
+                ret.AddRange(pagosDelMes(fecha, u));
+            }
+            ret.Sort(new ComparadorPagosPorMonto());
+            
+            return ret;
+
+        }
+
+
+
         public double MontoGastadoEsteMes(string email)
         {
             if (string.IsNullOrEmpty(email))
@@ -443,92 +522,28 @@ namespace Obligatorio_Logica
 
 // mails de las precargas
 /*
-Ana García  
-mail: angar0@Empresa.com  
-pass: pass1223  
-
-Luis Pérez  
-mail: luipér0@Empresa.com  
-pass: pass4562  
-
-María López  
-mail: marlóp0@Empresa.com  
-pass: pass7892  
-
-Carlos Fernández  
-mail: carfer0@Empresa.com  
-pass: pass3212  
-
-Sofía Martínez  
-mail: sofmar0@Empresa.com  
-pass: pass6542  
-
-Pedro Suárez  
-mail: pedsuá0@Empresa.com  
-pass: pass1121  
-
-Lucía Alonso  
-mail: lucalo0@Empresa.com  
-pass: pass2222  
-
-Javier Méndez  
-mail: javmén0@Empresa.com  
-pass: pass3332  
-
-Valentina Silva  
-mail: valsil0@Empresa.com  
-pass: pass4442  
-
-Martín Ramos  
-mail: marram0@Empresa.com  
-pass: pass5552  
-
-Camila Torres  
-mail: camtor0@Empresa.com  
-pass: pass6626  
-
-Diego Sosa  
-mail: diesos0@Empresa.com  
-pass: pass7727  
-
-Florencia Vega  
-mail: flóveg0@Empresa.com  
-pass: pass8288  
-
-Matías Cabrera  
-mail: matcab0@Empresa.com  
-pass: pass9299  
-
-Paula Ruiz  
-mail: paurui0@Empresa.com  
-pass: pass0020  
-
-Federico Gómez  
-mail: fedgóm0@Empresa.com  
-pass: passabc2  
-
-Agustina Díaz  
-mail: agudía0@Empresa.com  
-pass: passdef2  
-
-Nicolás Pintos  
-mail: nicpin0@Empresa.com  
-pass: passghi2  
-
-Micaela Sánchez  
-mail: micsán0@Empresa.com  
-pass: passjkl2  
-
-Rodrigo Castro  
-mail: rodcas0@Empresa.com  
-pass: passmno2  
-
-Julieta Morales  
-mail: julmor0@Empresa.com  
-pass: passpqr2  
-
-Emiliano Bermúdez  
-mail: emibér0@Empresa.com  
-pass: passstu2  
+anagar0@Empresa.com:pass1223
+luipér0@Empresa.com:pass4562
+marlóp0@Empresa.com:pass7892
+carfer0@Empresa.com:pass3212
+sofmar0@Empresa.com:pass6542
+pedsuá0@Empresa.com:pass1121
+lucalo0@Empresa.com:pass2222
+javmén0@Empresa.com:pass3332
+valsil0@Empresa.com:pass4442
+marram0@Empresa.com:pass5552
+camtor0@Empresa.com:pass6626
+diesos0@Empresa.com:pass7727
+flóveg0@Empresa.com:pass8288
+matcab0@Empresa.com:pass9299
+paurui0@Empresa.com:pass0020
+fedgóm0@Empresa.com:passabc2
+agudía0@Empresa.com:passdef2
+nicpin0@Empresa.com:passghi2
+micsán0@Empresa.com:passjkl2
+rodcas0@Empresa.com:passmno2
+julmor0@Empresa.com:passpqr2
+emibér0@Empresa.com:passstu2
+ 
 
  */

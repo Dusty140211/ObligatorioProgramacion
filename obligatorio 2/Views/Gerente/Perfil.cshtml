@@ -1,0 +1,44 @@
+﻿@using Obligatorio_Logica
+@using Obligatorio_Logica.Entidades
+@model Usuario
+
+<h1>Perfil</h1>
+
+<label>Rol: </label>
+@if (Model.Rol == Cargo.GERENTE)
+{
+    <p>Gerente</p>
+}
+<label>Nombre: </label>
+<p>@Model.Nombre</p>
+<label>Apellido: </label>
+<p>@Model.Apellido</p>
+<label>Email: </label>
+<p>@Model.Email</p>
+<label>Fecha de inicio: </label>
+<p>@Model.Fecha_Inicio.ToShortDateString()</p>
+<label>Equipo al que pertenece: </label>
+<p>@Model.Equipo.Nombre</p>
+<label>Gastado: </label>
+<p>@ViewBag.TotalMes</p>
+
+@if (Model.Rol == Cargo.GERENTE && ViewBag.Integrantes != null)
+{
+    <hr />
+    <h2>Integrantes del equipo</h2>
+    <table border="1">
+        <tr>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Email</th>
+        </tr>
+        @foreach (Usuario u in ViewBag.Integrantes)
+        {
+            <tr>
+                <td>@u.Nombre</td>
+                <td>@u.Apellido</td>
+                <td>@u.Email</td>
+            </tr>
+        }
+    </table>
+}
