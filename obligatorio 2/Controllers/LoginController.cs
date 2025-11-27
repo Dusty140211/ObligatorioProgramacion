@@ -14,12 +14,10 @@ namespace obligatorio_2.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index(string email, string pass) 
+        public IActionResult Index(string email, string pass)
         {
-            
             try
-              {
-
+            {
                 Usuario u = s.Login(email, pass);
                 HttpContext.Session.SetString("email", u.Email);
                 HttpContext.Session.SetString("pass", u.Contrasenia);
@@ -27,25 +25,25 @@ namespace obligatorio_2.Controllers
                 if (u.Rol == Cargo.EMPLEADO)
                 {
                     HttpContext.Session.SetString("Rol", "Empleado");
-                    return RedirectToAction("Index", "Empleado");
+                    return RedirectToAction("Index", "Pagos");
                 }
                 else if (u.Rol == Cargo.GERENTE)
                 {
                     HttpContext.Session.SetString("Rol", "Gerente");
-                    return RedirectToAction("Index", "Gerente");
+                    return RedirectToAction("Index", "Pagos");
                 }
-                else 
+                else
                 {
-                    return RedirectToAction("index", "Home");
+                    // Si el rol no es reconocido, redirige al login
+                    ViewBag.msg = "Rol no válido o usuario sin permisos.";
+                    return View();
                 }
-              }
-              catch(Exception ex)
-              {
-                  ViewBag.msg = ex.Message; 
-                  return View();
-              }
-            
-
+            }
+            catch (Exception ex)
+            {
+                ViewBag.msg = ex.Message;
+                return View();
+            }
         }
 
         public IActionResult Logout()

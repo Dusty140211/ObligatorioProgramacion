@@ -11,7 +11,7 @@ namespace Obligatorio_Logica
     {
         private string _nombre;
         private string _descripcion;
-        bool _eliminado; 
+        private bool _eliminado; 
 
         public string Nombre
         {

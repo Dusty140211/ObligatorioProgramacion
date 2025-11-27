@@ -154,6 +154,9 @@ namespace Obligatorio_Logica
             // --------------------------
             // Pagos únicos (TODOS)
             // --------------------------
+            // --------------------------
+            // Pagos únicos (TODOS)
+            // --------------------------
             altaPago(new PagoUnico(metodoPago.DEBITO, new DateTime(2025, 11, 2), 1102, 950, "Taxi", tg2, u2));
             altaPago(new PagoUnico(metodoPago.EFECTIVO, new DateTime(2025, 11, 3), 1103, 1300, "Gas", tg3, u5));
             altaPago(new PagoUnico(metodoPago.CREDITO, new DateTime(2025, 11, 4), 1104, 2100, "Cine", tg4, u8));
@@ -190,7 +193,9 @@ namespace Obligatorio_Logica
             altaPago(new PagoRecurrente(metodoPago.DEBITO, new DateTime(2025, 11, 11), new DateTime(2026, 5, 11), "Spotify", 5, 5, 400, tg4, u18));
             altaPago(new PagoRecurrente(metodoPago.EFECTIVO, new DateTime(2025, 11, 12), new DateTime(2026, 5, 12), "Alquiler", 8, 8, 600, tg3, u22));
             altaPago(new PagoRecurrente(metodoPago.CREDITO, new DateTime(2025, 11, 13), new DateTime(2026, 5, 13), "Revista", 4, 4, 350, tg4, u3));
-            altaPago(new PagoRecurrente(metodoPago.DEBITO, new DateTime(2025, 11, 14), new DateTime(2026, 5, 14), "Colegio", 10, 10, 700, tg3, u7));
+            altaPago(new PagoRecurrente(metodoPago.DEBITO, new DateTime(2025, 11, 14), new DateTime(2026, 5, 14), "Colegio", 10, 10, 700, tg3, u15));
+
+          
         }
 
         // ========================================================
@@ -324,6 +329,9 @@ namespace Obligatorio_Logica
 
         public Usuario BuscarporMail(string email)
         {
+            if (string.IsNullOrWhiteSpace(email))
+                throw new Exception("El nombre del tipo de gasto no puede estar vacío.");
+
             string emailBuscado = email.Trim().ToLower();
             foreach (Usuario u in _usuarios)
             {

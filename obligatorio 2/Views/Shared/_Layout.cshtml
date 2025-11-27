@@ -21,14 +21,17 @@
                     <ul class="navbar-nav flex-grow-1">
                         @if (Context.Session.GetString("email") != null)
                         {
+
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Pagos" asp-action="Index">inicio</a>
+                            </li>
+
                             @if (Context.Session.GetString("Rol") == "Empleado")
                             {
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-controller="Empleado" asp-action="index">Inicio</a>
-                                </li>
+                                
 
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-controller="Empleado" asp-action="Perfil">Perfil</a>
+                                    <a class="nav-link text-dark" asp-controller="Usuario" asp-action="PerfilEmpleado">Perfil</a>
                                 </li>
 
                                  
@@ -38,32 +41,38 @@
                             {
 
 
+
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-controller="Gerente" asp-action="Perfil">Perfil</a>
-                                </li>
-
-                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-controller="Gerente" asp-action="cargarGasto">Cargar Gasto</a>
-                                </li>
-
-                                
-                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-controller="Gerente" asp-action="listaGastos">Listar Gastos</a>
+                                    <a class="nav-link text-dark" asp-controller="Usuario" asp-action="PerfilGerente">Perfil</a>
                                 </li>
 
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-controller="Gerente" asp-action="equipoI">Integrantes del equipo</a>
+                                    <a class="nav-link text-dark" asp-controller="Pagos" asp-action="equipoPagos">Ver pagos de equipo</a>
                                 </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="Gastos" asp-action="cargarGasto">cargar gasto</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="Gastos" asp-action="listaGastos">lista </a>
+                                </li>
+
+                           
                                 
                             }
 
+
                             <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-controller="Empleado" asp-action="CargarPagos">Cargar Pagos</a>
+                                <a class="nav-link text-dark" asp-controller="Pagos" asp-action="CargarPagos">CargarPagos</a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Login" asp-action="Logout">LogOut</a>
+                                <a class="nav-link text-dark" asp-controller="Login" asp-action="Logout">Logout</a>
                             </li>
+
+
+                         
                         }
                        
 

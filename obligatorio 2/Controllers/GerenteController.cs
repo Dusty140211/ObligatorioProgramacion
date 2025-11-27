@@ -9,6 +9,7 @@ namespace obligatorio_2.Controllers
     {
         private Sistema s = Sistema.Instancia;
 
+        /*
         public IActionResult index(DateTime? fecha)
         {
             try
@@ -32,9 +33,10 @@ namespace obligatorio_2.Controllers
                 ViewBag.msg = ex.Message;
                 return View();
             }
+        */
 
-        }
 
+        /*
         public IActionResult equipoI(DateTime? fecha) 
         {
             try
@@ -54,7 +56,8 @@ namespace obligatorio_2.Controllers
                 return View();
             }
         }
-
+        */
+        /*
         public IActionResult Perfil()
         {
             try
@@ -78,6 +81,8 @@ namespace obligatorio_2.Controllers
                 return View();
             }
         }
+        */
+        /*
         [HttpGet]
         public IActionResult cargarGasto() 
         {
@@ -102,13 +107,14 @@ namespace obligatorio_2.Controllers
                 return View();
             }
         }
-
+        
 
         public IActionResult listaGastos()
         {
             List<Tipo_gasto> gastos = s.listarTiposGasto();
             return View(gastos); 
         }
+        */
 
         public IActionResult EliminarGasto(string nombre)
         {

@@ -2,37 +2,28 @@
 @using Obligatorio_Logica.Entidades
 @model List<Pago>
 
-<h2>Cargar Pago Recurrente</h2>
 
-<form asp-controller="Empleado" asp-action="PagoRecurrente" method="post">
+<h2>Cargar Pago Único</h2>
+
+<form asp-controller="Pagos" asp-action="PagoUnico" method="post">
     <div>
         <label for="descripcion">Descripción del pago:</label>
         <input type="text" id="descripcion" name="descripcion" required />
     </div>
 
     <div>
-        <label for="monto">Monto total:</label>
+        <label for="monto">Monto:</label>
         <input type="number" id="monto" name="monto" step="0.01" required />
     </div>
 
     <div>
-        <label for="fechaInicio">Fecha de inicio:</label>
-        <input type="date" id="fechaInicio" name="fechaInicio" required />
+        <label for="nroRecibo">Número de Recibo:</label>
+        <input type="number" id="nroRecibo" name="nroRecibo" required />
     </div>
 
     <div>
-        <label for="fechaFin">Fecha de fin:</label>
-        <input type="date" id="fechaFin" name="fechaFin" required />
-    </div>
-
-    <div>
-        <label for="cuotas">Cantidad total de cuotas:</label>
-        <input type="number" id="cuotas" name="cuotas" min="1" required />
-    </div>
-
-    <div>
-        <label for="cuotasPagas">Cuotas pagas:</label>
-        <input type="number" id="cuotasPagas" name="cuotasPagas" min="0" value="0" required />
+        <label for="fecha">Fecha:</label>
+        <input type="date" id="fecha" name="fecha" required />
     </div>
 
     <div>
@@ -57,5 +48,5 @@
         </select>
     </div>
 
-    <button type="submit">Guardar Pago Recurrente</button>
+    <button type="submit">Guardar Pago</button>
 </form>

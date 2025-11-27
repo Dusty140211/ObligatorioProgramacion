@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Obligatorio_Logica
 {
-    public class Pago
+    public abstract class Pago
     {
 
         private int _id;

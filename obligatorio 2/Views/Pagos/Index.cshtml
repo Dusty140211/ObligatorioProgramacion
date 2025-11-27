@@ -1,0 +1,80 @@
+﻿@using Obligatorio_Logica;
+@using Obligatorio_Logica.Entidades
+@model List<Pago>
+
+<a href="/Empleado/"></a>
+
+<p>Pagos guardados</p>
+
+<table border="1" cellpadding="6" cellspacing="0">
+    <tr>
+        <th>Monto</th>
+        <th>Descripción</th>
+        <th>Tipo de gasto</th>
+        <th>Método de pago</th>
+        <th>Fecha o Fecha de Inicio</th>
+        <th>tipo de pago</th>
+        <th>Pagos pendientes</th>
+    </tr>
+    <tbody>
+
+        @foreach (Pago p in Model)
+        {
+            <tr>
+                <td>@p.Monto</td>
+                <td>@p.Descripcion</td>
+                <td>
+                    @p.Tipo.Nombre
+                </td>
+                <td>
+                    @if (p.Metodo == metodoPago.CREDITO)
+                    {
+                        @("Credito")
+                    }
+                    else if (p.Metodo == metodoPago.DEBITO)
+                    {
+
+                        @("Debito")
+                    }
+                    else if (p.Metodo == metodoPago.EFECTIVO)
+                    {
+
+                        @("Efectivo")
+                    }
+                </td>
+                <td>
+                    @if (p is PagoRecurrente pr)
+                    {
+                        @pr.FechaInicio.ToString("dd/MM/yyyy")
+                    }
+                    else if (p is PagoUnico pu)
+                    {
+                        @pu.Fecha.ToString("dd/MM/yyyy")
+                    }
+                </td>
+                <td>
+                    @if (p is PagoRecurrente)
+                    {
+                        @("Recurrente")
+                    }
+                    else if (p is PagoUnico)
+                    {
+                        @("Unico")
+                    }
+                </td>
+                <td>
+                    @if (p is PagoRecurrente prec)
+                    {
+                        @prec.PagosPendientes
+                    }
+                    else
+                    {
+                        @("-")
+                    }
+
+                <td />
+            </tr>
+
+        }
+    </tbody>
+   </table>

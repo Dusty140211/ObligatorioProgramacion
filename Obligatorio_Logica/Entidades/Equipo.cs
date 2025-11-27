@@ -8,32 +8,32 @@ namespace Obligatorio_Logica
 {
     public class Equipo
     {
-        private int id;
-        private string nombre;
+        private int _id;
+        private string _nombre;
 
         public static int contador = 0;
 
         public int Id
         {
-            get { return id; }
+            get { return _id; }
         }
 
         public string Nombre
         {
-            get { return nombre; }
-            set { nombre = value; }
+            get { return _nombre; }
+            set { _nombre = value; }
         }
 
         public Equipo(string nombre)
         {
             contador++;
-            this.id = contador;
-            this.nombre = nombre;
+            this._id = contador;
+            this._nombre = nombre;
         }
 
         public override string ToString()
         {
-            return $"ID: {id} | Nombre del equipo: {nombre}";
+            return $"ID: {_id} | Nombre del equipo: {_nombre}";
         }
         public void validar() 
         {
@@ -41,7 +41,7 @@ namespace Obligatorio_Logica
         }
         public void validarNombre()
         {
-            if (string.IsNullOrWhiteSpace(nombre)) throw new Exception("el nombre no puede estar vacio"); 
+            if (string.IsNullOrWhiteSpace(_nombre)) throw new Exception("el nombre no puede estar vacio"); 
         }
     }
 }

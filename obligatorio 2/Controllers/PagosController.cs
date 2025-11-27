@@ -4,16 +4,10 @@ using Obligatorio_Logica.Entidades;
 
 namespace obligatorio_2.Controllers
 {
-    public class EmpleadoController : Controller
+    public class PagosController : Controller
     {
-        // 🔹 Instancia del sistema
         private Sistema s = Sistema.Instancia;
 
-        // ======================================================
-        // 🏠 ACCIONES PRINCIPALES
-        // ======================================================
-
-        /*
         public IActionResult Index()
         {
             try
@@ -30,38 +24,13 @@ namespace obligatorio_2.Controllers
 
                 return View(pagos);
             }
-            catch(Exception ex)
-            {
-                ViewBag.msg = ex.Message;
-                return View();
-            }
-        }
-        */
-
-        /*
-        public IActionResult Perfil()
-        {
-            try
-            {
-                string? email = HttpContext.Session.GetString("email");
-                if (string.IsNullOrEmpty(email))
-                {
-                    return RedirectToAction("Index", "Login");
-                }
-
-                Usuario u = s.BuscarporMail(email);
-                double totalMes = s.MontoGastadoEsteMes(email);
-                ViewBag.TotalMes = totalMes;
-
-                return View(u);
-            }
             catch (Exception ex)
             {
                 ViewBag.msg = ex.Message;
                 return View();
             }
         }
-        */
+
         public IActionResult CargarPagos()
         {
             return View();
@@ -78,21 +47,27 @@ namespace obligatorio_2.Controllers
         }
 
         [HttpPost]
-        public IActionResult PagoUnico(metodoPago metodo, DateTime fecha, decimal nroRecibo, double monto, string descripcion, string nombreTipo)
+        public IActionResult PagoUnico(
+            metodoPago metodo,
+            DateTime fecha,
+            decimal nroRecibo,
+            double monto,
+            string descripcion,
+            string nombreTipo)
         {
             try
             {
                 string? email = HttpContext.Session.GetString("email");
-                Usuario u = s.BuscarporMail(email);
+                if (string.IsNullOrEmpty(email))
+                    return RedirectToAction("Index", "Login");
 
-                // Buscar tipo de gasto
+                Usuario u = s.BuscarporMail(email);
                 Tipo_gasto tipo = s.BuscarTipoGastoPorNombre(nombreTipo);
 
-                // Crear pago
                 PagoUnico nuevo = new PagoUnico(metodo, fecha, nroRecibo, monto, descripcion, tipo, u);
                 s.altaPago(nuevo);
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Pagos");
             }
             catch (Exception ex)
             {
@@ -112,17 +87,25 @@ namespace obligatorio_2.Controllers
         }
 
         [HttpPost]
-        public IActionResult PagoRecurrente(metodoPago metodo, DateTime fechaInicio, DateTime fechaFin, string descripcion, int cuotasPagas, int cuotas, double monto, string nombreTipo)
+        public IActionResult PagoRecurrente(
+            metodoPago metodo,
+            DateTime fechaInicio,
+            DateTime fechaFin,
+            string descripcion,
+            int cuotasPagas,
+            int cuotas,
+            double monto,
+            string nombreTipo)
         {
             try
             {
                 string? email = HttpContext.Session.GetString("email");
-                Usuario u = s.BuscarporMail(email);
+                if (string.IsNullOrEmpty(email))
+                    return RedirectToAction("Index", "Login");
 
-                // Buscar tipo de gasto
+                Usuario u = s.BuscarporMail(email);
                 Tipo_gasto tipogasto = s.BuscarTipoGastoPorNombre(nombreTipo);
 
-                // Crear pago recurrente
                 PagoRecurrente nuevo = new PagoRecurrente(
                     metodo,
                     fechaInicio,
@@ -136,7 +119,32 @@ namespace obligatorio_2.Controllers
                 );
 
                 s.altaPago(nuevo);
-                return RedirectToAction("Index");
+
+                return RedirectToAction("Index", "Pagos");
+            }
+            catch (Exception ex)
+            {
+                ViewBag.msg = ex.Message;
+                return View();
+            }
+        }
+
+        // ======================================================
+        // 🔁 VER LISTADO DE PAGOS
+        // ======================================================
+
+        public IActionResult equipoPagos(DateTime? fecha)
+        {
+            try
+            {
+                string? email = HttpContext.Session.GetString("email");
+
+                if (email == null)
+                    return RedirectToAction("Index", "Login");
+
+                List<Pago> pagos = s.ObtenerPagosDeEquipo(fecha, email);
+
+                return View(pagos);
             }
             catch (Exception ex)
             {
