@@ -16,7 +16,7 @@ namespace Obligatorio_Logica
         private Tipo_gasto _tipo;
         private Usuario _usuario;
 
-        public metodoPago _metodo;
+        private metodoPago _metodo;
 
         public static int contador = 0;
         public int Id
@@ -67,7 +67,7 @@ namespace Obligatorio_Logica
            
         }
 
-        public void validaciones() 
+        public void Validaciones() 
         {
             validarMonto();
             validarDescripcion(); 

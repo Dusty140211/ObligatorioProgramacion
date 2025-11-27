@@ -82,7 +82,7 @@ namespace Obligatorio_Logica
             Usuario u1 = new Usuario("Ana", "García", "pass1223", crearMail("Ana", "García"), equipo1, new DateTime(2023, 1, 15), Cargo.GERENTE);
             Usuario u2 = new Usuario("Luis", "Pérez", "pass4562", crearMail("Luis", "Pérez"), equipo2, new DateTime(2022, 6, 10), Cargo.EMPLEADO);
             Usuario u3 = new Usuario("María", "López", "pass7892", crearMail("María", "López"), equipo1, new DateTime(2023, 3, 5), Cargo.EMPLEADO);
-            Usuario u4 = new Usuario("Carlos", "Fernández", "pass3212", crearMail("Carlos", "Fernández"), equipo3, new DateTime(2021, 11, 20), Cargo.GERENTE);
+            Usuario u4 = new Usuario("Carlos", "Fernández", "pass3212", crearMail("Carlos", "Fernández"), equipo3, new DateTime(2021, 11, 20), Cargo.EMPLEADO);
             Usuario u5 = new Usuario("Sofía", "Martínez", "pass6542", crearMail("Sofía", "Martínez"), equipo2, new DateTime(2022, 9, 30), Cargo.EMPLEADO);
             Usuario u6 = new Usuario("Pedro", "Suárez", "pass1121", crearMail("Pedro", "Suárez"), equipo4, new DateTime(2022, 2, 14), Cargo.EMPLEADO);
             Usuario u7 = new Usuario("Lucía", "Alonso", "pass2222", crearMail("Lucía", "Alonso"), equipo1, new DateTime(2021, 7, 19), Cargo.EMPLEADO);
@@ -292,7 +292,7 @@ namespace Obligatorio_Logica
 
         public void altaPago(Pago p)
         {
-            p.validaciones();
+            p.Validaciones();
             if (_pago.Contains(p))
             {
                 throw new Exception("El pago ya fue ingresado previamente");
@@ -478,8 +478,13 @@ namespace Obligatorio_Logica
             {
                 if (p is PagoRecurrente pr)
                 {
-                    if ((pr.FechaInicio.Month == fecha.Month && pr.FechaInicio.Year == fecha.Year) ||
-                        (pr.FechaFin.Month == fecha.Month && pr.FechaFin.Year == fecha.Year))
+                    
+                    // Coincide si el mes/año de la fecha filtrada está dentro del rango
+                    if ((fecha.Year > pr.FechaInicio.Year ||
+                         (fecha.Year == pr.FechaInicio.Year && fecha.Month >= pr.FechaInicio.Month))
+                        &&
+                        (fecha.Year < pr.FechaFin.Year ||
+                         (fecha.Year == pr.FechaFin.Year && fecha.Month <= pr.FechaFin.Month)))
                     {
                         if (pr.Usuario.Email.Trim().ToLower() == u.Email.Trim().ToLower())
                         {
@@ -604,28 +609,45 @@ namespace Obligatorio_Logica
 
 // mails de las precargas
 /*
-anagar0@Empresa.com:pass1223
-luipér0@Empresa.com:pass4562
-marlóp0@Empresa.com:pass7892
-carfer0@Empresa.com:pass3212
-sofmar0@Empresa.com:pass6542
-pedsuá0@Empresa.com:pass1121
-lucalo0@Empresa.com:pass2222
-javmén0@Empresa.com:pass3332
-valsil0@Empresa.com:pass4442
-marram0@Empresa.com:pass5552
-camtor0@Empresa.com:pass6626
-diesos0@Empresa.com:pass7727
-flóveg0@Empresa.com:pass8288
-matcab0@Empresa.com:pass9299
-paurui0@Empresa.com:pass0020
-fedgóm0@Empresa.com:passabc2
-agudía0@Empresa.com:passdef2
-nicpin0@Empresa.com:passghi2
-micsán0@Empresa.com:passjkl2
-rodcas0@Empresa.com:passmno2
-julmor0@Empresa.com:passpqr2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 emibér0@Empresa.com:passstu2
+
+
+?? anagar0@Empresa.com - pass1223
+?? luipér0@Empresa.com - pass4562
+?? marlóp0@Empresa.com - pass7892
+?? carfer0@Empresa.com - pass3212
+?? sofmar0@Empresa.com - pass6542
+?? pedsuá0@Empresa.com - pass1121
+?? lucalo0@Empresa.com - pass2222
+?? javmén0@Empresa.com - pass3332
+?? valsil0@Empresa.com - pass4442
+?? marram0@Empresa.com - pass5552
+?? camtor0@Empresa.com - pass6626
+?? diesos0@Empresa.com - pass7727
+?? floveg0@Empresa.com - pass8288
+?? matcab0@Empresa.com - pass9299
+?? paurui0@Empresa.com - pass0020
+?? fedgóm0@Empresa.com - passabc2
+?? agudía0@Empresa.com - passdef2
+?? nicpin0@Empresa.com - passghi2
+?? micsán0@Empresa.com - passjkl2
+?? rodcas0@Empresa.com - passmno2
+?? julmor0@Empresa.com - passpqr2
+?? emiber0@Empresa.com - passstu2
  
 
  */

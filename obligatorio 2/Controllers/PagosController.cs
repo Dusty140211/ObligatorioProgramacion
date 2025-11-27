@@ -142,25 +142,15 @@ namespace obligatorio_2.Controllers
                 if (email == null)
                     return RedirectToAction("Index", "Login");
 
-                // Llama al sistema con la fecha y el email del usuario logueado
                 List<Pago> pagos = s.ObtenerPagosDeEquipo(fecha, email);
 
-                // Si no hay pagos para esa fecha → muestra mensaje en la vista
-                if (pagos == null || pagos.Count == 0)
-                {
-                    ViewBag.msg = "No existen pagos para el mes seleccionado.";
-                    return View(); 
-                }
-
-                // Si hay pagos → los muestra en la vista
                 return View(pagos);
             }
             catch (Exception ex)
             {
-                ViewBag.msg = ex.Message; // si ocurre un error del sistema
+                ViewBag.msg = ex.Message;
                 return View();
             }
         }
-
     }
 }
