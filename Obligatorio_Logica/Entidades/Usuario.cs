@@ -98,6 +98,10 @@ namespace Obligatorio_Logica
             
         }
 
+        public void validarEmail() {
+            if (string.IsNullOrEmpty(_email)) throw new Exception("el email no puede ser nulo");
+        }
+
         public override string ToString()
         {
             return $"Nombre: {Nombre} {Apellido}, " +
