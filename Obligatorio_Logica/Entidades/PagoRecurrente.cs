@@ -13,12 +13,12 @@ namespace Obligatorio_Logica
         private DateTime _fechaFin;
         private int _cuotasPagas;
         private int _cuotas;
-        private int _PagosPendientes; 
+        private int _pagosPendientes; 
 
         public int PagosPendientes 
         { 
-            get { return _PagosPendientes; }
-            set { _PagosPendientes = value;  }
+            get { return _pagosPendientes; }
+            set { _pagosPendientes = value;  }
         }
         public DateTime FechaInicio
         {
@@ -60,7 +60,7 @@ namespace Obligatorio_Logica
 
         public void calcularPagosPendientes()
         {
-            _PagosPendientes = _cuotas - _cuotasPagas;
+            _pagosPendientes = _cuotas - _cuotasPagas;
         }
 
         public override double CalcularMontoConBeneficioORecargo()
