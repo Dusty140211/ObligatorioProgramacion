@@ -1,0 +1,1815 @@
+﻿***********************************
+Archivo: ComparadorPagoPorMontoTotal.cs
+Carpeta: C:\Users\nahui\Source\Repos\ObligatorioProgramacion16\Obligatorio_Logica\ComparadorPagoPorMontoTotal.cs
+***********************************
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Obligatorio_Logica
+{
+    internal class ComparadorPagoPorMontoTotal : IComparer<Pago>
+    {
+        public int Compare(Pago x, Pago y)
+        { 
+            double montoX = x.CalcularMontoConBeneficioORecargo();
+            double montoY = y.CalcularMontoConBeneficioORecargo();
+
+            // Orden descendente (mayor a menor)
+            if (montoX > montoY)
+                return -1;
+            else if (montoX < montoY)
+                return 1;
+            else
+                return 0;
+        }
+    }
+}
+
+***********************************
+Archivo: ComparadorPagosPorMonto.cs
+Carpeta: C:\Users\nahui\Source\Repos\ObligatorioProgramacion16\Obligatorio_Logica\ComparadorPagosPorMonto.cs
+***********************************
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Obligatorio_Logica
+{
+    public class ComparadorPagosPorMonto : IComparer<Pago>
+    {
+        public int Compare(Pago x, Pago y)
+        {
+            double montoX = 0;
+            double montoY = 0;
+
+           
+            if (x is PagoRecurrente prX)
+            {
+                montoX = prX.Monto; 
+            }
+            else if (x is PagoUnico puX)
+            {
+                montoX = puX.Monto;
+            }
+
+            // Pago Y
+            if (y is PagoRecurrente prY)
+            {
+                montoY = prY.Monto;
+            }
+            else if (y is PagoUnico puY)
+            {
+                montoY = puY.Monto;
+            }
+
+            // Orden descendente (mayor a menor)
+            if (montoX > montoY)
+                return -1;
+            else if (montoX < montoY)
+                return 1;
+            else
+                return 0;
+        }
+    }
+
+}
+***********************************
+Archivo: IValidable.cs
+Carpeta: C:\Users\nahui\Source\Repos\ObligatorioProgramacion16\Obligatorio_Logica\IValidable.cs
+***********************************
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Obligatorio_Logica
+{
+    internal interface IValidable
+    {
+        void validar();
+    }
+}
+
+***********************************
+Archivo: Sistema.cs
+Carpeta: C:\Users\nahui\Source\Repos\ObligatorioProgramacion16\Obligatorio_Logica\Sistema.cs
+***********************************
+using Obligatorio_Logica.Entidades;
+using System;
+using System.Collections.Generic;
+using System.Net.NetworkInformation;
+
+namespace Obligatorio_Logica
+{
+    public class Sistema
+    {
+        // ========================================================
+        // 1) Atributos privados
+        // ========================================================
+        private List<Usuario> _usuarios = new List<Usuario>();
+        private List<Equipo> _equipo = new List<Equipo>();
+        private List<Pago> _pago = new List<Pago>();
+        private List<Tipo_gasto> _tiposGasto = new List<Tipo_gasto>();
+
+        // ========================================================
+        // 2) Propiedades públicas (devoluciones protegidas)
+        // ========================================================
+        public List<Usuario> Usuarios { get { return new List<Usuario>(_usuarios); } }
+        public List<Equipo> Equipos { get { return new List<Equipo>(_equipo); } }
+        public List<Pago> Pagos { get { return new List<Pago>(_pago); } }
+        public List<Tipo_gasto> tipo_Gastos { get { return new List<Tipo_gasto>(_tiposGasto); } }
+
+        // ========================================================
+        // 3) Singleton
+        // ========================================================
+        public static Sistema s_instancia;
+        public static Sistema Instancia
+        {
+            get
+            {
+                if (s_instancia == null)
+                {
+                    s_instancia = new Sistema();
+                }
+                return s_instancia;
+            }
+        }
+
+        // ========================================================
+        // 4) Constructor: inicializa y precarga
+        // ========================================================
+        public Sistema()
+        {
+            _usuarios = new List<Usuario>();
+            _equipo = new List<Equipo>();
+            _pago = new List<Pago>();
+
+            precargaEquipo();
+            precargaUsuarios();
+            precargaPagos();
+        }
+
+        // ========================================================
+        // 5) Precargas
+        // ========================================================
+        private void precargaEquipo()
+        {
+            Equipo e1 = new Equipo("Los Pica Teclas");
+            Equipo e2 = new Equipo("404 Not Found");
+            Equipo e3 = new Equipo("Los Debuggers");
+            Equipo e4 = new Equipo("Los Exception");
+            Equipo e5 = new Equipo("Los Compiladores");
+            Equipo e6 = new Equipo("Syntax Error");
+
+            AltaEquipo(e1);
+            AltaEquipo(e2);
+            AltaEquipo(e3);
+            AltaEquipo(e4);
+            AltaEquipo(e5);
+            AltaEquipo(e6);
+        }
+        private void precargaUsuarios()
+        {
+            if (_equipo.Count < 4)
+                precargaEquipo();
+
+            Equipo equipo1 = _equipo[0];
+            Equipo equipo2 = _equipo[1];
+            Equipo equipo3 = _equipo[2];
+            Equipo equipo4 = _equipo[3];
+
+            Usuario u1 = new Usuario("Ana", "García", "pass1223", crearMail("Ana", "García"), equipo1, new DateTime(2023, 1, 15), Cargo.GERENTE);
+            Usuario u2 = new Usuario("Luis", "Pérez", "pass4562", crearMail("Luis", "Pérez"), equipo2, new DateTime(2022, 6, 10), Cargo.EMPLEADO);
+            Usuario u3 = new Usuario("María", "López", "pass7892", crearMail("María", "López"), equipo1, new DateTime(2023, 3, 5), Cargo.EMPLEADO);
+            Usuario u4 = new Usuario("Carlos", "Fernández", "pass3212", crearMail("Carlos", "Fernández"), equipo3, new DateTime(2021, 11, 20), Cargo.EMPLEADO);
+            Usuario u5 = new Usuario("Sofía", "Martínez", "pass6542", crearMail("Sofía", "Martínez"), equipo2, new DateTime(2022, 9, 30), Cargo.EMPLEADO);
+            Usuario u6 = new Usuario("Pedro", "Suárez", "pass1121", crearMail("Pedro", "Suárez"), equipo4, new DateTime(2022, 2, 14), Cargo.EMPLEADO);
+            Usuario u7 = new Usuario("Lucía", "Alonso", "pass2222", crearMail("Lucía", "Alonso"), equipo1, new DateTime(2021, 7, 19), Cargo.EMPLEADO);
+            Usuario u8 = new Usuario("Javier", "Méndez", "pass3332", crearMail("Javier", "Méndez"), equipo2, new DateTime(2023, 4, 2), Cargo.EMPLEADO);
+            Usuario u9 = new Usuario("Valentina", "Silva", "pass4442", crearMail("Valentina", "Silva"), equipo3, new DateTime(2022, 8, 8), Cargo.EMPLEADO);
+            Usuario u10 = new Usuario("Martín", "Ramos", "pass5552", crearMail("Martín", "Ramos"), equipo4, new DateTime(2021, 12, 25), Cargo.EMPLEADO);
+            Usuario u11 = new Usuario("Camila", "Torres", "pass6626", crearMail("Camila", "Torres"), equipo1, new DateTime(2022, 5, 17), Cargo.EMPLEADO);
+            Usuario u12 = new Usuario("Diego", "Sosa", "pass7727", crearMail("Diego", "Sosa"), equipo2, new DateTime(2023, 2, 11), Cargo.EMPLEADO);
+            Usuario u13 = new Usuario("Florencia", "Vega", "pass8288", crearMail("Florencia", "Vega"), equipo3, new DateTime(2022, 10, 3), Cargo.GERENTE);
+            Usuario u14 = new Usuario("Matías", "Cabrera", "pass9299", crearMail("Matías", "Cabrera"), equipo4, new DateTime(2021, 9, 27), Cargo.EMPLEADO);
+            Usuario u15 = new Usuario("Paula", "Ruiz", "pass0020", crearMail("Paula", "Ruiz"), equipo1, new DateTime(2022, 3, 21), Cargo.EMPLEADO);
+            Usuario u16 = new Usuario("Federico", "Gómez", "passabc2", crearMail("Federico", "Gómez"), equipo2, new DateTime(2023, 6, 6), Cargo.EMPLEADO);
+            Usuario u17 = new Usuario("Agustina", "Díaz", "passdef2", crearMail("Agustina", "Díaz"), equipo3, new DateTime(2022, 1, 13), Cargo.EMPLEADO);
+            Usuario u18 = new Usuario("Nicolás", "Pintos", "passghi2", crearMail("Nicolás", "Pintos"), equipo4, new DateTime(2021, 8, 5), Cargo.EMPLEADO);
+            Usuario u19 = new Usuario("Micaela", "Sánchez", "passjkl2", crearMail("Micaela", "Sánchez"), equipo1, new DateTime(2022, 11, 29), Cargo.EMPLEADO);
+            Usuario u20 = new Usuario("Rodrigo", "Castro", "passmno2", crearMail("Rodrigo", "Castro"), equipo2, new DateTime(2023, 5, 18), Cargo.GERENTE);
+            Usuario u21 = new Usuario("Julieta", "Morales", "passpqr2", crearMail("Julieta", "Morales"), equipo3, new DateTime(2022, 7, 23), Cargo.EMPLEADO);
+            Usuario u22 = new Usuario("Emiliano", "Bermúdez", "passstu2", crearMail("Emiliano", "Bermúdez"), equipo4, new DateTime(2021, 10, 12), Cargo.EMPLEADO);
+
+            altaUsuario(u1); altaUsuario(u2); altaUsuario(u3); altaUsuario(u4); altaUsuario(u5);
+            altaUsuario(u6); altaUsuario(u7); altaUsuario(u8); altaUsuario(u9); altaUsuario(u10);
+            altaUsuario(u11); altaUsuario(u12); altaUsuario(u13); altaUsuario(u14); altaUsuario(u15);
+            altaUsuario(u16); altaUsuario(u17); altaUsuario(u18); altaUsuario(u19); altaUsuario(u20);
+            altaUsuario(u21); altaUsuario(u22);
+        }
+
+        private void precargaGastos()
+        {
+            _tiposGasto.Add(new Tipo_gasto("Comida", "Gastos de alimentación"));
+            _tiposGasto.Add(new Tipo_gasto("Transporte", "Gastos de transporte"));
+            _tiposGasto.Add(new Tipo_gasto("Servicios", "Gastos de servicios"));
+            _tiposGasto.Add(new Tipo_gasto("Entretenimiento", "Gastos de ocio"));
+            _tiposGasto.Add(new Tipo_gasto("Educación", "Gastos relacionados con estudios, cursos o capacitaciones"));
+            _tiposGasto.Add(new Tipo_gasto("Salud", "Gastos médicos, seguros o farmacia"));
+            _tiposGasto.Add(new Tipo_gasto("Hogar", "Mantenimiento, limpieza o artículos domésticos"));
+            _tiposGasto.Add(new Tipo_gasto("Tecnología", "Equipos, software o servicios digitales"));
+        }
+
+        public void precargaPagos()
+        {
+            if (_usuarios.Count < 4)
+                precargaUsuarios();
+            precargaGastos();
+
+            Tipo_gasto tg1 = _tiposGasto[0]; // Comida
+            Tipo_gasto tg2 = _tiposGasto[1]; // Transporte
+            Tipo_gasto tg3 = _tiposGasto[2]; // Servicios
+            Tipo_gasto tg4 = _tiposGasto[3]; // Entretenimiento
+
+            Usuario u1 = _usuarios[0];
+            Usuario u2 = _usuarios[1];
+            Usuario u3 = _usuarios[2];
+            Usuario u4 = _usuarios[3];
+            Usuario u5 = _usuarios[4];
+            Usuario u6 = _usuarios[5];
+            Usuario u7 = _usuarios[6];
+            Usuario u8 = _usuarios[7];
+            Usuario u9 = _usuarios[8];
+            Usuario u10 = _usuarios[9];
+            Usuario u11 = _usuarios[10];
+            Usuario u12 = _usuarios[11];
+            Usuario u13 = _usuarios[12];
+            Usuario u14 = _usuarios[13];
+            Usuario u15 = _usuarios[14];
+            Usuario u16 = _usuarios[15];
+            Usuario u17 = _usuarios[16];
+            Usuario u18 = _usuarios[17];
+            Usuario u19 = _usuarios[18];
+            Usuario u20 = _usuarios[19];
+            Usuario u21 = _usuarios[20];
+            Usuario u22 = _usuarios[21];
+
+            // --------------------------
+            // Pagos únicos (TODOS)
+            // --------------------------
+            // --------------------------
+            // Pagos únicos (TODOS)
+            // --------------------------
+            altaPago(new PagoUnico(metodoPago.DEBITO, new DateTime(2025, 11, 2), 1102, 950, "Taxi", tg2, u2));
+            altaPago(new PagoUnico(metodoPago.EFECTIVO, new DateTime(2025, 11, 3), 1103, 1300, "Gas", tg3, u5));
+            altaPago(new PagoUnico(metodoPago.CREDITO, new DateTime(2025, 11, 4), 1104, 2100, "Cine", tg4, u8));
+            altaPago(new PagoUnico(metodoPago.DEBITO, new DateTime(2025, 11, 5), 1105, 1200, "Panadería", tg1, u11));
+            altaPago(new PagoUnico(metodoPago.EFECTIVO, new DateTime(2025, 11, 6), 1106, 1000, "Ómnibus", tg2, u14));
+            altaPago(new PagoUnico(metodoPago.CREDITO, new DateTime(2025, 11, 7), 1107, 1600, "Luz", tg3, u17));
+            altaPago(new PagoUnico(metodoPago.DEBITO, new DateTime(2025, 11, 8), 1108, 1900, "Teatro", tg4, u20));
+            altaPago(new PagoUnico(metodoPago.EFECTIVO, new DateTime(2025, 11, 9), 1109, 1400, "Verdulería", tg1, u22));
+            altaPago(new PagoUnico(metodoPago.CREDITO, new DateTime(2025, 11, 10), 1110, 950, "Remise", tg2, u3));
+            altaPago(new PagoUnico(metodoPago.DEBITO, new DateTime(2025, 11, 11), 1111, 1100, "Internet", tg3, u6));
+            altaPago(new PagoUnico(metodoPago.EFECTIVO, new DateTime(2025, 11, 12), 1112, 1700, "Museo", tg4, u9));
+            altaPago(new PagoUnico(metodoPago.CREDITO, new DateTime(2025, 11, 13), 1113, 1350, "Carnicería", tg1, u12));
+            altaPago(new PagoUnico(metodoPago.DEBITO, new DateTime(2025, 11, 14), 1114, 1050, "Subte", tg2, u15));
+            altaPago(new PagoUnico(metodoPago.EFECTIVO, new DateTime(2025, 11, 15), 1115, 1150, "Agua", tg3, u18));
+            altaPago(new PagoUnico(metodoPago.CREDITO, new DateTime(2025, 11, 16), 1116, 1750, "Concierto", tg4, u21));
+            altaPago(new PagoUnico(metodoPago.DEBITO, new DateTime(2025, 11, 17), 1117, 1550, "Supermercado", tg1, u4));
+            altaPago(new PagoUnico(metodoPago.EFECTIVO, new DateTime(2025, 11, 18), 1118, 1000, "Taxi", tg2, u7));
+            altaPago(new PagoUnico(metodoPago.CREDITO, new DateTime(2025, 11, 19), 1119, 1250, "Gas", tg3, u10));
+            altaPago(new PagoUnico(metodoPago.DEBITO, new DateTime(2025, 11, 20), 1120, 1800, "Cine", tg4, u13));
+            altaPago(new PagoUnico(metodoPago.CREDITO, new DateTime(2025, 1, 15), 1201, 2500, "Cena de negocios", tg1, u1));
+            altaPago(new PagoUnico(metodoPago.DEBITO, new DateTime(2025, 3, 10), 1202, 1800, "Taxi corporativo", tg2, u4));
+            altaPago(new PagoUnico(metodoPago.EFECTIVO, new DateTime(2025, 5, 20), 1203, 3200, "Pago de servicios", tg3, u13));
+            altaPago(new PagoUnico(metodoPago.CREDITO, new DateTime(2025, 7, 25), 1204, 4000, "Evento corporativo", tg4, u20));
+            altaPago(new PagoUnico(metodoPago.DEBITO, new DateTime(2025, 9, 5), 1205, 1500, "Almuerzo con clientes", tg1, u1));
+            altaPago(new PagoUnico(metodoPago.EFECTIVO, new DateTime(2025, 10, 18), 1206, 2200, "Transporte privado", tg2, u4));
+
+
+            // --------------------------
+            // Pagos recurrentes (TODOS)
+            // --------------------------
+            altaPago(new PagoRecurrente(metodoPago.CREDITO, new DateTime(2025, 11, 1), new DateTime(2026, 5, 1), "Netflix", 7, 7, 550, tg4, u1));
+            altaPago(new PagoRecurrente(metodoPago.DEBITO, new DateTime(2025, 11, 2), new DateTime(2026, 5, 2), "Gimnasio", 6, 6, 300, tg4, u5));
+            altaPago(new PagoRecurrente(metodoPago.EFECTIVO, new DateTime(2025, 11, 3), new DateTime(2026, 5, 3), "Spotify", 5, 5, 400, tg4, u9));
+            altaPago(new PagoRecurrente(metodoPago.CREDITO, new DateTime(2025, 11, 4), new DateTime(2026, 5, 4), "Alquiler", 8, 8, 600, tg3, u13));
+            altaPago(new PagoRecurrente(metodoPago.DEBITO, new DateTime(2025, 11, 5), new DateTime(2026, 5, 5), "Revista", 4, 4, 350, tg4, u17));
+            altaPago(new PagoRecurrente(metodoPago.EFECTIVO, new DateTime(2025, 11, 6), new DateTime(2026, 5, 6), "Colegio", 10, 10, 700, tg3, u21));
+            altaPago(new PagoRecurrente(metodoPago.CREDITO, new DateTime(2025, 11, 7), new DateTime(2026, 5, 7), "Seguro", 12, 12, 800, tg3, u2));
+            altaPago(new PagoRecurrente(metodoPago.DEBITO, new DateTime(2025, 11, 8), new DateTime(2026, 5, 8), "Club", 9, 9, 450, tg4, u6));
+            altaPago(new PagoRecurrente(metodoPago.EFECTIVO, new DateTime(2025, 11, 9), new DateTime(2026, 5, 9), "Netflix", 7, 7, 550, tg4, u10));
+            altaPago(new PagoRecurrente(metodoPago.CREDITO, new DateTime(2025, 11, 10), new DateTime(2026, 5, 10), "Gimnasio", 6, 6, 350, tg4, u14));
+            altaPago(new PagoRecurrente(metodoPago.DEBITO, new DateTime(2025, 11, 11), new DateTime(2026, 5, 11), "Spotify", 5, 5, 400, tg4, u18));
+            altaPago(new PagoRecurrente(metodoPago.EFECTIVO, new DateTime(2025, 11, 12), new DateTime(2026, 5, 12), "Alquiler", 8, 8, 600, tg3, u22));
+            altaPago(new PagoRecurrente(metodoPago.CREDITO, new DateTime(2025, 11, 13), new DateTime(2026, 5, 13), "Revista", 4, 4, 350, tg4, u3));
+            altaPago(new PagoRecurrente(metodoPago.DEBITO, new DateTime(2025, 11, 14), new DateTime(2026, 5, 14), "Colegio", 10, 10, 700, tg3, u15));
+            altaPago(new PagoRecurrente(metodoPago.CREDITO, new DateTime(2025, 2, 1), new DateTime(2025, 12, 1), "Suscripción a software", 1, 1, 500, tg3, u13));
+            altaPago(new PagoRecurrente(metodoPago.DEBITO, new DateTime(2025, 4, 15), new DateTime(2025, 10, 15), "Membresía de gimnasio", 1, 1, 300, tg4, u20));
+            altaPago(new PagoRecurrente(metodoPago.EFECTIVO, new DateTime(2025, 6, 1), new DateTime(2025, 12, 1), "Pago de estacionamiento", 1, 1, 200, tg2, u1));
+            altaPago(new PagoRecurrente(metodoPago.CREDITO, new DateTime(2025, 8, 1), new DateTime(2025, 12, 1), "Alquiler de oficina", 1, 1, 1500, tg3, u4));
+
+
+        }
+
+        // ========================================================
+        // 6) ABM y listados
+        // ========================================================
+        public List<Usuario> listarUsuarios()
+        {
+            if (_usuarios.Count == 0)
+            {
+                throw new Exception("No hay usuarios cargados");
+            }
+            else 
+            { 
+                return _usuarios;
+            }
+        }
+
+
+        public void altaGasto(Tipo_gasto t)
+        {
+            t.validar();
+            if (_tiposGasto.Contains(t))
+            {
+                throw new Exception("El gasto fue ingresado previamente");
+            }
+            _tiposGasto.Add(t);
+        }
+
+        public List<Tipo_gasto> listarTiposGasto()
+        {
+            List<Tipo_gasto> Activos = new List<Tipo_gasto>();
+            if (_tiposGasto.Count == 0)
+            {
+                throw new Exception("No hay tipos de gastos cargados");
+            }
+            else
+            {
+                foreach (Tipo_gasto tg in _tiposGasto)
+                {
+                    if (tg.Eliminado == false)
+                    {
+                        Activos.Add(tg);
+                    }
+                }
+                return Activos;
+            }
+        }
+
+        public void EliminarGasto(string nombre)
+        {
+            // Buscar el tipo de gasto por nombre
+            Tipo_gasto tipoAEliminar = null;
+
+            foreach (Tipo_gasto tg in _tiposGasto)
+            {
+                if (tg.Nombre.Equals(nombre, StringComparison.OrdinalIgnoreCase))
+                {
+                    tipoAEliminar = tg;
+                    break;
+                }
+            }
+
+            if (tipoAEliminar == null)
+                throw new Exception("El tipo de gasto no existe.");
+
+            // 🔒 Validación: verificar si hay pagos asociados a ese tipo
+            foreach (Pago p in _pago)
+            {
+                if (p.Tipo != null &&
+                    p.Tipo.Nombre.Equals(nombre))
+                {
+                    throw new Exception("No se puede eliminar este tipo de gasto porque está siendo utilizado en uno o más pagos.");
+                }
+            }
+
+            // Si no está en uso, se elimina normalmente
+            tipoAEliminar.Eliminar();
+        }
+
+        public void altaPago(Pago p)
+        {
+            p.Validar();
+            if (_pago.Contains(p))
+            {
+                throw new Exception("El pago ya fue ingresado previamente");
+            }
+            _pago.Add(p);
+        }
+
+        public void AltaEquipo(Equipo e)
+        {
+            e.validar();
+            if (_equipo.Contains(e))
+            {
+                throw new Exception("El equipo ya existe");
+            }
+            else
+            {
+                _equipo.Add(e);
+            }
+        }
+
+        public void altaUsuario(Usuario u)
+        {
+            u.validar();
+            if (_usuarios.Contains(u))
+            {
+                throw new Exception("El usuario ya existe");
+            }
+            _usuarios.Add(u);
+        }
+
+        // ========================================================
+        // 7) Búsquedas y helpers de dominio
+        // ========================================================
+       public List<Pago> listarPagosPorMail(string email)
+{
+    if (string.IsNullOrWhiteSpace(email))
+        throw new Exception("El email no puede estar vacío.");
+
+    string emailBuscado = email.Trim().ToLower();
+    List<Pago> pagosUsuario = new List<Pago>();
+
+    if (_pago.Count == 0)
+        throw new Exception("No hay pagos cargados en el sistema.");
+
+    foreach (Pago p in _pago)
+    {
+        if (p.Usuario.Email.Trim().ToLower() == emailBuscado)
+            pagosUsuario.Add(p);
+    }
+
+    if (pagosUsuario.Count == 0)
+        throw new Exception("No existen pagos registrados para este usuario.");
+
+    return pagosUsuario;
+}
+
+        public bool existeEquipo(string nombre)
+        {
+            foreach (Equipo e in _equipo)
+            {
+                if (e.Nombre == nombre) return true;
+            }
+            return false;
+        }
+
+        public Usuario BuscarporMail(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+                throw new Exception("El nombre del tipo de gasto no puede estar vacío.");
+
+            string emailBuscado = email.Trim().ToLower();
+            foreach (Usuario u in _usuarios)
+            {
+                if (u.Email.Trim().ToLower().Equals(emailBuscado))
+                {
+                    return u;
+                }
+            }
+            return null;
+        }
+
+        public int CompararPorEmail(Usuario a, Usuario b)
+        {
+            return a.Email.CompareTo(b.Email);
+        }
+
+        public Tipo_gasto BuscarTipoGastoPorNombre(string nombre)
+        {
+            if (string.IsNullOrWhiteSpace(nombre))
+                throw new Exception("El nombre del tipo de gasto no puede estar vacío.");
+
+            foreach (Tipo_gasto tg in _tiposGasto)
+            {
+                if (tg.Nombre.Equals(nombre, StringComparison.OrdinalIgnoreCase))
+                {
+                    return tg;
+                }
+            }
+
+            throw new Exception("El tipo de gasto no existe.");
+        }
+        public List<Pago> ObtenerPagosDeEquipo(DateTime? fecha, string email)
+        {
+            DateTime f;
+
+            if (fecha == null)
+                f = DateTime.Now;
+            else
+                f = fecha.Value;
+
+            if (string.IsNullOrWhiteSpace(email))
+                throw new Exception("El email del usuario no puede ser nulo o vacío.");
+
+            Usuario u = BuscarporMail(email);
+            if (u == null)
+                throw new Exception("No se encontró el usuario con ese email.");
+
+            CalcularPagoPendientesPorMail(email);
+
+            // 🔹 Primero obtengo los pagos del equipo
+            List<Pago> pagos = pagosDeEquipo(f, u);
+
+            // 🔹 Después los ordeno (no la lista global)
+            pagos.Sort(new ComparadorPagoPorMontoTotal());
+
+            return pagos;
+        }
+
+        public List<Usuario> ObtenerIntegrantesEquipo(Usuario gerente)
+        {
+            if (gerente == null)
+                throw new Exception("El usuario no puede ser nulo.");
+
+            if (gerente.Equipo == null)
+                throw new Exception("El usuario no pertenece a ningún equipo.");
+
+            List<Usuario> integrantes = new List<Usuario>();
+
+            foreach (Usuario otro in _usuarios)
+            {
+                // Mismo equipo y no el mismo usuario
+                if (otro.Equipo.Nombre == gerente.Equipo.Nombre && otro != gerente)
+                {
+                    integrantes.Add(otro);
+                }
+            }
+
+            // Ordenar por email (usando tu método CompararPorEmail)
+            integrantes.Sort(CompararPorEmail);
+
+            return integrantes;
+        }
+        // ========================================================
+        // 8) Login
+        // ========================================================
+        public Usuario Login(string email, string pass)
+        {
+            Usuario u = BuscarporMail(email);
+            if (u == null)
+            {
+                throw new Exception("El email esta vacio o es incorrecto");
+            }
+            else
+            {
+                if (u.Contrasenia.Trim().Equals(pass.Trim()))
+                {
+                    return u;
+                }
+                else
+                {
+                    throw new Exception("la contraseña es incorrectos");
+                }
+            }
+        }
+
+        // ========================================================
+        // 9) Funcionalidad de pagos
+        // ========================================================
+        public List<Pago> pagosDelMes(DateTime fecha, Usuario u)
+        {
+            List<Pago> ret = new List<Pago>();
+            foreach (Pago p in _pago)
+            {
+                if (p is PagoRecurrente pr)
+                {
+                    
+                    // Coincide si el mes/año de la fecha filtrada está dentro del rango
+                    if ((fecha.Year > pr.FechaInicio.Year ||
+                         (fecha.Year == pr.FechaInicio.Year && fecha.Month >= pr.FechaInicio.Month))
+                        &&
+                        (fecha.Year < pr.FechaFin.Year ||
+                         (fecha.Year == pr.FechaFin.Year && fecha.Month <= pr.FechaFin.Month)))
+                    {
+                        if (pr.Usuario.Email.Trim().ToLower() == u.Email.Trim().ToLower())
+                        {
+                            ret.Add(p);
+                        }
+                    }
+                }
+                if (p is PagoUnico pu)
+                {
+                    if (pu.Fecha.Month == fecha.Month && pu.Fecha.Year == fecha.Year)
+                    {
+                        if (pu.Usuario.Email.Trim().ToLower() == u.Email.Trim().ToLower())
+                        {
+                            ret.Add(p);
+                        }
+                    }
+                }
+            }
+            ret.Sort(new ComparadorPagosPorMonto());
+            return ret;
+        }
+
+        public List<Pago> pagosDeEquipo(DateTime fecha, Usuario u1)
+        {
+            List<Pago> ret = new List<Pago>();
+            List<Usuario> usuarios = new List<Usuario>();
+
+            foreach (Usuario u in _usuarios)
+            {
+                if (u.Equipo == u1.Equipo)
+                {
+                    usuarios.Add(u);
+                }
+            }
+            foreach (Usuario u in usuarios)
+            {
+                ret.AddRange(pagosDelMes(fecha, u));
+            }
+            ret.Sort(new ComparadorPagosPorMonto());
+            return ret;
+        }
+
+        public double MontoGastadoEsteMes(string email)
+        {
+            if (string.IsNullOrEmpty(email))
+                return 0;
+
+            string emailBuscado = email.Trim().ToLower();
+            double total = 0;
+            DateTime ahora = DateTime.Now;
+
+            foreach (Pago p in _pago)
+            {
+                if (!p.Usuario.Email.Trim().ToLower().Equals(emailBuscado))
+                    continue;
+
+                if (p is PagoUnico pu)
+                {
+                    if (pu.Fecha.Month == ahora.Month && pu.Fecha.Year == ahora.Year)
+                    {
+                        total += p.Monto;
+                    }
+                }
+                else if (p is PagoRecurrente pr)
+                {
+                    if (pr.FechaInicio.Month == ahora.Month && pr.FechaInicio.Year == ahora.Year)
+                    {
+                        total += p.Monto;
+                    }
+                }
+            }
+            return total;
+        }
+        
+        public void CalcularPagoPendientesPorMail(string email)
+        {
+            string emailBuscado = email.ToLower().Trim();
+            foreach (Pago p in _pago)
+            {
+                if (p.Usuario.Email.ToLower().Trim() == emailBuscado)
+                {
+                    if (p is PagoRecurrente pr)
+                    {
+                        pr.calcularPagosPendientes();
+                    }
+                }
+            }
+        }
+
+      
+
+        // ========================================================
+        // 10) Auxiliares
+        // ========================================================
+        public string crearMail(string nombre, string apellido)
+        {
+            int cont = 0;
+            string nombremin = nombre.ToLower();
+            string apellidomin = apellido.ToLower();
+
+            string email = "";
+            if (nombremin.Length <= 3) email += nombremin;
+            else email += nombremin.Substring(0, 3);
+
+            if (apellidomin.Length <= 3) email += apellidomin;
+            else email += apellidomin.Substring(0, 3);
+
+            foreach (Usuario u in _usuarios)
+            {
+                if (u.Email.Contains(email))
+                {
+                    cont++;
+                }
+            }
+
+            email += cont + "@Empresa.com";
+            return email;
+        }
+    }
+}
+
+
+// mails de las precargas
+/*
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+emibér0@Empresa.com:passstu2
+
+
+?? anagar0@Empresa.com - pass1223
+?? luipér0@Empresa.com - pass4562
+?? marlóp0@Empresa.com - pass7892
+?? carfer0@Empresa.com - pass3212
+?? sofmar0@Empresa.com - pass6542
+?? pedsuá0@Empresa.com - pass1121
+?? lucalo0@Empresa.com - pass2222
+?? javmén0@Empresa.com - pass3332
+?? valsil0@Empresa.com - pass4442
+?? marram0@Empresa.com - pass5552
+?? camtor0@Empresa.com - pass6626
+?? diesos0@Empresa.com - pass7727
+?? floveg0@Empresa.com - pass8288
+?? matcab0@Empresa.com - pass9299
+?? paurui0@Empresa.com - pass0020
+?? fedgóm0@Empresa.com - passabc2
+?? agudía0@Empresa.com - passdef2
+?? nicpin0@Empresa.com - passghi2
+?? micsán0@Empresa.com - passjkl2
+?? rodcas0@Empresa.com - passmno2
+?? julmor0@Empresa.com - passpqr2
+?? emiber0@Empresa.com - passstu2
+ 
+
+ */
+***********************************
+Archivo: GastosController.cs
+Carpeta: C:\Users\nahui\Source\Repos\ObligatorioProgramacion16\obligatorio 2\Controllers\GastosController.cs
+***********************************
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
+using Obligatorio_Logica;
+using Obligatorio_Logica.Entidades;
+
+namespace obligatorio_2.Controllers
+{
+    public class GastosController : Controller
+    {
+        Sistema si = Sistema.Instancia;
+       
+
+        [HttpGet]
+        public IActionResult cargarGasto()
+        {
+            string? email = HttpContext.Session.GetString("email");
+
+
+            if (string.IsNullOrEmpty(email))
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+
+            Usuario s = si.BuscarporMail(email);
+            if (s == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+
+            if (s.Rol == Cargo.EMPLEADO)
+            {
+                return RedirectToAction("Index", "Pagos");
+            }
+
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult CargarGasto(string nombre, string descripcion)
+        {
+            string? email = HttpContext.Session.GetString("email");
+
+
+            if (string.IsNullOrEmpty(email))
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+
+            Usuario s = si.BuscarporMail(email);
+            if (s == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+
+            if (s.Rol == Cargo.EMPLEADO)
+            {
+                return RedirectToAction("Index", "Pagos");
+            }
+            try
+            {
+                Tipo_gasto nuevo = new Tipo_gasto(nombre, descripcion);
+                si.altaGasto(nuevo);
+                return RedirectToAction("listaGastos");
+            }
+            catch (Exception ex)
+            {
+                ViewBag.msg = ex.Message;
+                return View();
+             }
+            
+           
+        }
+
+
+        public IActionResult listaGastos()
+        {
+            string? email = HttpContext.Session.GetString("email");
+
+
+            if (string.IsNullOrEmpty(email))
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+
+            Usuario s = si.BuscarporMail(email);
+            if (s == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+
+            if (s.Rol == Cargo.EMPLEADO)
+            {
+                return RedirectToAction("Index", "Pagos");
+            }
+
+            List<Tipo_gasto> gastos = si.listarTiposGasto();
+            return View(gastos);
+        }
+
+
+        public IActionResult EliminarGasto(string nombre)
+        {
+            string? email = HttpContext.Session.GetString("email");
+
+
+            if (string.IsNullOrEmpty(email))
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+
+            Usuario s = si.BuscarporMail(email);
+            if (s == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+
+            if (s.Rol == Cargo.EMPLEADO)
+            {
+                return RedirectToAction("Index", "Pagos");
+            }
+
+            try
+            {
+                Tipo_gasto tg = si.BuscarTipoGastoPorNombre(nombre);
+                return View(tg);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = ex.Message;
+                List<Tipo_gasto> lista = si.listarTiposGasto();
+                return View("ListaGastos", lista);
+            }
+        }
+
+        [HttpPost]
+        public IActionResult ConfirmarEliminarGasto(string nombre)
+        {
+            string? email = HttpContext.Session.GetString("email");
+
+
+            if (string.IsNullOrEmpty(email))
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+
+            Usuario s = si.BuscarporMail(email);
+            if (s == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+
+            if (s.Rol == Cargo.EMPLEADO)
+            {
+                return RedirectToAction("Index", "Pagos");
+            }
+
+            try
+            {
+                si.EliminarGasto(nombre);
+                List<Tipo_gasto> lista = si.listarTiposGasto();
+                return View("listaGastos", lista);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Mensaje = ex.Message;
+                List<Tipo_gasto> lista = si.listarTiposGasto();
+                return View("listaGastos", lista);
+            }
+        }
+
+     
+        
+
+    }
+}
+
+***********************************
+Archivo: HomeController.cs
+Carpeta: C:\Users\nahui\Source\Repos\ObligatorioProgramacion16\obligatorio 2\Controllers\HomeController.cs
+***********************************
+using System.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
+using obligatorio_2.Models;
+
+namespace obligatorio_2.Controllers;
+
+public class HomeController : Controller
+{
+    private readonly ILogger<HomeController> _logger;
+
+    public HomeController(ILogger<HomeController> logger)
+    {
+        _logger = logger;
+    }
+
+    public IActionResult Index()
+    {
+        return View();
+    }
+
+    public IActionResult Privacy()
+    {
+        return View();
+    }
+
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    public IActionResult Error()
+    {
+        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+    }
+}
+
+***********************************
+Archivo: LoginController.cs
+Carpeta: C:\Users\nahui\Source\Repos\ObligatorioProgramacion16\obligatorio 2\Controllers\LoginController.cs
+***********************************
+using Obligatorio_Logica;
+using Microsoft.AspNetCore.Mvc;
+using Obligatorio_Logica.Entidades;
+
+
+namespace obligatorio_2.Controllers
+{
+    public class LoginController : Controller
+    {
+        Sistema s = Sistema.Instancia; 
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Index(string email, string pass)
+        {
+            try
+            {
+                Usuario u = s.Login(email, pass);
+                HttpContext.Session.SetString("email", u.Email);
+                HttpContext.Session.SetString("pass", u.Contrasenia);
+
+                if (u.Rol == Cargo.EMPLEADO)
+                {
+                    HttpContext.Session.SetString("Rol", "Empleado");
+                    return RedirectToAction("Index", "Pagos");
+                }
+                else if (u.Rol == Cargo.GERENTE)
+                {
+                    HttpContext.Session.SetString("Rol", "Gerente");
+                    return RedirectToAction("Index", "Pagos");
+                }
+                else
+                {
+                    // Si el rol no es reconocido, redirige al login
+                    ViewBag.msg = "Rol no válido o usuario sin permisos.";
+                    return View();
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.msg = ex.Message;
+                return View();
+            }
+        }
+
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index", "Login");
+        }
+    }
+}
+
+***********************************
+Archivo: PagosController.cs
+Carpeta: C:\Users\nahui\Source\Repos\ObligatorioProgramacion16\obligatorio 2\Controllers\PagosController.cs
+***********************************
+using Microsoft.AspNetCore.Mvc;
+using Obligatorio_Logica;
+using Obligatorio_Logica.Entidades;
+
+namespace obligatorio_2.Controllers
+{
+    public class PagosController : Controller
+    {
+        private Sistema s = Sistema.Instancia;
+
+        public IActionResult Index()
+        {
+            try
+            {
+                string? email = HttpContext.Session.GetString("email");
+                if (email == null)
+                {
+                    return RedirectToAction("Index", "Login");
+                }
+
+                s.CalcularPagoPendientesPorMail(email);
+                Usuario u = s.BuscarporMail(email);
+                List<Pago> pagos = s.pagosDelMes(DateTime.Now, u);
+
+                return View(pagos);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.msg = ex.Message;
+                return View();
+            }
+        }
+
+        public IActionResult CargarPagos()
+        {
+            return View();
+        }
+
+        // ======================================================
+        // 💵 PAGO ÚNICO
+        // ======================================================
+
+        [HttpGet]
+        public IActionResult PagoUnico()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult PagoUnico(
+            metodoPago metodo,
+            DateTime fecha,
+            decimal nroRecibo,
+            double monto,
+            string descripcion,
+            string nombreTipo)
+        {
+            try
+            {
+                string? email = HttpContext.Session.GetString("email");
+                if (string.IsNullOrEmpty(email))
+                    return RedirectToAction("Index", "Login");
+
+                Usuario u = s.BuscarporMail(email);
+                Tipo_gasto tipo = s.BuscarTipoGastoPorNombre(nombreTipo);
+
+                PagoUnico nuevo = new PagoUnico(metodo, fecha, nroRecibo, monto, descripcion, tipo, u);
+                s.altaPago(nuevo);
+
+                return RedirectToAction("Index", "Pagos");
+            }
+            catch (Exception ex)
+            {
+                ViewBag.msg = ex.Message;
+                return View();
+            }
+        }
+
+        // ======================================================
+        // 🔁 PAGO RECURRENTE
+        // ======================================================
+
+        [HttpGet]
+        public IActionResult PagoRecurrente()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult PagoRecurrente(
+            metodoPago metodo,
+            DateTime fechaInicio,
+            DateTime fechaFin,
+            string descripcion,
+            int cuotasPagas,
+            int cuotas,
+            double monto,
+            string nombreTipo)
+        {
+            try
+            {
+                string? email = HttpContext.Session.GetString("email");
+                if (string.IsNullOrEmpty(email))
+                    return RedirectToAction("Index", "Login");
+
+                Usuario u = s.BuscarporMail(email);
+                Tipo_gasto tipogasto = s.BuscarTipoGastoPorNombre(nombreTipo);
+
+                PagoRecurrente nuevo = new PagoRecurrente(
+                    metodo,
+                    fechaInicio,
+                    fechaFin,
+                    descripcion,
+                    cuotasPagas,
+                    cuotas,
+                    monto,
+                    tipogasto,
+                    u
+                );
+
+                s.altaPago(nuevo);
+
+                return RedirectToAction("Index", "Pagos");
+            }
+            catch (Exception ex)
+            {
+                ViewBag.msg = ex.Message;
+                return View();
+            }
+        }
+
+        // ======================================================
+        // 🔁 VER LISTADO DE PAGOS
+        // ======================================================
+
+        public IActionResult equipoPagos(DateTime? fecha)
+        {
+            try
+            {
+                string? email = HttpContext.Session.GetString("email");
+
+                if (email == null)
+                    return RedirectToAction("Index", "Login");
+
+                List<Pago> pagos = s.ObtenerPagosDeEquipo(fecha, email);
+
+                return View(pagos);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.msg = ex.Message;
+                return View();
+            }
+        }
+    }
+}
+***********************************
+Archivo: UsuarioController.cs
+Carpeta: C:\Users\nahui\Source\Repos\ObligatorioProgramacion16\obligatorio 2\Controllers\UsuarioController1.cs
+***********************************
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
+using Obligatorio_Logica;
+using Obligatorio_Logica.Entidades;
+
+namespace obligatorio_2.Controllers
+{
+    public class UsuarioController : Controller
+    {
+        private Sistema s = Sistema.Instancia;
+
+        // ======================================================
+        // 👤 PERFIL DE USUARIO (Gerente o Empleado)
+        // ======================================================
+        public IActionResult PerfilEmpleado()
+        {
+            try
+            {
+                string? email = HttpContext.Session.GetString("email");
+                if (string.IsNullOrEmpty(email))
+                {
+                    return RedirectToAction("Index", "Login");
+                }
+
+                Usuario u = s.BuscarporMail(email);
+                double totalMes = s.MontoGastadoEsteMes(email);
+                ViewBag.TotalMes = totalMes;
+
+                return View(u);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.msg = ex.Message;
+                return View();
+            }
+        }
+
+        public IActionResult PerfilGerente()
+        {
+            try
+            {
+                string? email = HttpContext.Session.GetString("email");
+
+                Usuario u = s.BuscarporMail(email);
+                double totalMes = s.MontoGastadoEsteMes(email);
+                ViewBag.TotalMes = totalMes;
+
+
+                List<Usuario> integrantes = s.ObtenerIntegrantesEquipo(u);
+                ViewBag.Integrantes = integrantes;
+
+
+                return View(u);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.msg = ex.Message;
+                return View();
+            }
+        }
+    }
+}
+***********************************
+Archivo: ErrorViewModel.cs
+Carpeta: C:\Users\nahui\Source\Repos\ObligatorioProgramacion16\obligatorio 2\Models\ErrorViewModel.cs
+***********************************
+namespace obligatorio_2.Models
+{
+    public class ErrorViewModel
+    {
+        public string? RequestId { get; set; }
+
+        public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
+    }
+}
+
+***********************************
+Archivo: Cargo.cs
+Carpeta: C:\Users\nahui\Source\Repos\ObligatorioProgramacion16\Obligatorio_Logica\Entidades\Cargo.cs
+***********************************
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Obligatorio_Logica.Entidades
+{
+    public enum Cargo
+    {
+        EMPLEADO,
+        GERENTE
+    }
+}
+
+***********************************
+Archivo: Equipo.cs
+Carpeta: C:\Users\nahui\Source\Repos\ObligatorioProgramacion16\Obligatorio_Logica\Entidades\Equipo.cs
+***********************************
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Obligatorio_Logica
+{
+    public class Equipo : IValidable
+    {
+        private int _id;
+        private string _nombre;
+
+        public static int contador = 0;
+
+        public int Id
+        {
+            get { return _id; }
+        }
+
+        public string Nombre
+        {
+            get { return _nombre; }
+            set { _nombre = value; }
+        }
+
+        public Equipo(string nombre)
+        {
+            contador++;
+            this._id = contador;
+            this._nombre = nombre;
+        }
+
+        public override string ToString()
+        {
+            return $"ID: {_id} | Nombre del equipo: {_nombre}";
+        }
+        public void validar() 
+        {
+            validarNombre(); 
+        }
+        public void validarNombre()
+        {
+            if (string.IsNullOrWhiteSpace(_nombre)) throw new Exception("el nombre no puede estar vacio"); 
+        }
+    }
+}
+
+***********************************
+Archivo: metodoPago.cs
+Carpeta: C:\Users\nahui\Source\Repos\ObligatorioProgramacion16\Obligatorio_Logica\Entidades\metodoPago.cs
+***********************************
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Obligatorio_Logica.Entidades
+{
+    public enum metodoPago
+    {
+        CREDITO,
+        DEBITO,
+        EFECTIVO
+    }
+}
+
+***********************************
+Archivo: Pago.cs
+Carpeta: C:\Users\nahui\Source\Repos\ObligatorioProgramacion16\Obligatorio_Logica\Entidades\Pago.cs
+***********************************
+using Obligatorio_Logica.Entidades;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Obligatorio_Logica
+{
+    public abstract class Pago : IValidable
+    {
+
+        private int _id;
+        private double _monto;
+        private string _descripcion;
+        private Tipo_gasto _tipo;
+        private Usuario _usuario;
+
+        private metodoPago _metodo;
+
+        public static int contador = 0;
+        public int Id
+        {
+            get { return _id; }
+        }
+
+        public double Monto
+        {
+            get { return _monto; }
+            set { _monto = value; }
+        }
+
+        public string Descripcion
+        {
+            get { return _descripcion; }
+            set { _descripcion = value; }
+        }
+
+        public metodoPago Metodo
+        {
+            get { return _metodo; }
+            set { _metodo = value; }
+        }
+
+        public Tipo_gasto Tipo
+        {
+            get { return _tipo; }
+            set { _tipo = value; }
+        }
+        public Usuario Usuario
+        {
+            get { return _usuario; }
+            set { _usuario = value; }
+        }
+
+
+
+        public Pago(metodoPago metodo,double monto, string descripcion,Tipo_gasto tipo, Usuario usuario)
+        {
+            contador++;
+            this._id = contador;
+            this._metodo = metodo;
+            this._monto = monto;
+            this._descripcion = descripcion;
+            Tipo = tipo;
+            this._usuario = usuario;
+           
+        }
+
+        public void Validar() 
+        {
+            validarMonto();
+            validarDescripcion(); 
+        }
+
+        public void validarMonto() 
+        {
+            if (_monto < 0) throw new Exception("El monto debe ser mayor a 0"); 
+        }
+
+        public void validarDescripcion() 
+        {
+
+            if (string.IsNullOrEmpty(_descripcion)) throw new Exception("La descripcion no puede estar vacia"); 
+        }
+
+        public virtual double CalcularMontoConBeneficioORecargo()
+        {
+            return _monto;
+        }
+
+        public void validar()
+        {
+            throw new NotImplementedException();
+        }
+    }
+}
+
+***********************************
+Archivo: PagoRecurrente.cs
+Carpeta: C:\Users\nahui\Source\Repos\ObligatorioProgramacion16\Obligatorio_Logica\Entidades\PagoRecurrente.cs
+***********************************
+using Obligatorio_Logica.Entidades;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Obligatorio_Logica
+{
+    public class PagoRecurrente : Pago
+    {
+        private DateTime _fechaInicio;
+        private DateTime _fechaFin;
+        private int _cuotasPagas;
+        private int _cuotas;
+        private int _pagosPendientes; 
+
+        public int PagosPendientes 
+        { 
+            get { return _pagosPendientes; }
+            set { _pagosPendientes = value;  }
+        }
+        public DateTime FechaInicio
+        {
+            get { return _fechaInicio; }
+            set { _fechaInicio = value; }
+        }
+
+        public DateTime FechaFin
+        {
+            get { return _fechaFin; }
+            set { _fechaFin = value; }
+        }
+
+        public int cuotaspagas
+        {
+            get { return _cuotasPagas; }
+            set { _cuotasPagas = value; }
+        }
+
+        public int Cuotas
+        {
+            get { return _cuotas; }
+            set { _cuotas = value; }
+        }
+
+        public PagoRecurrente(metodoPago metodo, DateTime fechaInicio, DateTime fechaFin, string descripcion, int cuotaspagas, int cuotas, double monto, Tipo_gasto tipo, Usuario usuario)
+            : base(metodo ,monto, descripcion, tipo, usuario)
+        {
+            this._fechaInicio = fechaInicio;
+            this._fechaFin = fechaFin;
+            this._cuotasPagas = cuotaspagas;
+            this._cuotas = cuotas;
+        }
+
+        public override string ToString()
+        {
+            return $"PagoRecurrente: FechaInicio={FechaInicio}, FechaFin={FechaFin}, cuotas Pagas = {cuotaspagas}, Cuotas={Cuotas}, Monto={Monto}, Descripción={Descripcion}";
+        }
+
+        public void calcularPagosPendientes()
+        {
+            _pagosPendientes = _cuotas - _cuotasPagas;
+        }
+
+        public override double CalcularMontoConBeneficioORecargo()
+        {
+            double montoFinal = Monto;
+
+            if (_cuotas == 0) 
+            {
+                montoFinal *= 1.03; 
+            }
+            else if (_cuotas > 10)
+            {
+                montoFinal *= 1.10; 
+            }
+            else if (_cuotas >= 6 && _cuotas <= 9)
+            {
+                montoFinal *= 1.05; 
+            }
+            else if (_cuotas <= 5)
+            {
+                montoFinal *= 1.03; 
+            }
+
+            return montoFinal;
+        }
+    }
+}
+
+***********************************
+Archivo: PagoUnico.cs
+Carpeta: C:\Users\nahui\Source\Repos\ObligatorioProgramacion16\Obligatorio_Logica\Entidades\PagoUnico.cs
+***********************************
+using Obligatorio_Logica.Entidades;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Obligatorio_Logica
+{
+    public class PagoUnico : Pago
+    {
+        private DateTime _fecha;
+        private decimal _nroRecibo;
+       
+
+        public DateTime Fecha
+        {
+            get { return _fecha; }
+            set { _fecha = value; }
+        }
+
+        public decimal NroRecibo
+        {
+            get { return _nroRecibo; }
+            set { _nroRecibo = value; }
+        }
+
+
+        public PagoUnico(metodoPago metodo, DateTime fecha, decimal nroRecibo, double monto, string descripcion,Tipo_gasto tipo, Usuario usuario)
+        : base(metodo, monto, descripcion, tipo, usuario)
+        {
+           
+            this._fecha = fecha;
+            this._nroRecibo = nroRecibo;
+        }
+
+        public override string ToString()
+        {
+            return $"Pago Único - {base.ToString()}, Fecha: {Fecha:dd/MM/yyyy}, Nro. Recibo: {NroRecibo}";
+        }
+
+        public override double CalcularMontoConBeneficioORecargo()
+        {
+            if (Metodo == metodoPago.EFECTIVO)
+                return Monto * 0.8;
+            else
+                return Monto * 0.9;
+        }
+    }
+}
+
+***********************************
+Archivo: Tipo_Gasto.cs
+Carpeta: C:\Users\nahui\Source\Repos\ObligatorioProgramacion16\Obligatorio_Logica\Entidades\Tipo_Gasto.cs
+***********************************
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Xml.Schema;
+
+namespace Obligatorio_Logica
+{
+    public class Tipo_gasto : IValidable
+    {
+        private string _nombre;
+        private string _descripcion;
+        private bool _eliminado; 
+
+        public string Nombre
+        {
+            get { return _nombre; }
+            set { _nombre = value; }
+        }
+
+        public string Description
+        {
+            get { return _descripcion; }
+            set { _descripcion = value; }
+        }
+
+        public bool Eliminado
+        {
+            get { return _eliminado; }
+            set { _eliminado = value; }
+        }   
+        public Tipo_gasto(string nombre, string description)
+        {
+            this._nombre = nombre;
+            this._descripcion = description;
+            this._eliminado = false;
+        }
+
+        public Tipo_gasto() 
+        {
+            this._eliminado = false;
+        }
+
+        public void validar() 
+        {
+            validarDescripcion(); 
+            validarNombre();
+        }
+
+        public void validarDescripcion() 
+        {
+            if (string.IsNullOrEmpty(_descripcion)) throw new Exception("La descripcion no puede estar vacio");
+        }
+
+        public void validarNombre() 
+        {
+            if (string.IsNullOrEmpty(_nombre)) throw new Exception("El nombre no puede estar vacio");
+        }
+
+        public void Eliminar()
+        {
+            _eliminado = true;
+        }
+    }
+}
+
+***********************************
+Archivo: Usuario.cs
+Carpeta: C:\Users\nahui\Source\Repos\ObligatorioProgramacion16\Obligatorio_Logica\Entidades\Usuario.cs
+***********************************
+using Obligatorio_Logica.Entidades;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Obligatorio_Logica
+{
+    public class Usuario : IValidable
+    {
+        private string _nombre;
+        private string _apellido; 
+        private string _contrasenia;
+        private string _email;
+        public Cargo _rol;  
+        private Equipo _equipo; 
+        private DateTime _fecha_Inicio;
+
+        public Cargo Rol // ES ENUM 
+        {
+            get { return _rol; }
+            set { _rol = value; }
+        }
+        public string Nombre
+        {
+            get { return _nombre; }
+            set { _nombre = value; }
+        }
+
+        public string Apellido
+        {
+            get { return _apellido; }
+            set { _apellido = value; }
+        }
+
+        public string Contrasenia
+        {
+            get { return _contrasenia; }
+            set { _contrasenia = value; }
+        }
+
+        public string Email
+        {
+            get { return _email; }
+            set { _email = value; }
+        }
+
+    
+
+        public Equipo Equipo
+        {
+            get { return _equipo; }
+            set { _equipo = value; }
+        }
+
+        public DateTime Fecha_Inicio
+        {
+            get { return _fecha_Inicio; }
+            set { _fecha_Inicio = value; }
+        }
+
+        public Usuario(string nombre, string apellido, string contrasenia, string email, Equipo equipo, DateTime fecha_Inicio, Cargo rol)
+        {
+            this._nombre = nombre;
+            this._apellido = apellido;
+            this._contrasenia = contrasenia;
+            this._email = email;
+            this._equipo = equipo;
+            this._fecha_Inicio = fecha_Inicio;
+            this._rol = rol;
+        }
+
+        public void validar() 
+        {
+            validarNombre();
+            validarApellido();
+            validarContrasenia(); 
+        }
+
+        public void validarNombre()
+        {
+            if (string.IsNullOrEmpty(_nombre)) throw new Exception("El nombre no puede estar vacio") ;
+
+        }
+
+        public void validarApellido()
+        {
+            if (string.IsNullOrEmpty(_apellido)) throw new Exception("El apellido no puede estar vacio"); 
+        }
+
+
+        public void validarContrasenia()
+        {
+            if (string.IsNullOrEmpty(_contrasenia)) throw new Exception("La contraseña no puede estar vacia");
+            if (_contrasenia.Length < 8) throw new Exception("La contraseña no puede tener menos de 8 caracteres"); 
+
+            
+        }
+
+        public void validarEmail() {
+            if (string.IsNullOrEmpty(_email)) throw new Exception("el email no puede ser nulo");
+        }
+
+        public override string ToString()
+        {
+            return $"Nombre: {Nombre} {Apellido}, " +
+                   $"Email: {Email}, " +
+                   $"Equipo: {Equipo.Nombre}, " +
+                   $"Fecha de inicio: {Fecha_Inicio.Day + "/" + Fecha_Inicio.Month + "/" + Fecha_Inicio.Year}";
+        }
+    }
+}
