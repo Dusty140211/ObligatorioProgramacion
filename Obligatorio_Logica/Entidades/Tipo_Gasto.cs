@@ -7,7 +7,7 @@ using System.Xml.Schema;
 
 namespace Obligatorio_Logica
 {
-    public class Tipo_gasto
+    public class Tipo_gasto : IValidable
     {
         private string _nombre;
         private string _descripcion;
@@ -42,7 +42,7 @@ namespace Obligatorio_Logica
             this._eliminado = false;
         }
 
-        public void Validar() 
+        public void validar() 
         {
             validarDescripcion(); 
             validarNombre();

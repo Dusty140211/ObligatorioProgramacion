@@ -62,13 +62,16 @@ namespace Obligatorio_Logica
             Equipo e2 = new Equipo("404 Not Found");
             Equipo e3 = new Equipo("Los Debuggers");
             Equipo e4 = new Equipo("Los Exception");
+            Equipo e5 = new Equipo("Los Compiladores");
+            Equipo e6 = new Equipo("Syntax Error");
 
             AltaEquipo(e1);
             AltaEquipo(e2);
             AltaEquipo(e3);
             AltaEquipo(e4);
+            AltaEquipo(e5);
+            AltaEquipo(e6);
         }
-
         private void precargaUsuarios()
         {
             if (_equipo.Count < 4)
@@ -115,6 +118,10 @@ namespace Obligatorio_Logica
             _tiposGasto.Add(new Tipo_gasto("Transporte", "Gastos de transporte"));
             _tiposGasto.Add(new Tipo_gasto("Servicios", "Gastos de servicios"));
             _tiposGasto.Add(new Tipo_gasto("Entretenimiento", "Gastos de ocio"));
+            _tiposGasto.Add(new Tipo_gasto("Educación", "Gastos relacionados con estudios, cursos o capacitaciones"));
+            _tiposGasto.Add(new Tipo_gasto("Salud", "Gastos médicos, seguros o farmacia"));
+            _tiposGasto.Add(new Tipo_gasto("Hogar", "Mantenimiento, limpieza o artículos domésticos"));
+            _tiposGasto.Add(new Tipo_gasto("Tecnología", "Equipos, software o servicios digitales"));
         }
 
         public void precargaPagos()
@@ -224,14 +231,10 @@ namespace Obligatorio_Logica
             }
         }
 
-        public void AltaTipoGasto(Tipo_gasto tg)
-        {
-            _tiposGasto.Add(tg);
-        }
 
         public void altaGasto(Tipo_gasto t)
         {
-            t.Validar();
+            t.validar();
             if (_tiposGasto.Contains(t))
             {
                 throw new Exception("El gasto fue ingresado previamente");
@@ -292,7 +295,7 @@ namespace Obligatorio_Logica
 
         public void altaPago(Pago p)
         {
-            p.Validaciones();
+            p.Validar();
             if (_pago.Contains(p))
             {
                 throw new Exception("El pago ya fue ingresado previamente");

@@ -49,6 +49,7 @@
     <Compile Include="Entidades\PagoRecurrente.cs" />
     <Compile Include="Entidades\PagoUnico.cs" />
     <Compile Include="ComparadorPagosPorMonto.cs" />
+    <Compile Include="IValidable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sistema.cs" />
     <Compile Include="Entidades\Tipo_Gasto.cs" />

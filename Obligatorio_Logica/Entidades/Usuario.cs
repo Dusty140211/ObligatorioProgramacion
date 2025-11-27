@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Obligatorio_Logica
 {
-    public class Usuario
+    public class Usuario : IValidable
     {
         private string _nombre;
         private string _apellido; 

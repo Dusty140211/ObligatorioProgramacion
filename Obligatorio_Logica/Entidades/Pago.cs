@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Obligatorio_Logica
 {
-    public abstract class Pago
+    public abstract class Pago : IValidable
     {
 
         private int _id;
@@ -67,7 +67,7 @@ namespace Obligatorio_Logica
            
         }
 
-        public void Validaciones() 
+        public void Validar() 
         {
             validarMonto();
             validarDescripcion(); 
@@ -89,6 +89,9 @@ namespace Obligatorio_Logica
             return _monto;
         }
 
-
+        public void validar()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

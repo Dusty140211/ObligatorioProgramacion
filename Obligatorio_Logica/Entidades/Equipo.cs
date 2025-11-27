@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Obligatorio_Logica
 {
-    public class Equipo
+    public class Equipo : IValidable
     {
         private int _id;
         private string _nombre;
