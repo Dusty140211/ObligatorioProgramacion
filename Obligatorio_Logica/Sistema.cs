@@ -320,19 +320,69 @@ namespace Obligatorio_Logica
         public Tipo_gasto BuscarTipoGastoPorNombre(string nombre)
         {
             if (string.IsNullOrWhiteSpace(nombre))
-                return null;
+                throw new Exception("El nombre del tipo de gasto no puede estar vacío.");
 
             foreach (Tipo_gasto tg in _tiposGasto)
             {
-                if (tg.Nombre.Trim().ToLower() == nombre.Trim().ToLower())
+                if (tg.Nombre.Equals(nombre, StringComparison.OrdinalIgnoreCase))
                 {
                     return tg;
                 }
             }
 
-            return null;
+            throw new Exception("El tipo de gasto no existe.");
+        }
+        public List<Pago> ObtenerPagosDeEquipo(DateTime? fecha, string email)
+        {
+            DateTime f;
+
+            if (fecha == null)
+                f = DateTime.Now;
+            else
+                f = fecha.Value;
+
+            if (string.IsNullOrWhiteSpace(email))
+                throw new Exception("El email del usuario no puede ser nulo o vacío.");
+
+            Usuario u = BuscarporMail(email);
+            if (u == null)
+                throw new Exception("No se encontró el usuario con ese email.");
+
+            CalcularPagoPendientesPorMail(email);
+
+            // 🔹 Primero obtengo los pagos del equipo
+            List<Pago> pagos = pagosDeEquipo(f, u);
+
+            // 🔹 Después los ordeno (no la lista global)
+            pagos.Sort(new ComparadorPagoPorMontoTotal());
+
+            return pagos;
         }
 
+        public List<Usuario> ObtenerIntegrantesEquipo(Usuario gerente)
+        {
+            if (gerente == null)
+                throw new Exception("El usuario no puede ser nulo.");
+
+            if (gerente.Equipo == null)
+                throw new Exception("El usuario no pertenece a ningún equipo.");
+
+            List<Usuario> integrantes = new List<Usuario>();
+
+            foreach (Usuario otro in _usuarios)
+            {
+                // Mismo equipo y no el mismo usuario
+                if (otro.Equipo.Nombre == gerente.Equipo.Nombre && otro != gerente)
+                {
+                    integrantes.Add(otro);
+                }
+            }
+
+            // Ordenar por email (usando tu método CompararPorEmail)
+            integrantes.Sort(CompararPorEmail);
+
+            return integrantes;
+        }
         // ========================================================
         // 8) Login
         // ========================================================
@@ -456,6 +506,8 @@ namespace Obligatorio_Logica
                 }
             }
         }
+
+      
 
         // ========================================================
         // 10) Auxiliares

@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ComparadorPagoPorMontoTotal.cs" />
     <Compile Include="Entidades\Cargo.cs" />
     <Compile Include="Entidades\metodoPago.cs" />
     <Compile Include="Entidades\Pago.cs" />

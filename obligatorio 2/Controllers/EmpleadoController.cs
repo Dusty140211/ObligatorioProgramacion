@@ -15,32 +15,48 @@ namespace obligatorio_2.Controllers
 
         public IActionResult Index()
         {
-            string? email = HttpContext.Session.GetString("email");
-            if (email == null)
+            try
             {
-                return RedirectToAction("Index", "Login");
+                string? email = HttpContext.Session.GetString("email");
+                if (email == null)
+                {
+                    return RedirectToAction("Index", "Login");
+                }
+
+                s.CalcularPagoPendientesPorMail(email);
+                Usuario u = s.BuscarporMail(email);
+                List<Pago> pagos = s.pagosDelMes(DateTime.Now, u);
+
+                return View(pagos);
             }
-
-            s.CalcularPagoPendientesPorMail(email);
-            Usuario u = s.BuscarporMail(email);
-            List<Pago> pagos = s.pagosDelMes(DateTime.Now, u);
-
-            return View(pagos);
+            catch(Exception ex)
+            {
+                ViewBag.msg = ex.Message;
+                return View();
+            }
         }
 
         public IActionResult Perfil()
         {
-            string? email = HttpContext.Session.GetString("email");
-            if (string.IsNullOrEmpty(email))
+            try
             {
-                return RedirectToAction("Index", "Login");
+                string? email = HttpContext.Session.GetString("email");
+                if (string.IsNullOrEmpty(email))
+                {
+                    return RedirectToAction("Index", "Login");
+                }
+
+                Usuario u = s.BuscarporMail(email);
+                double totalMes = s.MontoGastadoEsteMes(email);
+                ViewBag.TotalMes = totalMes;
+
+                return View(u);
             }
-
-            Usuario u = s.BuscarporMail(email);
-            double totalMes = s.MontoGastadoEsteMes(email);
-            ViewBag.TotalMes = totalMes;
-
-            return View(u);
+            catch (Exception ex)
+            {
+                ViewBag.msg = ex.Message;
+                return View();
+            }
         }
 
         public IActionResult CargarPagos()
@@ -68,8 +84,6 @@ namespace obligatorio_2.Controllers
 
                 // Buscar tipo de gasto
                 Tipo_gasto tipo = s.BuscarTipoGastoPorNombre(nombreTipo);
-                if (tipo == null)
-                    throw new Exception("Tipo de gasto inválido");
 
                 // Crear pago
                 PagoUnico nuevo = new PagoUnico(metodo, fecha, nroRecibo, monto, descripcion, tipo, u);
@@ -79,8 +93,8 @@ namespace obligatorio_2.Controllers
             }
             catch (Exception ex)
             {
-                TempData["Error"] = ex.Message;
-                return View("PagoUnico");
+                ViewBag.msg = ex.Message;
+                return View();
             }
         }
 
@@ -104,8 +118,6 @@ namespace obligatorio_2.Controllers
 
                 // Buscar tipo de gasto
                 Tipo_gasto tipogasto = s.BuscarTipoGastoPorNombre(nombreTipo);
-                if (tipogasto == null)
-                    throw new Exception("Tipo de gasto inválido");
 
                 // Crear pago recurrente
                 PagoRecurrente nuevo = new PagoRecurrente(
@@ -125,8 +137,8 @@ namespace obligatorio_2.Controllers
             }
             catch (Exception ex)
             {
-                TempData["Error"] = ex.Message;
-                return View("PagoRecurrente");
+                ViewBag.msg = ex.Message;
+                return View();
             }
         }
     }

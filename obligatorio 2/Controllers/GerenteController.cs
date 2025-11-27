@@ -11,97 +11,96 @@ namespace obligatorio_2.Controllers
 
         public IActionResult index(DateTime? fecha)
         {
-            string? email = HttpContext.Session.GetString("email");
-            if (HttpContext.Session.GetString("email") == null)
+            try
             {
-                return RedirectToAction("Index", "Login");
+                string? email = HttpContext.Session.GetString("email");
+                if (HttpContext.Session.GetString("email") == null)
+                {
+                    return RedirectToAction("Index", "Login");
+                }
+
+                s.CalcularPagoPendientesPorMail(email);
+
+                Usuario u = Sistema.Instancia.BuscarporMail(email);
+
+                List<Pago> pagos = s.pagosDelMes(DateTime.Now, u);
+
+                return View(pagos);
             }
-
-            s.CalcularPagoPendientesPorMail(email);
-
-            Usuario u = Sistema.Instancia.BuscarporMail(email);
-
-            List<Pago> pagos = s.pagosDelMes(DateTime.Now, u);
-
-            return View(pagos);
+            catch (Exception ex)
+            {
+                ViewBag.msg = ex.Message;
+                return View();
+            }
 
         }
 
         public IActionResult equipoI(DateTime? fecha) 
         {
-
-            DateTime f;
-
-            if (fecha == null)
+            try
             {
-                f = DateTime.Now; // Usa la fecha actual
+                string? email = HttpContext.Session.GetString("email");
+
+                if (email == null)
+                    return RedirectToAction("Index", "Login");
+
+                List<Pago> pagos = s.ObtenerPagosDeEquipo(fecha, email);
+
+                return View(pagos);
             }
-            else
+            catch (Exception ex)
             {
-                f = fecha.Value; // Usa la que pasó el usuario
+                ViewBag.msg = ex.Message;
+                return View();
             }
-
-            string? email = HttpContext.Session.GetString("email");
-
-
-            if (HttpContext.Session.GetString("email") == null)
-            {
-                return RedirectToAction("Index", "Login");
-            }
-
-            s.CalcularPagoPendientesPorMail(email);
-
-            Usuario u = s.BuscarporMail(email);
-
-            List<Pago> pagos = s.pagosDeEquipo(f, u);
-
-            return View(pagos);
         }
 
         public IActionResult Perfil()
         {
-            string? email = HttpContext.Session.GetString("email");
-            if (string.IsNullOrEmpty(email))
+            try
             {
-                return RedirectToAction("Index", "Login");
-            }
+                string? email = HttpContext.Session.GetString("email");
 
-            Usuario u = s.BuscarporMail(email);
+                Usuario u = s.BuscarporMail(email);
+                double totalMes = s.MontoGastadoEsteMes(email);
+                ViewBag.TotalMes = totalMes;
 
-            double totalMes = s.MontoGastadoEsteMes(email);
-            ViewBag.TotalMes = totalMes;
-
-           
-            if (u.Rol == Cargo.GERENTE)
-            {
-                List<Usuario> integrantes = new List<Usuario>();
-                foreach (Usuario otro in s.Usuarios)
-                {
-                    if (otro.Equipo.Nombre == u.Equipo.Nombre && otro != u)
-                    {
-                        integrantes.Add(otro);
-                    }
-                }
-                integrantes.Sort(s.CompararPorEmail);
-
+            
+                List<Usuario> integrantes = s.ObtenerIntegrantesEquipo(u);
                 ViewBag.Integrantes = integrantes;
+                
+
+                return View(u);
             }
-            return View(u);
+            catch (Exception ex)
+            {
+                ViewBag.msg = ex.Message;
+                return View();
+            }
         }
         [HttpGet]
         public IActionResult cargarGasto() 
         {
             return View(); 
         }
+
         [HttpPost]
         public IActionResult cargarGasto(string nombre, string descripcion) 
         {
-            Tipo_gasto nuevo = new Tipo_gasto(
-               nombre,
-               descripcion
-               );
-            s.altaGasto(nuevo);
-            return RedirectToAction("index");
+            try
+            {
+                Tipo_gasto nuevo = new Tipo_gasto(
+                   nombre,
+                   descripcion
+                   );
+                s.altaGasto(nuevo);
+                return RedirectToAction("index");
+            }
+            catch (Exception ex)
+            {
+                ViewBag.msg = ex.Message;
+                return View();
+            }
         }
 
 
@@ -110,39 +109,18 @@ namespace obligatorio_2.Controllers
             List<Tipo_gasto> gastos = s.listarTiposGasto();
             return View(gastos); 
         }
-       
+
         public IActionResult EliminarGasto(string nombre)
         {
             try
             {
-                Tipo_gasto tg = null;
-
-                foreach (Tipo_gasto t in s.listarTiposGasto())
-                {
-                    if (t.Nombre == nombre)
-                    {
-                        tg = t;
-                        break;
-                    }
-                }
-
-                if (tg != null)
-                {
-                   
-                    return View(tg);
-                }
-                else
-                {
-                    List<Tipo_gasto> lista = s.listarTiposGasto();
-                    ViewBag.Error = "El tipo de gasto no existe.";
-                    return View("ListaGastos", lista);
-                }
+                Tipo_gasto tg = s.BuscarTipoGastoPorNombre(nombre);
+                return View(tg);
             }
             catch (Exception ex)
             {
-                
-                List<Tipo_gasto> lista = s.listarTiposGasto();
                 ViewBag.Error = ex.Message;
+                List<Tipo_gasto> lista = s.listarTiposGasto();
                 return View("ListaGastos", lista);
             }
         }
