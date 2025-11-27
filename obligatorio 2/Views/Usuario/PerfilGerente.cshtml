@@ -16,7 +16,7 @@
 <label>Email: </label>
 <p>@Model.Email</p>
 <label>Fecha de inicio: </label>
-<p>@Model.Fecha_Inicio.ToShortDateString()</p>
+<p>@Model.Fecha_Inicio.ToString("dd/MM/yyyy")</p>
 <label>Equipo al que pertenece: </label>
 <p>@Model.Equipo.Nombre</p>
 <label>Gastado: </label>
@@ -35,9 +35,17 @@
         @foreach (Usuario u in ViewBag.Integrantes)
         {
             <tr>
+                <td>
+                    @if (u.Rol == Cargo.EMPLEADO)
+                    {
+                        @:Empleado
+                    }
+                </td>
                 <td>@u.Nombre</td>
                 <td>@u.Apellido</td>
                 <td>@u.Email</td>
+                <td>@u.Fecha_Inicio.ToString("dd/MM/yyyy")</td>
+
             </tr>
         }
     </table>

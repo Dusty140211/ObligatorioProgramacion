@@ -1,7 +1,18 @@
 ﻿@using Obligatorio_Logica
 @model List<Tipo_gasto>
 
-<p>@ViewBag.Error</p>
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger text-center mt-3">
+        @ViewBag.Error
+    </div>
+}
+@if (ViewBag.Mensaje != null)
+{
+    <div class="alert alert-warning text-center mt-3">
+        @ViewBag.Mensaje
+    </div>
+}
 
 @if (Model != null && Model.Count > 0)
 {

@@ -176,6 +176,13 @@ namespace Obligatorio_Logica
             altaPago(new PagoUnico(metodoPago.EFECTIVO, new DateTime(2025, 11, 18), 1118, 1000, "Taxi", tg2, u7));
             altaPago(new PagoUnico(metodoPago.CREDITO, new DateTime(2025, 11, 19), 1119, 1250, "Gas", tg3, u10));
             altaPago(new PagoUnico(metodoPago.DEBITO, new DateTime(2025, 11, 20), 1120, 1800, "Cine", tg4, u13));
+            altaPago(new PagoUnico(metodoPago.CREDITO, new DateTime(2025, 1, 15), 1201, 2500, "Cena de negocios", tg1, u1));
+            altaPago(new PagoUnico(metodoPago.DEBITO, new DateTime(2025, 3, 10), 1202, 1800, "Taxi corporativo", tg2, u4));
+            altaPago(new PagoUnico(metodoPago.EFECTIVO, new DateTime(2025, 5, 20), 1203, 3200, "Pago de servicios", tg3, u13));
+            altaPago(new PagoUnico(metodoPago.CREDITO, new DateTime(2025, 7, 25), 1204, 4000, "Evento corporativo", tg4, u20));
+            altaPago(new PagoUnico(metodoPago.DEBITO, new DateTime(2025, 9, 5), 1205, 1500, "Almuerzo con clientes", tg1, u1));
+            altaPago(new PagoUnico(metodoPago.EFECTIVO, new DateTime(2025, 10, 18), 1206, 2200, "Transporte privado", tg2, u4));
+
 
             // --------------------------
             // Pagos recurrentes (TODOS)
@@ -194,8 +201,12 @@ namespace Obligatorio_Logica
             altaPago(new PagoRecurrente(metodoPago.EFECTIVO, new DateTime(2025, 11, 12), new DateTime(2026, 5, 12), "Alquiler", 8, 8, 600, tg3, u22));
             altaPago(new PagoRecurrente(metodoPago.CREDITO, new DateTime(2025, 11, 13), new DateTime(2026, 5, 13), "Revista", 4, 4, 350, tg4, u3));
             altaPago(new PagoRecurrente(metodoPago.DEBITO, new DateTime(2025, 11, 14), new DateTime(2026, 5, 14), "Colegio", 10, 10, 700, tg3, u15));
+            altaPago(new PagoRecurrente(metodoPago.CREDITO, new DateTime(2025, 2, 1), new DateTime(2025, 12, 1), "Suscripción a software", 1, 1, 500, tg3, u13));
+            altaPago(new PagoRecurrente(metodoPago.DEBITO, new DateTime(2025, 4, 15), new DateTime(2025, 10, 15), "Membresía de gimnasio", 1, 1, 300, tg4, u20));
+            altaPago(new PagoRecurrente(metodoPago.EFECTIVO, new DateTime(2025, 6, 1), new DateTime(2025, 12, 1), "Pago de estacionamiento", 1, 1, 200, tg2, u1));
+            altaPago(new PagoRecurrente(metodoPago.CREDITO, new DateTime(2025, 8, 1), new DateTime(2025, 12, 1), "Alquiler de oficina", 1, 1, 1500, tg3, u4));
 
-          
+
         }
 
         // ========================================================
@@ -250,14 +261,33 @@ namespace Obligatorio_Logica
 
         public void EliminarGasto(string nombre)
         {
+            // Buscar el tipo de gasto por nombre
+            Tipo_gasto tipoAEliminar = null;
+
             foreach (Tipo_gasto tg in _tiposGasto)
             {
-                if (tg.Nombre.Equals(nombre))
+                if (tg.Nombre.Equals(nombre, StringComparison.OrdinalIgnoreCase))
                 {
-                    tg.Eliminar();
-                    return;
+                    tipoAEliminar = tg;
+                    break;
                 }
             }
+
+            if (tipoAEliminar == null)
+                throw new Exception("El tipo de gasto no existe.");
+
+            // 🔒 Validación: verificar si hay pagos asociados a ese tipo
+            foreach (Pago p in _pago)
+            {
+                if (p.Tipo != null &&
+                    p.Tipo.Nombre.Equals(nombre))
+                {
+                    throw new Exception("No se puede eliminar este tipo de gasto porque está siendo utilizado en uno o más pagos.");
+                }
+            }
+
+            // Si no está en uso, se elimina normalmente
+            tipoAEliminar.Eliminar();
         }
 
         public void altaPago(Pago p)
@@ -296,27 +326,28 @@ namespace Obligatorio_Logica
         // ========================================================
         // 7) Búsquedas y helpers de dominio
         // ========================================================
-        public List<Pago> listarPagosPorMail(string email)
-        {
-            List<Pago> pagosUsuario = new List<Pago>();
-            string emailBuscado = email.Trim().ToLower();
-            if (_pago.Count == 0)
-            {
-                throw new Exception("No hay pagos cargados");
-            }
-            else
-            {
-                foreach (Pago p in _pago)
-                {
-                    if (p.Usuario.Email.Trim().ToLower() == emailBuscado)
-                    {
-                        pagosUsuario.Add(p);
-                    }
-                }
-                return pagosUsuario;
+       public List<Pago> listarPagosPorMail(string email)
+{
+    if (string.IsNullOrWhiteSpace(email))
+        throw new Exception("El email no puede estar vacío.");
 
-            }
-        }
+    string emailBuscado = email.Trim().ToLower();
+    List<Pago> pagosUsuario = new List<Pago>();
+
+    if (_pago.Count == 0)
+        throw new Exception("No hay pagos cargados en el sistema.");
+
+    foreach (Pago p in _pago)
+    {
+        if (p.Usuario.Email.Trim().ToLower() == emailBuscado)
+            pagosUsuario.Add(p);
+    }
+
+    if (pagosUsuario.Count == 0)
+        throw new Exception("No existen pagos registrados para este usuario.");
+
+    return pagosUsuario;
+}
 
         public bool existeEquipo(string nombre)
         {
@@ -422,7 +453,7 @@ namespace Obligatorio_Logica
             Usuario u = BuscarporMail(email);
             if (u == null)
             {
-                throw new Exception("El email es null");
+                throw new Exception("El email esta vacio o es incorrecto");
             }
             else
             {
@@ -522,7 +553,7 @@ namespace Obligatorio_Logica
             }
             return total;
         }
-
+        
         public void CalcularPagoPendientesPorMail(string email)
         {
             string emailBuscado = email.ToLower().Trim();

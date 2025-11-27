@@ -4,7 +4,7 @@
 
 <h1>Eliminar Gasto</h1>
 
-<form asp-controller="Gastos" asp-action="eliminarGasto" method="post">
+<form asp-controller="Gastos" asp-action="ConfirmarEliminarGasto" method="post">
     <label>Nombre</label>
     <input type="text" value="@Model.Nombre" disabled /> 
     <input type="hidden" name="nombre" value="@Model.Nombre" />
