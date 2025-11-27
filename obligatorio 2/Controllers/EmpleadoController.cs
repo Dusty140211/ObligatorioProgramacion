@@ -129,7 +129,7 @@ namespace obligatorio_2.Controllers
                         if (tg.Nombre == nombreTipo)
                         {
                             tipogasto = tg;
-                            break; // lo encontramos, no hace falta seguir
+                            break; 
                         }
                     }
 

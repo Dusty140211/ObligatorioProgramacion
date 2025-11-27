@@ -16,13 +16,13 @@ namespace Obligatorio_Logica
         private List<Pago> _pago = new List<Pago>();
         public static Sistema s_instancia;
         private List<Tipo_gasto> _tiposGasto = new List<Tipo_gasto>();
-        
+
 
         public List<Usuario> Usuarios { get { return new List<Usuario>(_usuarios); } }
         public List<Equipo> Equipos { get { return new List<Equipo>(_equipo); } }
         public List<Pago> Pagos { get { return new List<Pago>(_pago); } }
 
-        public List<Tipo_gasto> tipo_Gastos { get { return new List<Tipo_gasto>(_tiposGasto);  } }
+        public List<Tipo_gasto> tipo_Gastos { get { return new List<Tipo_gasto>(_tiposGasto); } }
         // a . listado de usuarios (nombre, mail, grupo) - 
         // b . Dado un correo de usuario listar todos los pagos que realizó ese usuario (monto, descripción, tipo de gasto, método de pago) y si es recurrente mostrar cuants pagos quedan pendientes 
         // c . alta de usuario (nombre, apellido, contraseña, equipo) - 
@@ -50,8 +50,8 @@ namespace Obligatorio_Logica
             precargaEquipo();
             precargaUsuarios();
             precargaPagos();
-            
-            
+
+
 
 
 
@@ -247,6 +247,16 @@ namespace Obligatorio_Logica
             _pago.Add(p);
         }
 
+        public void altaGasto(Tipo_gasto t)
+        {
+            t.Validar();
+            if (_tiposGasto.Contains(t))
+            {
+                throw new Exception("El gasto fue ingresado previamente"); 
+            }
+            _tiposGasto.Add(t);
+        }
+
 
         public List<Pago> listarPagosPorMail(string email)
         {
@@ -384,7 +394,7 @@ namespace Obligatorio_Logica
             }
             else
             {
-              
+
                 if (u.Contrasenia.Trim().Equals(pass.Trim()))
                 {
                     return u;
@@ -435,24 +445,24 @@ namespace Obligatorio_Logica
             return ret;
         }
 
-        public List<Pago> pagosDeEquipo(DateTime fecha, Usuario u1) 
-        { 
+        public List<Pago> pagosDeEquipo(DateTime fecha, Usuario u1)
+        {
             List<Pago> ret = new List<Pago>();
             List<Usuario> usuarios = new List<Usuario>();
 
-            foreach (Usuario u in _usuarios) 
+            foreach (Usuario u in _usuarios)
             {
-                if (u.Equipo == u1.Equipo) 
+                if (u.Equipo == u1.Equipo)
                 {
                     usuarios.Add(u);
                 }
             }
-            foreach (Usuario u in usuarios) 
-            { 
+            foreach (Usuario u in usuarios)
+            {
                 ret.AddRange(pagosDelMes(fecha, u));
             }
             ret.Sort(new ComparadorPagosPorMonto());
-            
+
             return ret;
 
         }
@@ -498,24 +508,27 @@ namespace Obligatorio_Logica
             return total;
         }
 
-            // Calcular pagos pendientes 
-            public void CalcularPagoPendientesPorMail(string email) 
-            { 
-                string emailBuscado = email.ToLower().Trim();
+        // Calcular pagos pendientes 
+        public void CalcularPagoPendientesPorMail(string email)
+        {
+            string emailBuscado = email.ToLower().Trim();
 
-            foreach (Pago p in _pago) 
+            foreach (Pago p in _pago)
             {
-                if (p.Usuario.Email.ToLower().Trim() == emailBuscado) 
+                if (p.Usuario.Email.ToLower().Trim() == emailBuscado)
                 {
-                    if (p is PagoRecurrente pr) 
+                    if (p is PagoRecurrente pr)
                     {
-                        pr.calcularPagosPendientes(); 
+                        pr.calcularPagosPendientes();
                     }
                 }
             }
-            }
+        }
 
-        
+
+      
+
+
     }
 
 }
