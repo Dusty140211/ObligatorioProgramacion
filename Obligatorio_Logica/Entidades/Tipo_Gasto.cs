@@ -11,6 +11,7 @@ namespace Obligatorio_Logica
     {
         private string _nombre;
         private string _descripcion;
+        bool _eliminado; 
 
         public string Nombre
         {
@@ -24,10 +25,21 @@ namespace Obligatorio_Logica
             set { _descripcion = value; }
         }
 
+        public bool Eliminado
+        {
+            get { return _eliminado; }
+            set { _eliminado = value; }
+        }   
         public Tipo_gasto(string nombre, string description)
         {
             this._nombre = nombre;
             this._descripcion = description;
+            this._eliminado = false;
+        }
+
+        public Tipo_gasto() 
+        {
+            this._eliminado = false;
         }
 
         public void Validar() 
@@ -45,7 +57,10 @@ namespace Obligatorio_Logica
         {
             if (string.IsNullOrEmpty(_nombre)) throw new Exception("El nombre no puede estar vacio");
         }
-        
 
+        public void Eliminar()
+        {
+            _eliminado = true;
+        }
     }
 }

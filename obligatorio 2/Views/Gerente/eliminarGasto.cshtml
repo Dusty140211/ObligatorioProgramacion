@@ -1,0 +1,16 @@
+﻿@using Obligatorio_Logica
+@using Obligatorio_Logica.Entidades
+@model Tipo_gasto
+
+<h1>Eliminar Gasto</h1>
+
+<form asp-controller="Gerente" asp-action="eliminarGasto" method="post">
+    <label>Nombre</label>
+    <input type="text" value="@Model.Nombre" disabled /> 
+    <input type="hidden" name="nombre" value="@Model.Nombre" />
+    <br />
+    <label for="Descripcion"></label>
+    <input type="text" name="descripcion" disabled value="@Model.Description" />
+    <br />
+    <button type="submit">Eliminar Gasto</button>
+</form>

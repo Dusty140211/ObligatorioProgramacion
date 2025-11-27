@@ -1,0 +1,103 @@
+﻿@using Obligatorio_Logica;
+@using Obligatorio_Logica.Entidades
+@model List<Pago>
+
+<h2>Listado de pagos</h2>
+
+<table border="1" cellpadding="6" cellspacing="0">
+    <thead>
+        <tr>
+            <th>Empleado</th>
+            <th>Email</th>
+            <th>Descripción</th>
+            <th>Tipo de Pago</th>
+            <th>Fechas</th>
+            <th>Método</th>
+            <th>Tipo de Gasto</th>
+            <th>Monto Base</th>
+            <th>Monto Total (con recargo o beneficio)</th>
+        </tr>
+    </thead>
+    <tbody>
+    <form method="get" asp-action="Index">
+    <label for="fecha">Seleccionar mes: </label>
+    <input type="month" id="fecha" name="fecha" value="@DateTime.Now.ToString("yyyy-MM")" />
+    <button type="submit">Filtrar</button>
+    </form>
+        @foreach (var p in Model)
+        {
+            <tr>
+                @if (p.Usuario.Rol == Cargo.EMPLEADO)
+                {
+                    <td>@p.Usuario.Nombre @p.Usuario.Apellido</td>
+                    <td>@p.Usuario.Email</td>
+                
+
+                <td>@p.Descripcion</td>
+
+                <td>
+                    @if (p is PagoRecurrente)
+                    {
+                        @:Recurrente
+                    }
+                    else
+                    {
+                        @:Único
+                    }
+                </td>
+
+                <td>
+                    @if (p is PagoRecurrente pr)
+                    {
+                        @($"Inicio: {pr.FechaInicio:dd/MM/yyyy}")
+                        if (pr.FechaFin <= DateTime.Now)
+                        {
+                            @($" → Fin: {pr.FechaFin:dd/MM/yyyy}")
+                        }
+                    }
+                    else if (p is PagoUnico pu)
+                    {
+                        @pu.Fecha.ToString("dd/MM/yyyy")
+                    }
+                </td>
+
+                <td>
+                    @if (p.Metodo == metodoPago.CREDITO)
+                    {
+                        @:Crédito
+                    }
+                    else if (p.Metodo == metodoPago.DEBITO)
+                    {
+                        @:Débito
+                    }
+                    else
+                    {
+                        @:Efectivo
+                    }
+                </td>
+
+                <td>@p.Tipo.Nombre</td>
+                <td>@p.Monto.ToString("C")</td>
+
+                <td>
+                    @if (p is PagoRecurrente pr2)
+                    {
+                        @(pr2.CalcularMontoConBeneficioORecargo())
+                    }
+                    else if (p is PagoUnico pu2)
+                    {
+                        @(pu2.CalcularMontoConBeneficioORecargo())
+                    }
+                </td>
+                }
+               
+            </tr>
+            
+        }
+    </tbody>
+
+
+
+</table>
+
+

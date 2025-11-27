@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using Obligatorio_Logica;
 using Obligatorio_Logica.Entidades;
 
@@ -7,23 +6,28 @@ namespace obligatorio_2.Controllers
 {
     public class EmpleadoController : Controller
     {
+        // 🔹 Instancia del sistema
         private Sistema s = Sistema.Instancia;
+
+        // ======================================================
+        // 🏠 ACCIONES PRINCIPALES
+        // ======================================================
+
         public IActionResult Index()
         {
             string? email = HttpContext.Session.GetString("email");
-            if (HttpContext.Session.GetString("email") == null)
+            if (email == null)
             {
                 return RedirectToAction("Index", "Login");
             }
 
             s.CalcularPagoPendientesPorMail(email);
-
-            Usuario u = Sistema.Instancia.BuscarporMail(email);
-
+            Usuario u = s.BuscarporMail(email);
             List<Pago> pagos = s.pagosDelMes(DateTime.Now, u);
 
             return View(pagos);
         }
+
         public IActionResult Perfil()
         {
             string? email = HttpContext.Session.GetString("email");
@@ -32,113 +36,79 @@ namespace obligatorio_2.Controllers
                 return RedirectToAction("Index", "Login");
             }
 
-            Usuario u = Sistema.Instancia.BuscarporMail(email);
-
-            double totalMes = Sistema.Instancia.MontoGastadoEsteMes(email);
+            Usuario u = s.BuscarporMail(email);
+            double totalMes = s.MontoGastadoEsteMes(email);
             ViewBag.TotalMes = totalMes;
-
-            // Si es gerente, obtiene todos los miembros de su equipo
-            if (u.Rol == Cargo.GERENTE)
-            {
-                List<Usuario> integrantes = new List<Usuario>();
-                foreach (Usuario otro in Sistema.Instancia.Usuarios)
-                {
-                    if (otro.Equipo.Nombre == u.Equipo.Nombre && otro != u)
-                    {
-                        integrantes.Add(otro);
-                    }
-                }
-
-                ViewBag.Integrantes = integrantes;
-            }
 
             return View(u);
         }
+
         public IActionResult CargarPagos()
         {
             return View();
         }
 
+        // ======================================================
+        // 💵 PAGO ÚNICO
+        // ======================================================
+
         [HttpGet]
         public IActionResult PagoUnico()
         {
-            // Carga la vista del formulario para ingresar un pago único.
-            // Acá no se hace ninguna lógica, solo se muestra la página.
             return View();
         }
+
         [HttpPost]
         public IActionResult PagoUnico(metodoPago metodo, DateTime fecha, decimal nroRecibo, double monto, string descripcion, string nombreTipo)
         {
-        try { 
-            string? email = HttpContext.Session.GetString("email");
+            try
+            {
+                string? email = HttpContext.Session.GetString("email");
+                Usuario u = s.BuscarporMail(email);
 
-            Usuario u = Sistema.Instancia.BuscarporMail(email);
-            Tipo_gasto tipo = null;
-
-                foreach (Tipo_gasto tg in Sistema.Instancia.tipo_Gastos)
-                {
-                    if (tg.Nombre == nombreTipo)
-                    {
-                        tipo = tg;
-                        break; // lo encontramos, no hace falta seguir
-                    }
-                }
-
+                // Buscar tipo de gasto
+                Tipo_gasto tipo = s.BuscarTipoGastoPorNombre(nombreTipo);
                 if (tipo == null)
-                {
                     throw new Exception("Tipo de gasto inválido");
-                }
 
-                PagoUnico nuevo = new PagoUnico(
-                metodo,
-                fecha,
-                nroRecibo,
-                monto,
-                descripcion,
-                tipo,
-                u
-            );
+                // Crear pago
+                PagoUnico nuevo = new PagoUnico(metodo, fecha, nroRecibo, monto, descripcion, tipo, u);
+                s.altaPago(nuevo);
 
-            Sistema.Instancia.altaPago(nuevo);
-            return RedirectToAction("index");
-        }
+                return RedirectToAction("Index");
+            }
             catch (Exception ex)
             {
                 TempData["Error"] = ex.Message;
-                
                 return View("PagoUnico");
             }
-
         }
+
+        // ======================================================
+        // 🔁 PAGO RECURRENTE
+        // ======================================================
+
         [HttpGet]
-        public IActionResult PagoRecurrente() 
+        public IActionResult PagoRecurrente()
         {
-            return View(); 
+            return View();
         }
+
         [HttpPost]
-        public IActionResult PagoRecurrente( metodoPago metodo,DateTime fechaInicio,DateTime fechaFin,string descripcion,int cuotasPagas,int cuotas,double monto,string nombreTipo)
+        public IActionResult PagoRecurrente(metodoPago metodo, DateTime fechaInicio, DateTime fechaFin, string descripcion, int cuotasPagas, int cuotas, double monto, string nombreTipo)
         {
-            try {
-                    string? email = HttpContext.Session.GetString("email");
+            try
+            {
+                string? email = HttpContext.Session.GetString("email");
+                Usuario u = s.BuscarporMail(email);
 
-                    Usuario u = Sistema.Instancia.BuscarporMail(email);
-                    Tipo_gasto tipogasto = null;
+                // Buscar tipo de gasto
+                Tipo_gasto tipogasto = s.BuscarTipoGastoPorNombre(nombreTipo);
+                if (tipogasto == null)
+                    throw new Exception("Tipo de gasto inválido");
 
-                    foreach (Tipo_gasto tg in Sistema.Instancia.tipo_Gastos)
-                    {
-                        if (tg.Nombre == nombreTipo)
-                        {
-                            tipogasto = tg;
-                            break; 
-                        }
-                    }
-
-                    if (tipogasto == null)
-                    {
-                        throw new Exception("Tipo de gasto inválido");
-                    }
-
-                    PagoRecurrente nuevo = new PagoRecurrente(
+                // Crear pago recurrente
+                PagoRecurrente nuevo = new PagoRecurrente(
                     metodo,
                     fechaInicio,
                     fechaFin,
@@ -150,20 +120,14 @@ namespace obligatorio_2.Controllers
                     u
                 );
 
-                Sistema.Instancia.altaPago(nuevo);
-                return RedirectToAction("index");
-              }
+                s.altaPago(nuevo);
+                return RedirectToAction("Index");
+            }
             catch (Exception ex)
-              {
+            {
                 TempData["Error"] = ex.Message;
-
                 return View("PagoRecurrente");
-             }
+            }
         }
-
-
-     
-        
-
     }
 }
