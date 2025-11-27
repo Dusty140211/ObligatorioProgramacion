@@ -13,7 +13,7 @@
             <th>Tipo de gasto</th>
             <th>Método de pago</th>
             <th>Fecha o Fecha de Inicio</th>
-            <th>Recurrente</th>
+            <th>tipo de pago</th>
             <th>Pagos pendientes</th>
         </tr>
         <tbody>
@@ -54,11 +54,11 @@
                     <td>
 					    @if (p is PagoRecurrente)
 					    {
-						    @("Sí")
+						    @("Recurrente")
 					    }
 					    else if(p is PagoUnico)
 					    {
-						    @("No")
+						    @("Unico")
 					    }
                     </td>
                     <td>

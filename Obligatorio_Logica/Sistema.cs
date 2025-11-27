@@ -1,6 +1,7 @@
 ﻿using Obligatorio_Logica.Entidades;
 using System;
 using System.Collections.Generic;
+using System.Net.NetworkInformation;
 
 namespace Obligatorio_Logica
 {
@@ -197,7 +198,14 @@ namespace Obligatorio_Logica
         // ========================================================
         public List<Usuario> listarUsuarios()
         {
-            return _usuarios;
+            if (_usuarios.Count == 0)
+            {
+                throw new Exception("No hay usuarios cargados");
+            }
+            else 
+            { 
+                return _usuarios;
+            }
         }
 
         public void AltaTipoGasto(Tipo_gasto tg)
@@ -218,14 +226,21 @@ namespace Obligatorio_Logica
         public List<Tipo_gasto> listarTiposGasto()
         {
             List<Tipo_gasto> Activos = new List<Tipo_gasto>();
-            foreach (Tipo_gasto tg in _tiposGasto)
+            if (_tiposGasto.Count == 0)
             {
-                if (tg.Eliminado == false)
-                {
-                    Activos.Add(tg);
-                }
+                throw new Exception("No hay tipos de gastos cargados");
             }
-            return Activos;
+            else
+            {
+                foreach (Tipo_gasto tg in _tiposGasto)
+                {
+                    if (tg.Eliminado == false)
+                    {
+                        Activos.Add(tg);
+                    }
+                }
+                return Activos;
+            }
         }
 
         public void EliminarGasto(string nombre)
@@ -280,14 +295,22 @@ namespace Obligatorio_Logica
         {
             List<Pago> pagosUsuario = new List<Pago>();
             string emailBuscado = email.Trim().ToLower();
-            foreach (Pago p in _pago)
+            if (_pago.Count == 0)
             {
-                if (p.Usuario.Email.Trim().ToLower() == emailBuscado)
-                {
-                    pagosUsuario.Add(p);
-                }
+                throw new Exception("No hay pagos cargados");
             }
-            return pagosUsuario;
+            else
+            {
+                foreach (Pago p in _pago)
+                {
+                    if (p.Usuario.Email.Trim().ToLower() == emailBuscado)
+                    {
+                        pagosUsuario.Add(p);
+                    }
+                }
+                return pagosUsuario;
+
+            }
         }
 
         public bool existeEquipo(string nombre)

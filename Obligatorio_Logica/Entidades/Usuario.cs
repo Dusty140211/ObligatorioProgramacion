@@ -103,7 +103,7 @@ namespace Obligatorio_Logica
             return $"Nombre: {Nombre} {Apellido}, " +
                    $"Email: {Email}, " +
                    $"Equipo: {Equipo.Nombre}, " +
-                   $"Fecha de inicio: {Fecha_Inicio}";
+                   $"Fecha de inicio: {Fecha_Inicio.Day + "/" + Fecha_Inicio.Month + "/" + Fecha_Inicio.Year }";
         }
 
         public void cambiarRol(Cargo _rol) 

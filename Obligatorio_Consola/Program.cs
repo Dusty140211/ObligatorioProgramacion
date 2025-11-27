@@ -84,7 +84,7 @@ namespace Obligatorio_Consola
                 Console.WriteLine("------------------------------------------");
                 foreach (var u in usuarios)
                 {
-                    Console.WriteLine($"{u.Nombre} {u.Apellido} {u.Email} {u.Equipo.Nombre}");
+                    Console.WriteLine(u.ToString());
                 }
             }
             catch (Exception ex)
@@ -113,7 +113,7 @@ namespace Obligatorio_Consola
                 Console.WriteLine("------------------------------------------");
                 foreach (var p in pagos)
                 {
-                    Console.WriteLine($"{p.Descripcion} - ${p.Monto} - {p.Tipo.Nombre} - {p.Metodo}");
+                    Console.WriteLine(p.ToString());
                 }
             }
             catch (Exception ex)
@@ -185,7 +185,7 @@ namespace Obligatorio_Consola
                 {
                     if (u.Equipo.Nombre.Equals(nombreEquipo))
                     {
-                        Console.WriteLine($"{u.Nombre} {u.Apellido} - {u.Email}");
+                        Console.WriteLine(u.ToString());
                     }
                 }
             }

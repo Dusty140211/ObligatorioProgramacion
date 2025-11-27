@@ -31,6 +31,10 @@ namespace Obligatorio_Logica
             this.nombre = nombre;
         }
 
+        public override string ToString()
+        {
+            return $"ID: {id} | Nombre del equipo: {nombre}";
+        }
         public void validar() 
         {
             validarNombre(); 
